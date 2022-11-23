@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SignScreen</string>
+    <string name="app_name">Beauty</string>
     <string name="sign_in">Sign in</string>
     <string name="register">Register</string>
     <string name="email_address">Email address</string>

@@ -40,23 +40,28 @@ fun SignInScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SignInText()
+        Column(
+            modifier = modifier.padding(bottom = 40.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally,
 
-        SingInField(
-            input = email,
-            isValid = isValidEmail,
-            label = R.string.email_address,
-            onValueChange = { value ->
-                signInViewModel.onEmailValueChange(value)
-            })
+            ) {
+            SingInField(
+                input = email,
+                isValid = isValidEmail,
+                label = R.string.email_address,
+                onValueChange = { value ->
+                    signInViewModel.onEmailValueChange(value)
+                })
 
-        SingInField(
-            input = password,
-            isValid = isValidPassword,
-            label = R.string.password,
-            onValueChange = { value ->
-                signInViewModel.onPasswordValueChange(value)
-            })
-
+            SingInField(
+                input = password,
+                isValid = isValidPassword,
+                label = R.string.password,
+                onValueChange = { value ->
+                    signInViewModel.onPasswordValueChange(value)
+                })
+        }
         SignButton(
             isRegistration = true,
             onClick = {

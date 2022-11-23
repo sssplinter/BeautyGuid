@@ -41,7 +41,8 @@ fun RegistrationScreen(
         RegistrationText()
 
         Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = modifier.padding(bottom = 40.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
 
             ) {
@@ -106,7 +107,8 @@ fun SingInField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    FlexibleInputField(value = input, onValueChange = onValueChange, isValid = isValid,
+    FlexibleInputField(
+        value = input, onValueChange = onValueChange, isValid = isValid,
         stringResource(if (input.isBlank()) R.string.input_password else R.string.invalid_password),
         label = { Text(text = stringResource(id = label)) }, modifier = modifier
     )

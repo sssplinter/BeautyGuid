@@ -7,6 +7,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.breaktime.signscreen.ui.theme.InputFieldRoundedShape25
 
 @Composable
 fun FlexibleInputField(
@@ -23,6 +24,7 @@ fun FlexibleInputField(
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth(),
             label = label,
+            shape = InputFieldRoundedShape25,
             isError = !isValid
         )
         if (!isValid) {

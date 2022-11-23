@@ -13,3 +13,4 @@ val Shapes = Shapes(
 val StartRoundedButtonShape25 = RoundedCornerShape(topStartPercent = 25, bottomStartPercent = 25)
 val EndRoundedButtonShape25 = RoundedCornerShape(topEndPercent = 25, bottomEndPercent = 25)
 val ButtonShape25 = RoundedCornerShape(25)
+val InputFieldRoundedShape25 = RoundedCornerShape(25)
