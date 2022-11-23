@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">SignScreen</string>
+    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="input_email">Input email</string>
+    <string name="input_password">Input password</string>
+
+    <string name="registration_title">Welcome</string>
+    <string name="registration_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam  etcc </string>
+
+    <string name="sign_in_title">Welcome Back</string>
+    <string name="sign_in_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam  etcc </string>
+
+    <string name="discover_your">Discover Your</string>
+    <string name="own_dream">Own Dream</string>
+    <string name="ondoarding_message">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam maecenas mi non sed ut odio. Non, justo, sed facilisi et</string>
+
+    <string name="favorite_collections">Favorite Collections</string>
+    <string name="align_your_body">Align your body</string>
+    <string name="ab1_inversions">Inversions</string>
+    <string name="ab2_quick_yoga">Quick yoga</string>
+    <string name="ab3_stretching">Stretching</string>
+    <string name="ab4_tabata">Tabata</string>
+    <string name="ab5_hiit">HIIT</string>
+    <string name="ab6_pre_natal_yoga">Pre-natal yoga</string>
+    <string name="fc1_short_mantras">Short mantras</string>
+    <string name="fc2_nature_meditations">Nature meditations</string>
+    <string name="fc3_stress_and_anxiety">Stress and anxiety</string>
+    <string name="fc4_self_massage">Self massage</string>
+    <string name="fc5_overwhelmed">Overwhelmed</string>
+    <string name="fc6_nightly_wind_down">Nightly wind down</string>
+    <string name="cd_fab_start">start</string>
+    <string name="bottom_navigation_home">HOME</string>
+    <string name="bottom_navigation_profile">PROFILE</string>
+    <string name="placeholder_search">Search</string>
+
+</resources>
