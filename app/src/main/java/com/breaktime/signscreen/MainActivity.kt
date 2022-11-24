@@ -1,6 +1,5 @@
 package com.breaktime.signscreen
 
-import ProfileScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,7 +18,7 @@ import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.login.OnBoardingScreen
 import com.breaktime.signscreen.screen.login.RegistrationScreen
 import com.breaktime.signscreen.screen.login.SignInScreen
-import com.breaktime.signscreen.screen.photo.PhotoScreen
+import com.breaktime.signscreen.screen.main.MainScreen
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.google.gson.Gson
 
@@ -51,37 +50,20 @@ fun AppGraph() {
 }
 
 fun NavGraphBuilder.userMain(navController: NavController) {
-    navigation(startDestination = Screen.ProfileScreen.route, route = Graph.UserMainGraph.route) {
-        composable(route = Screen.ProfileScreen.route) { backStackEntry ->
-            ProfileScreen(
-                backStackEntry.arguments?.getString("userId"),
-                backStackEntry.arguments?.getString("userRole"),
-                {navController.navigate(Screen.PortfolioScreen.route)}
-            )
-        }
-        composable(route = Screen.PortfolioScreen.route){
-            PhotoScreen()
-        }
-
-//        // deep link
-//        composable(
-//            route = Screen.TestProfileScreen.route,
-//            deepLinks = listOf(navDeepLink { uriPattern = "$uri/{userId}" })
-//        ) { backStackEntry ->
+    navigation(startDestination = Screen.MainScreen.route, route = Graph.UserMainGraph.route) {
+//        composable(route = Screen.ProfileScreen.route) { backStackEntry ->
 //            ProfileScreen(
-//                backStackEntry.arguments?.getString("userId"), null
+//                backStackEntry.arguments?.getString("userId"),
+//                backStackEntry.arguments?.getString("userRole"),
+//                { navController.navigate(Screen.PortfolioScreen.route) }
 //            )
 //        }
-//        composable(
-//            route = "testProfile/{user}", arguments = listOf(navArgument("user") {
-//                type = AssetParamType()
-//            })
-//        ) { navBackStackEntry ->
-//            val userInfo = navBackStackEntry.arguments?.getParcelable<UserInfo>("user")
-//            userInfo?.let {
-//                TestProfileScreen(userInfo)
-//            }
+//        composable(route = Screen.PortfolioScreen.route) {
+//            PhotoScreen()
 //        }
+        composable(route = Screen.MainScreen.route) {
+            MainScreen()
+        }
     }
 }
 

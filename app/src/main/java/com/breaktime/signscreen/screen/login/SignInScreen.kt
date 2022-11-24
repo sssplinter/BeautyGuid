@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -104,8 +105,7 @@ fun SignButton(
             .height(55.dp),
         shape = ButtonShape25,
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary
-        ),
+            backgroundColor = MaterialTheme.colors.primary),
         border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant)
     ) {
         Text(
@@ -122,7 +122,7 @@ fun SignButton(
 @Composable
 fun RegistrationScreenPreview() {
     SignScreenTheme {
-        SignInScreen({})
+        SignButton(true, {})
     }
 }
 

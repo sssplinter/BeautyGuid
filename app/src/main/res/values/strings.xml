@@ -39,4 +39,7 @@
     <string name="bottom_navigation_profile">PROFILE</string>
     <string name="placeholder_search">Search</string>
 
+    <string name="portfolio_nav_bar_title">Portfolio</string>
+    <string name="profile_nav_bar_title">Profile</string>
+
 </resources>
