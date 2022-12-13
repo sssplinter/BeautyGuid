@@ -18,13 +18,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.screen.profile.EditProfileViewModel
 
 
 @Composable
 fun DataPickerTextField(
-    viewModel: FormViewModel = viewModel()
+    viewModel: EditProfileViewModel
 ) {
     Column {
         val focusManager = LocalFocusManager.current
@@ -63,5 +63,5 @@ fun DataPickerTextField(
 @Preview
 @Composable
 fun DataPickerTextFieldPreview() {
-    DataPickerTextField()
+    //DataPickerTextField()
 }

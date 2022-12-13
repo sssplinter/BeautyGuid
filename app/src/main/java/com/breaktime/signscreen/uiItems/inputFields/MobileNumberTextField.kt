@@ -25,11 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.data.entities.Country
+import com.breaktime.signscreen.screen.profile.EditProfileViewModel
 import com.breaktime.signscreen.ui.theme.ItemAllRoundedShape50
 
 @Composable
 fun MobileNumberField(
-    viewModel: FormViewModel = viewModel()
+    viewModel: EditProfileViewModel
 ) {
     Column {
         val focusManager = LocalFocusManager.current
@@ -65,9 +67,9 @@ fun MobileNumberField(
 
 @Composable
 fun CountryPickerView(
-    selectedCountry: FormViewModel.Country,
-    onSelection: (FormViewModel.Country) -> Unit,
-    countries: List<FormViewModel.Country>,
+    selectedCountry: Country,
+    onSelection: (Country) -> Unit,
+    countries: List<Country>,
     modifier: Modifier = Modifier
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -98,8 +100,8 @@ fun CountryPickerView(
 
 @Composable
 fun CountryCodePickerDialog(
-    countries: List<FormViewModel.Country>,
-    onSelection: (FormViewModel.Country) -> Unit,
+    countries: List<Country>,
+    onSelection: (Country) -> Unit,
     dismiss: () -> Unit,
 ) {
     Dialog(onDismissRequest = dismiss) {
@@ -122,7 +124,7 @@ fun CountryCodePickerDialog(
 
 @Composable
 fun CountryPickerItem(
-    country: FormViewModel.Country, onSelection: (FormViewModel.Country) -> Unit,
+    country: Country, onSelection: (Country) -> Unit,
     dismiss: () -> Unit, modifier: Modifier = Modifier
 ) {
     Row(
@@ -154,18 +156,6 @@ fun CountryPickerItem(
     }
 }
 
-fun getFlagEmojiFor(country: FormViewModel.Country): Int {
+fun getFlagEmojiFor(country: Country): Int {
     return R.drawable.icon_bg_flag
-}
-
-@Preview
-@Composable
-fun PasswordFieldPreview() {
-    PasswordField()
-}
-
-@Preview
-@Composable
-fun MobileNumberFieldPreview() {
-    MobileNumberField()
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 fun NameInputField(
     nameValue: String,
     label: String,
-    onValueChange: () -> Unit,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -27,7 +27,7 @@ fun NameInputField(
             text = nameValue,
             label = { Text(text = label) },
             onChange = {
-                onValueChange()
+                onValueChange(it)
             },
             imeAction = ImeAction.Next,//Show next as IME button
             visualTransformation = VisualTransformation.None,

@@ -17,9 +17,9 @@ import com.breaktime.signscreen.R
 @Composable
 fun EmailField(
     nameValue: String,
-    isValid: Boolean,
-    errorText: String,
-    onValueChange: () -> Unit,
+//    isValid: Boolean,
+//    errorText: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -29,7 +29,7 @@ fun EmailField(
             text = nameValue,
             label = { Text(stringResource(R.string.email_address)) },
             onChange = {
-                onValueChange()
+                onValueChange(it)
             },
             imeAction = ImeAction.Next,//Show next as IME button
             visualTransformation = VisualTransformation.None,
@@ -40,12 +40,12 @@ fun EmailField(
                 }
             )
         )
-        if (!isValid) {
-            Text(
-                text = errorText,
-                style = MaterialTheme.typography.caption,
-                color = MaterialTheme.colors.error
-            )
-        }
+//        if (!isValid) {
+//            Text(
+//                text = errorText,
+//                style = MaterialTheme.typography.caption,
+//                color = MaterialTheme.colors.error
+//            )
+//        }
     }
 }

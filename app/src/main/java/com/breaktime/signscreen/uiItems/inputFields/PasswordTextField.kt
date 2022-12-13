@@ -19,10 +19,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.screen.login.SignInViewModel
+import com.breaktime.signscreen.screen.profile.EditProfileViewModel
 
 @Composable
 fun PasswordField(
-    viewModel: FormViewModel = viewModel()
+    viewModel: SignInViewModel = viewModel()
 ) {
     Column {
         val focusManager = LocalFocusManager.current

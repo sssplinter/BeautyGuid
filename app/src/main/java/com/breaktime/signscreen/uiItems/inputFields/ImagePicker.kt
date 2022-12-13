@@ -57,7 +57,7 @@ fun ImagePickerView(
             .size(85.dp)
             .clip(CircleShape)
             .border(
-                width = 1.5.dp, color = Color.Black, shape = CircleShape
+                width = 1.dp, color = Color.Black, shape = CircleShape
             )
             .background(Color.LightGray)
             .clickable {

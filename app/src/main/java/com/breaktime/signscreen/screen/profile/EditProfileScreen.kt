@@ -1,6 +1,5 @@
 package com.breaktime.signscreen.screen.profile
 
-import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,8 +8,6 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +23,7 @@ import com.breaktime.signscreen.uiItems.inputFields.*
 @Composable
 fun EditProfileScreen(
     modifier: Modifier = Modifier,
-    editProfileViewModel: EditProfileViewModel = viewModel()
+    viewModel: EditProfileViewModel = viewModel()
 ) {
     Column(
         modifier = modifier
@@ -34,17 +31,9 @@ fun EditProfileScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center
     ) {
-
-        val builder = Uri.Builder()
-        val myUrl = builder.build()
-
-        val lastSelectedImage = rememberSaveable {
-            mutableStateOf(myUrl)
-        }
-
         ImagePickerView(
-            lastSelectedImage = lastSelectedImage.value,
-            onSelection = { lastSelectedImage.value = it },
+            lastSelectedImage = viewModel.avatarUri,
+            onSelection = { uri -> viewModel.onImageChange(uri) },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 16.dp)
@@ -53,21 +42,31 @@ fun EditProfileScreen(
         ChapterDeliverText(
             stringResource(R.string.personal_data)
         )
-
-        NameInputField(nameValue = "Sementsova",
+        NameInputField(
+            nameValue = viewModel.surname,
             label = stringResource(R.string.surname_placeholder),
-            onValueChange = { })
-        NameInputField(nameValue = "Kristina",
+            onValueChange = { value ->
+                viewModel.onSurnameValueChange(value)
+            })
+        NameInputField(
+            nameValue = viewModel.name,
             label = stringResource(R.string.name_placeholder),
-            onValueChange = { })
-        NameInputField(nameValue = "",
+            onValueChange = { value ->
+                viewModel.onNameValueChange(value)
+            })
+        NameInputField(
+            nameValue = viewModel.patronymic,
             label = stringResource(R.string.patronymic_placeholder),
-            onValueChange = { })
-        DataPickerTextField()
+            onValueChange = { value ->
+                viewModel.onPatronymicValueChange(value)
+            })
+        DataPickerTextField(viewModel)
 
         ChapterDeliverText(stringResource(R.string.contacts))
-        MobileNumberField()
-        EmailField("kristsem@zdf.dsf", true, stringResource(R.string.invalid_email), {})
+        MobileNumberField(viewModel)
+        EmailField(
+            viewModel.email,
+            { value -> viewModel.onEmailValueChange(value) })
 
         Button(
             onClick = { },

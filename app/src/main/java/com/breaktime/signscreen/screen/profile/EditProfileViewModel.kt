@@ -8,15 +8,14 @@ import android.net.Uri
 import android.telephony.PhoneNumberUtils
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.breaktime.signscreen.uiItems.inputFields.FormViewModel
+import com.breaktime.signscreen.data.entities.Country
 
 class EditProfileViewModel : ViewModel() {
-    val builder = Uri.Builder()
-    val myUrl = builder.build()
-
+    // TODO
+    private val builder = Uri.Builder()
+    private val myUrl: Uri = builder.build()
 
     var avatarUri by mutableStateOf(myUrl)
     var surname by mutableStateOf("")
@@ -27,13 +26,19 @@ class EditProfileViewModel : ViewModel() {
     var mobileNumber by mutableStateOf("")
     var email by mutableStateOf("")
 
-    var isValidSurname by mutableStateOf(true)
+    private var isValidSurname by mutableStateOf(true)
     var isValidName by mutableStateOf(true)
-    var isValidPatronymic by mutableStateOf(true)
+    private var isValidPatronymic by mutableStateOf(true)
     var isValidDateOfBirth by mutableStateOf(true)
 
     var isValidMobileNumber by mutableStateOf(true)
-    var isValidEmail by mutableStateOf(true)
+    private var isValidEmail by mutableStateOf(true)
+
+    fun onImageChange(value: Uri?) {
+        value?.let {
+            avatarUri = value
+        }
+    }
 
     fun onSurnameValueChange(value: String) {
         surname = value
@@ -70,13 +75,13 @@ class EditProfileViewModel : ViewModel() {
     }
 
     val countriesList = mutableListOf(
-        FormViewModel.Country("1", "Belarus", "+375"),
-        FormViewModel.Country("2", "Russia", "+7")
+        Country("1", "Belarus", "+375"),
+        Country("2", "Russia", "+7")
     )
 
     var mobileCountryCode by mutableStateOf("")
-    var mobileCountry by mutableStateOf<FormViewModel.Country?>(
-        FormViewModel.Country(
+    var mobileCountry by mutableStateOf<Country?>(
+        Country(
             "2",
             "Russia",
             "+7"
@@ -119,6 +124,4 @@ class EditProfileViewModel : ViewModel() {
         val dateFormat = SimpleDateFormat(dateFormat)
         return dateFormat.format(calendar.time)
     }
-
-
 }
