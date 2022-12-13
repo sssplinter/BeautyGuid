@@ -1,9 +1,6 @@
 package com.breaktime.signscreen.screen.main
 
-import ProfileScreen
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
@@ -24,14 +21,25 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
-import com.breaktime.signscreen.screen.photo.PortfolioScreen
+import com.breaktime.signscreen.screen.photo.Portfolio
+import com.breaktime.signscreen.screen.profile.EditProfileScreen
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    Scaffold(topBar = { TopAppBar() },
-        content = { NavigationHost(navController = navController) },
-        bottomBar = { BottomNavigationBar(navController = navController) })
+    Scaffold(
+        topBar = { TopAppBar() },
+        content = { paddingValues ->
+            Box(
+                modifier = Modifier.padding(paddingValues)
+            ) {
+                NavigationHost(
+                    navController = navController
+                )
+            }
+        },
+        bottomBar = { BottomNavigationBar(navController = navController) }
+    )
 }
 
 @Composable
@@ -46,18 +54,16 @@ fun NavigationHost(navController: NavHostController) {
 
 fun NavGraphBuilder.mainScreen(navController: NavController) {
     navigation(
-        startDestination = Screen.PortfolioScreen.route, route = Graph.MainScreenGraph.route
+        startDestination = Screen.ProfileScreen.route, route = Graph.MainScreenGraph.route
     ) {
-        composable(route = Screen.ProfileScreen.route) { backStackEntry ->
-            ProfileScreen(backStackEntry.arguments?.getString("userId"),
-                backStackEntry.arguments?.getString("userRole"),
-                { navController.navigate(Screen.PortfolioScreen.route) })
+        composable(route = Screen.ProfileScreen.route) {
+            EditProfileScreen()
         }
 //        composable(route = Screen.ContactsScreen.route) {
 //            Contacts()
 //        }
         composable(route = Screen.PortfolioScreen.route) {
-            PortfolioScreen()
+            Portfolio()
         }
     }
 }

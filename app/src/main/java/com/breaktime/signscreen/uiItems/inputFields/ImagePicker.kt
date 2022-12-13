@@ -9,9 +9,7 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -30,7 +28,6 @@ import coil.compose.rememberImagePainter
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import java.io.ByteArrayOutputStream
-
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -57,8 +54,11 @@ fun ImagePickerView(
 
     Image(
         modifier = modifier
-            .size(100.dp)
+            .size(85.dp)
             .clip(CircleShape)
+            .border(
+                width = 1.5.dp, color = Color.Black, shape = CircleShape
+            )
             .background(Color.LightGray)
             .clickable {
                 if (!cameraPermission.hasPermission) {
