@@ -37,7 +37,7 @@ fun SignScreenTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
 
     MaterialTheme(
         colors = colors,
-        typography = typography,
+        typography = Typography,
         shapes = Shapes,
         content = content
     )

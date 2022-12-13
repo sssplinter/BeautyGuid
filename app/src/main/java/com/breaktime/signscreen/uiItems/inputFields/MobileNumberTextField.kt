@@ -36,7 +36,7 @@ fun MobileNumberField(
 
         AppTextField(
             text = viewModel.mobileNumber,
-            placeholder = stringResource(id = R.string.mobile_number),
+            label = { Text(stringResource(R.string.mobile_number)) },
             onChange = {
                 viewModel.onMobileNumberValueChange(it)
             },

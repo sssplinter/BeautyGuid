@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.runtime.Composable
@@ -34,7 +35,7 @@ fun DataPickerTextField(
                 viewModel.showDatePickerDialog(context)
             },
             text = viewModel.dateOfBirth,
-            placeholder = stringResource(id = R.string.birthday),
+            label = { Text(stringResource(id = R.string.birthday)) },
             onChange = {
                 viewModel.onBirthdayValueChange(it)
             },

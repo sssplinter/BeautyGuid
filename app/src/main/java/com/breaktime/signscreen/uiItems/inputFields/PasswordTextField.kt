@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -29,7 +30,7 @@ fun PasswordField(
 
         AppTextField(
             text = viewModel.password,
-            placeholder = stringResource(id = R.string.password),
+            label = { Text(text = stringResource(id = R.string.password)) },
             onChange = {
                 viewModel.onPasswordValueChange(it)
             },

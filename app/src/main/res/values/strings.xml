@@ -13,6 +13,10 @@
     <string name="input_email">Input email</string>
     <string name="input_password">Input password</string>
 
+    <string name="name_placeholder">Name</string>
+    <string name="surname_placeholder">Surname</string>
+    <string name="patronymic_placeholder">Patronymic</string>
+
     <string name="registration_title">Welcome</string>
     <string name="registration_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam  etcc </string>
 
@@ -45,4 +49,7 @@
     <string name="portfolio_nav_bar_title">Portfolio</string>
     <string name="profile_nav_bar_title">Profile</string>
 
+    <string name="personal_data">Personal data</string>
+    <string name="contacts">Contacts</string>
+    <string name="save_btn">SAVE</string>
 </resources>

@@ -6,10 +6,10 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.telephony.PhoneNumberUtils.isGlobalPhoneNumber
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 
@@ -28,7 +29,7 @@ import androidx.lifecycle.ViewModel
 fun AppTextField(
     modifier: Modifier = Modifier,
     text: String,
-    placeholder: String,
+    label: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation,
     onChange: (String) -> Unit = {},
@@ -38,11 +39,13 @@ fun AppTextField(
     isEnabled: Boolean = true
 ) {
     OutlinedTextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 6.dp),
         value = text,
         onValueChange = onChange,
         leadingIcon = leadingIcon,
-        textStyle = TextStyle(fontSize = 18.sp),
+        textStyle = TextStyle(fontSize = 15.sp),
         keyboardOptions = KeyboardOptions(imeAction = imeAction, keyboardType = keyboardType),
         keyboardActions = keyBoardActions,
         enabled = isEnabled,
@@ -53,9 +56,7 @@ fun AppTextField(
             disabledBorderColor = Color.Gray,
             disabledTextColor = Color.Black
         ),
-        placeholder = {
-            Text(text = placeholder, style = TextStyle(fontSize = 18.sp, color = Color.LightGray))
-        }
+        label = label
     )
 }
 
@@ -105,7 +106,9 @@ class FormViewModel : ViewModel() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
             .show()
-    }private fun getCalendar(): Calendar {
+    }
+
+    private fun getCalendar(): Calendar {
         return if (dateOfBirth.isEmpty())
             Calendar.getInstance()
         else
