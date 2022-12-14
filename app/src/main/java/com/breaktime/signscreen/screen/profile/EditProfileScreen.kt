@@ -31,7 +31,7 @@ fun EditProfileScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center
     ) {
-        ImagePickerView(
+        ImagePickerFromGallery(
             lastSelectedImage = viewModel.avatarUri,
             onSelection = { uri -> viewModel.onImageChange(uri) },
             modifier = Modifier
