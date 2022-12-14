@@ -34,6 +34,7 @@ import java.io.ByteArrayOutputStream
 fun ImagePickerView(
     modifier: Modifier = Modifier,
     lastSelectedImage: Uri?,
+    onClick: () -> Unit,
     onSelection: (Uri?) -> Unit
 ) {
     val context = LocalContext.current
@@ -61,11 +62,12 @@ fun ImagePickerView(
             )
             .background(Color.LightGray)
             .clickable {
-                if (!cameraPermission.hasPermission) {
-                    cameraPermission.launchPermissionRequest()
-                    isPermissionRequested = true
-                } else
-                    cameraLauncher.launch()
+                onClick()
+//                if (!cameraPermission.hasPermission) {
+//                    cameraPermission.launchPermissionRequest()
+//                    isPermissionRequested = true
+//                } else
+//                    cameraLauncher.launch()
             },
         painter = rememberImagePainter(lastSelectedImage),
         contentDescription = "Profile Picture",
@@ -94,5 +96,5 @@ fun ImagePickerPreview() {
     }
     ImagePickerView(
         lastSelectedImage = lastSelectedImage.value,
-        onSelection = { lastSelectedImage.value = it })
+        onSelection = { lastSelectedImage.value = it }, onClick = {})
 }

@@ -52,4 +52,8 @@
     <string name="personal_data">Personal data</string>
     <string name="contacts">Contacts</string>
     <string name="save_btn">SAVE</string>
+
+    <string name="choose_image">Choose image:</string>
+    <string name="camera">Camera</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
 </resources>

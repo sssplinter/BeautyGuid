@@ -32,7 +32,7 @@ fun AppTextField(
     OutlinedTextField(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 6.dp),
+            .padding(bottom = 2.dp),
         value = text,
         onValueChange = onChange,
         leadingIcon = leadingIcon,
