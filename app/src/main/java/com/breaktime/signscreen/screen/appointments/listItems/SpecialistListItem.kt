@@ -1,6 +1,5 @@
 package com.breaktime.signscreen.screen.appointments.listItems
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -14,13 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.entities.SpecialistInfo
-import com.breaktime.signscreen.ui.theme.SignScreenTheme
+import com.breaktime.signscreen.ui.theme.BorderColor
 import com.breaktime.signscreen.ui.theme.HintColor
 import com.breaktime.signscreen.uiItems.ratingBar.RatingBar
 
@@ -35,44 +32,74 @@ fun SpecialistListItem(
         modifier = modifier
             .fillMaxWidth()
             .height(IntrinsicSize.Min)
-            .clickable { onItemClick() },
+            .clickable { onItemClick() }
+            .border(
+                2.dp,
+                if (specialistInfo.isChecked) MaterialTheme.colors.BorderColor else Color.Transparent,
+                RoundedCornerShape(15.dp)
+            ),
         shape = RoundedCornerShape(15.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 24.dp),
+                .padding(all = 16.dp),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape)
-                    .border(1.dp, Color.White, CircleShape),
-                painter = painterResource(specialistInfo.imageId),
-                contentDescription = null,
-                contentScale = ContentScale.Crop
+            ListItemRoundImage(
+                imageId = specialistInfo.imageId,
+                modifier = Modifier.size(80.dp)
             )
-            Column(modifier = Modifier.width(220.dp)) {
-                Text(
-                    text = specialistInfo.specialization,
-                    style = MaterialTheme.typography.caption
-                )
-                Text(
-                    text = specialistInfo.fullName,
-                    style = MaterialTheme.typography.h6
-                )
-                SpecialistRating(specialistInfo.rating, specialistInfo.marksCount)
-            }
-
-            IconButton(onClick = { onMoreInfoClick() }, modifier = Modifier.size(40.dp)) {
+            SpecialistInformation(
+                fullName = specialistInfo.fullName,
+                specialization = specialistInfo.specialization,
+                rating = specialistInfo.rating,
+                marksCount = specialistInfo.marksCount,
+                modifier = Modifier.width(200.dp)
+            )
+            IconButton(
+                onClick = { onMoreInfoClick() },
+                modifier = Modifier.size(40.dp)
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_info),
-                    contentDescription = "Информация о приложении", modifier = Modifier.size(80.dp)
+                    contentDescription = null
                 )
             }
         }
+    }
+}
+
+// TODO replace drawable by real image
+@Composable
+fun ListItemRoundImage(imageId: Int, modifier: Modifier = Modifier) {
+    Image(
+        modifier = modifier.clip(CircleShape),
+        painter = painterResource(imageId),
+        contentDescription = null,
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Composable
+fun SpecialistInformation(
+    fullName: String,
+    specialization: String,
+    rating: Double,
+    marksCount: Int,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(
+            text = specialization,
+            style = MaterialTheme.typography.caption
+        )
+        Text(
+            text = fullName,
+            style = MaterialTheme.typography.h6
+        )
+        SpecialistRating(rating, marksCount)
     }
 }
 
@@ -86,25 +113,5 @@ fun SpecialistRating(rating: Double, marksCount: Int, modifier: Modifier = Modif
     ) {
         RatingBar(rating = rating)
         Text(text = marksCount.toString(), color = MaterialTheme.colors.HintColor)
-    }
-}
-
-@Preview(showBackground = true, backgroundColor = 0xFFF23434)
-@Composable
-fun PreviewSpecialistListItem() {
-    SignScreenTheme {
-        val specialistInfo = SpecialistInfo(
-            "11",
-            "Kristina Sementsova",
-            "Eyebrow stylist, makeup artist",
-            R.drawable.ab1_inversions,
-            3.3,
-            127
-        )
-        val context = LocalContext.current
-        SpecialistListItem(
-            specialistInfo,
-            { Toast.makeText(context, "onItemClick", Toast.LENGTH_SHORT).show() },
-            { Toast.makeText(context, "onMoreInfoClick", Toast.LENGTH_SHORT).show() })
     }
 }

@@ -16,6 +16,9 @@ val HintGrey = Color(0xFFa8a8a8)
 val HintWhite = Color(0xFFF3ECEC)
 val HintLightGrey = Color(0xFFDDD6D6)
 
+val BorderLight = Color(0xFFFFFFFF)
+val BorderDark = Color(0xFF0C0B0B)
+
 
 val Colors.StarYellow
     @Composable
@@ -28,3 +31,7 @@ val Colors.HintColor
 val Colors.NoRatingColor
     @Composable
     get() = if (isLight) HintGrey else HintLightGrey
+
+val Colors.BorderColor
+    @Composable
+    get() = if (isLight) BorderDark else BorderLight
