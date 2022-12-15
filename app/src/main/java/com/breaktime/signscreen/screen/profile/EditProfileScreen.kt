@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.uiItems.inputFields.*
+import com.breaktime.signscreen.utils.getUriToDrawable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.launch
@@ -43,6 +44,7 @@ fun EditProfileScreen(
     val scope = rememberCoroutineScope()
     val drawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
 
+
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) { uriList ->
             scope.launch {
@@ -55,6 +57,9 @@ fun EditProfileScreen(
     val context = LocalContext.current
     val cameraPermission = rememberPermissionState(Manifest.permission.CAMERA)
     var isPermissionRequested by rememberSaveable { mutableStateOf(false) }
+
+//    val uri = getUriToDrawable(context, R.drawable.avata)
+//    viewModel.onImageChange(uri)
 
     val cameraLauncher: ManagedActivityResultLauncher<Void?, Bitmap?> =
         rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->

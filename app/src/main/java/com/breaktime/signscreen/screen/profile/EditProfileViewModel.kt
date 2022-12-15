@@ -10,12 +10,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.entities.Country
+import com.breaktime.signscreen.utils.getUriToDrawable
 
 class EditProfileViewModel : ViewModel() {
     // TODO
-    private val builder = Uri.Builder()
-    private val myUrl: Uri = builder.build()
+
+//    private val builder = Uri.Builder()
+//    private val myUrl: Uri = builder.build()
+
+    private val myUrl: Uri = Uri.parse("android.resource://com.breaktime.signscreen/drawable/avata")
 
     var avatarUri by mutableStateOf(myUrl)
     var surname by mutableStateOf("")
