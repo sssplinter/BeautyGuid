@@ -19,6 +19,9 @@ val HintLightGrey = Color(0xFFDDD6D6)
 val BorderLight = Color(0xFFFFFFFF)
 val BorderDark = Color(0xFF0C0B0B)
 
+val NotPrimaryTextLight = Color(0xFFFFFFFF)
+val NotPrimaryTextDark = Color(0xFF7E7979)
+
 
 val Colors.StarYellow
     @Composable
@@ -35,3 +38,7 @@ val Colors.NoRatingColor
 val Colors.BorderColor
     @Composable
     get() = if (isLight) BorderDark else BorderLight
+
+val Colors.NotPrimaryText
+    @Composable
+    get() = if (isLight) NotPrimaryTextDark else NotPrimaryTextLight
