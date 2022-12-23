@@ -71,4 +71,11 @@ dependencies {
     implementation "io.coil-kt:coil-compose:1.4.0"
     implementation "com.google.accompanist:accompanist-permissions:0.24.1-alpha"
     implementation "com.google.accompanist:accompanist-insets:0.24.1-alpha"
+
+    implementation("com.himanshoe:kalendar-endlos:1.0.2")
+
+    implementation "io.github.boguszpawlowski.composecalendar:composecalendar:1.0.2"
+
+    // separate artifact with utilities for working with kotlinx-datetime
+    implementation "io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.0.2"
 }
