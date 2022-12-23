@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.entities.SpecialistInfo
 import com.breaktime.signscreen.ui.theme.BorderColor
-import com.breaktime.signscreen.ui.theme.HintColor
+import com.breaktime.signscreen.ui.theme.hintColor
 import com.breaktime.signscreen.uiItems.ratingBar.RatingBar
 
 @Composable
@@ -112,6 +112,6 @@ fun SpecialistRating(rating: Double, marksCount: Int, modifier: Modifier = Modif
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         RatingBar(rating = rating)
-        Text(text = marksCount.toString(), color = MaterialTheme.colors.HintColor)
+        Text(text = marksCount.toString(), color = MaterialTheme.colors.hintColor)
     }
 }
