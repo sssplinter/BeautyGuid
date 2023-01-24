@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.breaktime.signscreen'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.breaktime.signscreen"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -78,4 +78,7 @@ dependencies {
 
     // separate artifact with utilities for working with kotlinx-datetime
     implementation "io.github.boguszpawlowski.composecalendar:kotlinx-datetime:1.0.2"
+
+    implementation "com.google.accompanist:accompanist-pager:0.28.0"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.28.0"
 }

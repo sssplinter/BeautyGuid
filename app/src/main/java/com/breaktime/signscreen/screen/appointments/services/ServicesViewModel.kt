@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.breaktime.signscreen.data.entities.ServiceInfo
 
 class ServicesViewModel : ViewModel() {
-    private val _specialists = getTestdata().toMutableStateList()
+    private val _services = getTestdata().toMutableStateList()
     val services: List<ServiceInfo>
-        get() = _specialists
+        get() = _services
 
     fun selectService(item: ServiceInfo) {
         services.find { it.serviceId == item.serviceId }?.let { serviceInfo ->
