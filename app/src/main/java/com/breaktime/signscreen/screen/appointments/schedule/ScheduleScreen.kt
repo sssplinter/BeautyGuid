@@ -34,12 +34,38 @@ import java.time.LocalDate
 fun SelectableCalendarSample() {
     val calendarState = rememberSelectableCalendarState()
 
-    VisitDateSelectionCalendar(calendarState)
+//    VisitDateSelectionCalendar(calendarState)
+    SeeVisitsCalendar(calendarState)
 }
 
 @Composable
 fun VisitDateSelectionCalendar(calendarState: CalendarState<DynamicSelectionState>) {
     calendarState.selectionState.selectionMode = SelectionMode.Single
+
+    val currentDate = LocalDate.now()
+
+    Column(
+        Modifier.verticalScroll(rememberScrollState())
+    ) {
+        SelectableCalendar(calendarState = calendarState,
+            firstDayOfWeek = DayOfWeek.MONDAY,
+            dayContent = {
+                DayContent(
+                    state = it,
+                    currentDate = currentDate,
+                    defaultTextColor = MaterialTheme.colors.primary,
+                    selectionTextColor = MaterialTheme.colors.onPrimary,
+                    defaultBackgroundColor = MaterialTheme.colors.surface,
+                    selectionBackgroundColor = MaterialTheme.colors.primary,
+                    unreachableDayTextColor = MaterialTheme.colors.unreachable
+                )
+            })
+    }
+}
+
+@Composable
+fun SeeVisitsCalendar(calendarState: CalendarState<DynamicSelectionState>) {
+    calendarState.selectionState.selectionMode = SelectionMode.Multiple
 
     val currentDate = LocalDate.now()
 
