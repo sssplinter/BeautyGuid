@@ -96,7 +96,7 @@ val Typography.salonCaption
     @Composable
     get()  = TextStyle(
         fontFamily = fontFamilyKulim,
-        fontSize = 12.sp,
+        fontSize = 14.sp,
         letterSpacing = (1.15).sp
     )
 

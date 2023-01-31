@@ -5,18 +5,12 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-//import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-//import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -27,18 +21,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
-import java.util.*
-
+import com.breaktime.signscreen.ui.theme.salonCaption
 
 @Composable
 fun PortfolioScreen() {
     SignScreenTheme {
-        Scaffold(bottomBar = { SootheBottomNavigation() }) { paddingValues ->
+        Scaffold { paddingValues ->
             Portfolio(Modifier.padding(paddingValues))
         }
     }
@@ -51,128 +45,14 @@ fun Portfolio(modifier: Modifier = Modifier) {
             .padding(vertical = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        SearchBar(Modifier.padding(horizontal = 16.dp))
-        SlotBasedHomeSection(title = R.string.align_your_body) {
-            AlignYourBodyRow()
-        }
-        SlotBasedHomeSection(title = R.string.favorite_collections) {
-            FavoriteCollectionsGrid()
-        }
-    }
-}
-
-@Composable
-private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
-    BottomNavigation(
-        backgroundColor = MaterialTheme.colors.background, modifier = modifier
-    ) {
-        BottomNavigationItem(icon = {
-            Icon(
-                imageVector = Icons.Default.Add, contentDescription = null
-            )
-        }, label = {
-            Text(stringResource(id = R.string.bottom_navigation_home))
-        }, selected = true, onClick = {})
-        BottomNavigationItem(icon = {
-            Icon(
-                imageVector = Icons.Default.AccountCircle, contentDescription = null
-            )
-        }, label = {
-            Text(stringResource(id = R.string.bottom_navigation_profile))
-        }, selected = false, onClick = {})
-    }
-}
-
-@Composable
-fun SearchBar(
-    modifier: Modifier = Modifier
-) {
-    TextField(value = "",
-        onValueChange = {},
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = 56.dp),
-        placeholder = { Text(stringResource(id = R.string.placeholder_search)) },
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search, contentDescription = null
-            )
-        },
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = MaterialTheme.colors.surface
+        Divider(
+            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 12.dp)
         )
-    )
-}
-
-@Composable
-fun AlignYourBodyElement(
-    @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        val animateShape = remember { Animatable(1f) }
-        LaunchedEffect(animateShape) {
-            animateShape.animateTo(
-                targetValue = 3f, animationSpec = repeatable(
-                    animation = tween(
-                        durationMillis = 800, easing = LinearEasing, delayMillis = 600
-                    ), repeatMode = RepeatMode.Restart, iterations = 2
-                )
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .size(70.dp)
-                .clip(CircleShape)
-                .background(color = Color(0xFF302522))
-                .border(
-                    width = Dp(animateShape.value), color = Color(0xFFFF80AB), shape = CircleShape
-                )
-        ) {
-            Image(
-                painter = painterResource(imageId),
-                contentDescription = null,
-                modifier = modifier
-                    .size(70.dp)
-                    .clip(CircleShape)
-                    .align(Alignment.Center),
-                contentScale = ContentScale.Crop
-            )
-        }
-        Text(
-            text = stringResource(text),
-            style = MaterialTheme.typography.h3,
-            modifier = Modifier.paddingFromBaseline(
-                top = 24.dp, bottom = 8.dp
-            )
+        AlignYourBodyRow()
+        Divider(
+            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(top = 12.dp)
         )
-    }
-}
-
-@Composable
-fun FavoriteCollectionCard(
-    @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
-) {
-    Surface(
-        modifier = modifier, shape = MaterialTheme.shapes.small
-    ) {
-        Row(
-            modifier = Modifier.width(192.dp), verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(imageId),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(56.dp)
-            )
-            Text(
-                text = stringResource(text),
-                style = MaterialTheme.typography.h3,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        }
+        FavoriteCollectionsGrid()
     }
 }
 
@@ -182,8 +62,8 @@ fun AlignYourBodyRow(
 ) {
     LazyRow(
         modifier = modifier,
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        contentPadding = PaddingValues(start = 16.dp, end = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(alignYourBodyData) { item ->
             AlignYourBodyElement(imageId = item.drawable, text = item.text)
@@ -191,40 +71,86 @@ fun AlignYourBodyRow(
     }
 }
 
-// TODO fix
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun FavoriteCollectionsGrid(
-    modifier: Modifier = Modifier
+fun AlignYourBodyElement(
+    @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(2),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = modifier.height(400.dp)
+    Column(
+        modifier = modifier.width(75.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(favoriteCollectionsData) { item ->
-            FavoriteCollectionCard(
-                imageId = item.drawable, text = item.text, modifier = Modifier.height(56.dp)
+        // TODO make better animation if needed
+        val animateShape = remember { Animatable(1f) }
+        LaunchedEffect(animateShape) {
+            animateShape.animateTo(
+                targetValue = 1f, animationSpec = repeatable(
+                    animation = tween(
+                        durationMillis = 800, easing = LinearEasing, delayMillis = 600
+                    ), repeatMode = RepeatMode.Restart, iterations = 2
+                )
             )
         }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(CircleShape)
+                .background(color = Color(0xFF302522))
+                .border(
+                    width = Dp(animateShape.value), color = Color(0xFF534A4E), shape = CircleShape
+                )
+        ) {
+            Image(
+                painter = painterResource(imageId),
+                contentDescription = null,
+                modifier = modifier
+                    .size(75.dp)
+                    .clip(CircleShape)
+                    .align(Alignment.Center),
+                contentScale = ContentScale.Crop
+            )
+        }
+        Text(
+            text = stringResource(text),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.salonCaption,
+            modifier = Modifier.paddingFromBaseline(top = 16.dp)
+        )
     }
 }
 
 @Composable
-fun SlotBasedHomeSection(
-    @StringRes title: Int, modifier: Modifier = Modifier, content: @Composable () -> Unit
+fun FavoriteCollectionsGrid(
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        Text(
-            text = stringResource(title).uppercase(Locale.getDefault()),
-            modifier = Modifier
-                .paddingFromBaseline(top = 40.dp, bottom = 8.dp)
-                .padding(horizontal = 16.dp),
-            style = MaterialTheme.typography.h2
+    LazyVerticalGrid(columns = GridCells.Fixed(3),
+        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = modifier.height(500.dp),
+        content = {
+            items(favoriteCollectionsData.size) { index ->
+                val item = favoriteCollectionsData[index]
+                FavoriteCollectionCard(
+                    imageId = item.drawable, text = item.text
+                )
+            }
+        })
+}
+
+@Composable
+fun FavoriteCollectionCard(
+    @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier, shape = MaterialTheme.shapes.small
+    ) {
+        Image(
+            painter = painterResource(imageId),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.height(120.dp)
         )
-        content()
     }
 }
 
@@ -248,6 +174,41 @@ private val favoriteCollectionsData = listOf(
     R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
     R.drawable.fc4_self_massage to R.string.fc4_self_massage,
     R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
+    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
+    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
+    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
+    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
+    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
+    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
+    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
+    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
+    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
+    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
+    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
+    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
+    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
+    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
+    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
+    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
+    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
+    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
+    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
+    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
+    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
+    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
+    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
+    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
+    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
+    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
+    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
+    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
+    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
+    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
+    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
+    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
+    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
+    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
+    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
     R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
     R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
     R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
@@ -263,5 +224,7 @@ private data class DrawableStringPair(
 @Preview
 @Composable
 fun PortfolioPreview() {
-    PortfolioScreen()
+    SignScreenTheme {
+        PortfolioScreen()
+    }
 }
