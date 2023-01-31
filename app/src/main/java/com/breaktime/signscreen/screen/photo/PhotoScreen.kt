@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -21,13 +23,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
-import com.breaktime.signscreen.ui.theme.SignScreenTheme
-import com.breaktime.signscreen.ui.theme.salonCaption
+import com.breaktime.signscreen.ui.theme.*
+import com.breaktime.signscreen.uiItems.ratingBar.RatingBar
 
 @Composable
 fun PortfolioScreen() {
@@ -45,14 +48,71 @@ fun Portfolio(modifier: Modifier = Modifier) {
             .padding(vertical = 16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        SalonInfoSection(R.drawable.ab2_quick_yoga)
+
         Divider(
-            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 12.dp)
+            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 8.dp)
+        )
+
+        Divider(
+            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 8.dp)
         )
         AlignYourBodyRow()
         Divider(
-            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(top = 12.dp)
+            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(top = 8.dp)
         )
         FavoriteCollectionsGrid()
+    }
+}
+
+@Composable
+fun SalonInfoSection(
+    @DrawableRes imageId: Int,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
+        Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+            Image(
+                painter = painterResource(imageId),
+                contentDescription = null,
+                modifier = modifier
+                    .size(80.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .weight(0.9f)
+                    .padding(start = 12.dp)
+            ) {
+                Text(
+                    text = "Frau Marta",
+                    style = MaterialTheme.typography.salonH6,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Beauty salon providing a wide range of beauty services",
+                    style = MaterialTheme.typography.body1,
+                    textAlign = TextAlign.Center
+                )
+                RatingBar(modifier = Modifier.padding(vertical = 4.dp), rating = 4.8)
+            }
+        }
+
+        Row {
+            Icon(
+                imageVector = Icons.Default.LocationOn,
+                contentDescription = null,
+                tint = MaterialTheme.colors.NotPrimaryText
+            )
+            Text(
+                text = "Ave, Dodge City, USA",
+                style = MaterialTheme.typography.address,
+                color = MaterialTheme.colors.NotPrimaryText
+            )
+        }
+
     }
 }
 
@@ -76,7 +136,7 @@ fun AlignYourBodyElement(
     @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.width(75.dp), horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.width(70.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // TODO make better animation if needed
         val animateShape = remember { Animatable(1f) }
@@ -103,7 +163,7 @@ fun AlignYourBodyElement(
                 painter = painterResource(imageId),
                 contentDescription = null,
                 modifier = modifier
-                    .size(75.dp)
+                    .size(70.dp)
                     .clip(CircleShape)
                     .align(Alignment.Center),
                 contentScale = ContentScale.Crop

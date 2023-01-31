@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.breaktime.signscreen.R
@@ -70,16 +71,25 @@ val Typography.salonH6
     @Composable
     get() = TextStyle(
         fontFamily = fontFamilyLato,
-        fontWeight = FontWeight.Normal,
-        fontSize = 34.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp,
         letterSpacing = 0.25.sp
     )
 
-val Typography.body1
+val Typography.salonBody1
     @Composable
     get()  = TextStyle(
         fontFamily = fontFamilyLato,
         fontSize = 14.sp,
+        letterSpacing = 0.sp
+    )
+
+val Typography.address
+    @Composable
+    get()  = TextStyle(
+        fontWeight = FontWeight.W400,
+        fontStyle = FontStyle.Italic,
+        fontSize = 16.sp,
         letterSpacing = 0.sp
     )
 
