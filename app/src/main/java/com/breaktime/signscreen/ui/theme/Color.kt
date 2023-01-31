@@ -24,6 +24,38 @@ val NotPrimaryTextDark = Color(0xFF7E7979)
 
 val LightGray = Color(0xFFDBDBDB)
 
+val Colors.PinkFromImage
+    @Composable
+    get() = Color(0xFFFF9e8d)
+
+val Colors.VioletFromImage
+    @Composable
+    get() = Color(0xFFd3acc9)
+
+val Colors.YellowFromImage
+    @Composable
+    get() = Color(0xFFEEDE71)
+
+val Colors.OrangeFromImage
+    @Composable
+    get() = Color(0xFFfeab4f)
+
+val Colors.BlueFromImage
+    @Composable
+    get() = Color(0xFF8DDBFF)
+
+val Colors.LightGreenFromImage
+    @Composable
+    get() = Color(0xFFc3d8d1)
+
+val Colors.MediumGreenFromImage
+    @Composable
+    get() = Color(0xFF87b0a7)
+
+val Colors.DarkGreenFromImage
+    @Composable
+    get() = Color(0xFF568b81)
+
 
 val Colors.StarYellow
     @Composable
