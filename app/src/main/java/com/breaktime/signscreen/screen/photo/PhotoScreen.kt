@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,39 +30,131 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.screen.appointments.schedule.SelectableCalendarSample
+import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsList
 import com.breaktime.signscreen.ui.theme.*
 import com.breaktime.signscreen.uiItems.ratingBar.RatingBar
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 
 @Composable
 fun PortfolioScreen() {
     SignScreenTheme {
-        Scaffold { paddingValues ->
+        Scaffold(topBar = { TopAppBarSample() }) { paddingValues ->
             Portfolio(Modifier.padding(paddingValues))
         }
     }
 }
 
 @Composable
+fun TopAppBarSample(modifier: Modifier = Modifier) {
+    TopAppBar(
+        modifier = modifier.height(45.dp),
+        elevation = 4.dp,
+        title = {
+            Text("Frau Marta Salon", style = MaterialTheme.typography.salonH6)
+        },
+        backgroundColor = MaterialTheme.colors.onPrimary,
+        navigationIcon = {
+            IconButton(onClick = {/* Do Something*/ }) {
+                Icon(Icons.Filled.ArrowBack, null)
+            }
+        }, actions = {
+            IconButton(onClick = {/* Do Something*/ }) {
+                Icon(Icons.Filled.QuestionAnswer, null)
+            }
+            IconButton(onClick = {/* Do Something*/ }) {
+                Icon(Icons.Filled.LocationOn, null)
+            }
+        })
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
 fun Portfolio(modifier: Modifier = Modifier) {
+    val pagerState = rememberPagerState()
+    val scope = rememberCoroutineScope()
+
+    val pages = mutableListOf(
+        Icons.Default.Image,
+        Icons.Default.Notes,
+        Icons.Default.DateRange
+    )
+
     Column(
         modifier
-            .padding(vertical = 16.dp)
+            .padding(vertical = 8.dp)
             .verticalScroll(rememberScrollState())
     ) {
         SalonInfoSection(R.drawable.ab2_quick_yoga)
 
-        Divider(
-            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 8.dp)
-        )
+        TabRow(
+            selectedTabIndex = pagerState.currentPage,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                )
+            },
+            backgroundColor = MaterialTheme.colors.onPrimary
+        ) {
+            pages.forEachIndexed { index, vector ->
+                Tab(
+                    icon = {
+                        IconButton(
+                            onClick = {
+                                scope.launch {
+                                    pagerState.scrollToPage(index)
+                                }
+                            },
+                            modifier = Modifier.height(30.dp),
+                        ) {
+                            Icon(
+                                imageVector = vector,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    selected = pagerState.currentPage == index,
+                    onClick = {
+                        scope.launch {
+                            pagerState.scrollToPage(index)
+                        }
+                    },
+                )
+            }
+        }
 
-        Divider(
-            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 8.dp)
-        )
-        AlignYourBodyRow()
-        Divider(
-            thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(top = 8.dp)
-        )
-        FavoriteCollectionsGrid()
+        HorizontalPager(
+            count = pages.size,
+            state = pagerState,
+        ) { page ->
+            when (pages[page]) {
+                Icons.Default.Image -> {
+                    Column {
+                        AlignYourBodyRow()
+                        Divider(
+                            thickness = 1.dp,
+                            color = Color.LightGray,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                        FavoriteCollectionsGrid()
+                    }
+                }
+                Icons.Default.Notes -> {
+                    SpecialistsList(modifier = Modifier.height(500.dp))
+                }
+                Icons.Default.DateRange -> {
+                    SelectableCalendarSample(modifier = Modifier.height(300.dp))
+                }
+                else -> {
+                    Text(text = "Page $page")
+
+                }
+            }
+        }
     }
 }
 
@@ -71,12 +164,12 @@ fun SalonInfoSection(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
-        Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+        Row(modifier = Modifier.padding(horizontal = 30.dp)) {
             Image(
                 painter = painterResource(imageId),
                 contentDescription = null,
                 modifier = modifier
-                    .size(80.dp)
+                    .size(70.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
@@ -87,32 +180,31 @@ fun SalonInfoSection(
                     .padding(start = 12.dp)
             ) {
                 Text(
-                    text = "Frau Marta",
-                    style = MaterialTheme.typography.salonH6,
+                    text = "Beauty salon",
+                    style = MaterialTheme.typography.body2,
                     textAlign = TextAlign.Center
                 )
-                Text(
-                    text = "Beauty salon providing a wide range of beauty services",
-                    style = MaterialTheme.typography.body1,
-                    textAlign = TextAlign.Center
+
+                RatingBar(
+                    modifier = Modifier
+                        .padding(vertical = 4.dp)
+                        .height(20.dp), rating = 4.8
                 )
-                RatingBar(modifier = Modifier.padding(vertical = 4.dp), rating = 4.8)
+
+                Row {
+                    Icon(
+                        imageVector = Icons.Default.LocationOn,
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.NotPrimaryText
+                    )
+                    Text(
+                        text = "Ave, Dodge City, USA",
+                        style = MaterialTheme.typography.address,
+                        color = MaterialTheme.colors.NotPrimaryText
+                    )
+                }
             }
         }
-
-        Row {
-            Icon(
-                imageVector = Icons.Default.LocationOn,
-                contentDescription = null,
-                tint = MaterialTheme.colors.NotPrimaryText
-            )
-            Text(
-                text = "Ave, Dodge City, USA",
-                style = MaterialTheme.typography.address,
-                color = MaterialTheme.colors.NotPrimaryText
-            )
-        }
-
     }
 }
 
@@ -121,7 +213,7 @@ fun AlignYourBodyRow(
     modifier: Modifier = Modifier
 ) {
     LazyRow(
-        modifier = modifier,
+        modifier = modifier.padding(top = 12.dp),
         contentPadding = PaddingValues(start = 16.dp, end = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -136,7 +228,7 @@ fun AlignYourBodyElement(
     @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.width(70.dp), horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.width(65.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // TODO make better animation if needed
         val animateShape = remember { Animatable(1f) }
@@ -163,7 +255,7 @@ fun AlignYourBodyElement(
                 painter = painterResource(imageId),
                 contentDescription = null,
                 modifier = modifier
-                    .size(70.dp)
+                    .size(65.dp)
                     .clip(CircleShape)
                     .align(Alignment.Center),
                 contentScale = ContentScale.Crop
@@ -183,7 +275,7 @@ fun AlignYourBodyElement(
 fun FavoriteCollectionsGrid(
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(columns = GridCells.Fixed(3),
+    LazyVerticalGrid(columns = GridCells.Fixed(4),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -209,7 +301,7 @@ fun FavoriteCollectionCard(
             painter = painterResource(imageId),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.height(120.dp)
+            modifier = Modifier.height(95.dp)
         )
     }
 }

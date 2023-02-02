@@ -1,6 +1,5 @@
 package com.breaktime.signscreen.ui.theme
 
-import androidx.compose.material.Colors
 import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -89,7 +88,7 @@ val Typography.address
     get()  = TextStyle(
         fontWeight = FontWeight.W400,
         fontStyle = FontStyle.Italic,
-        fontSize = 16.sp,
+        fontSize = 14.sp,
         letterSpacing = 0.sp
     )
 
