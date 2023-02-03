@@ -56,4 +56,12 @@
     <string name="choose_image">Choose image:</string>
     <string name="camera">Camera</string>
     <string name="choose_from_gallery">Choose from gallery</string>
+
+    <string name="address_title">Address</string>
+    <string name="contacts_title">Contacts</string>
+    <string name="working_hours_title">Working hours</string>
+    <string name="show_on_map_button">Show on the map</string>
+    <string name="test_phone_number_button">+ 375 44 541 78 65</string>
+    <string name="test_address">11 Glenpike, Mountain Home, USA 11 Glenpike, Mountain Home, USA 11 Glenpike, Mountain Home, USA</string>
+    <string name="test_web_site">www.google.com</string>
 </resources>

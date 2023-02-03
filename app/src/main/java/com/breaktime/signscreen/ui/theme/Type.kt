@@ -45,6 +45,7 @@ val Typography.salonH2
     get() = TextStyle(
         fontFamily = fontFamilyKulim,
         fontSize = 15.sp,
+        fontWeight = FontWeight.W800,
         letterSpacing = (1.15).sp
     )
 
