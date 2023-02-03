@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.screen.portfolio
+package com.breaktime.signscreen.screen.portfolio.salonDetails
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

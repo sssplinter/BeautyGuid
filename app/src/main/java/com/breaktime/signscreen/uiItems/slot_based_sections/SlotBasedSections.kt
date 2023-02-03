@@ -14,8 +14,8 @@ import java.util.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import com.breaktime.signscreen.R
-import com.breaktime.signscreen.screen.photo.AlignYourBodyRow
-import com.breaktime.signscreen.screen.photo.FavoriteCollectionsGrid
+import com.breaktime.signscreen.screen.portfolio.photo.AlignYourBodyRow
+import com.breaktime.signscreen.screen.portfolio.photo.FavoriteCollectionsGrid
 
 // TODO how to use
 @Composable
