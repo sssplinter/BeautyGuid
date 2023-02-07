@@ -20,6 +20,7 @@ import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.ui.theme.hintColor
 import com.breaktime.signscreen.ui.theme.salonH2
 import com.breaktime.signscreen.uiItems.linkButton.LinkButton
+import com.breaktime.signscreen.uiItems.linkButton.LinkType
 import java.util.*
 
 @Composable
@@ -104,22 +105,34 @@ fun SlotBasedSection(
 fun AddressSection(modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 16.dp)) {
         Text(text = stringResource(id = R.string.test_address), Modifier.padding(start = 8.dp))
-        LinkButton(onClick = {}) {
-            Text(text = stringResource(id = R.string.show_on_map_button))
-        }
+        LinkButton(
+            link = stringResource(id = R.string.show_on_map_button),
+            linkType = LinkType.ADDRESS_LINK
+        )
     }
 }
 
 @Composable
 fun ContactsSection(modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 6.dp)) {
-        LinkButton(onClick = {}) {
-            Text(text = stringResource(id = R.string.test_phone_number_button))
-        }
+        LinkButton(
+            link = stringResource(
+                id = R.string.test_phone_number_button
+            ),
+            linkType = LinkType.PHONE_NUMBER_LINK
+        )
 
-        LinkButton(onClick = {}) {
-            Text(text = stringResource(id = R.string.test_web_site))
-        }
+        LinkButton(
+            link = stringResource(id = R.string.test_email_address),
+            linkType = LinkType.EMAIL_LINK
+        )
+
+
+        LinkButton(
+            link = stringResource(id = R.string.test_web_site),
+            linkType = LinkType.WEB_SITE_LINK
+        )
+
         MediaIconsRow()
     }
 }
