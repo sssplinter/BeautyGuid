@@ -211,6 +211,7 @@ fun OnBoardingItem(
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Image(
+                modifier = Modifier.padding(horizontal = 4.dp),
                 painter = painterResource(
                     R.drawable.v_background_1
                 ),
