@@ -1,6 +1,5 @@
 package com.breaktime.signscreen.screen.portfolio.salonDetails
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -11,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,8 +17,7 @@ import com.breaktime.signscreen.R
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.ui.theme.hintColor
 import com.breaktime.signscreen.ui.theme.salonH2
-import com.breaktime.signscreen.uiItems.linkButton.LinkButton
-import com.breaktime.signscreen.uiItems.linkButton.LinkType
+import com.breaktime.signscreen.uiItems.linkButton.*
 import java.util.*
 
 @Composable
@@ -133,34 +130,26 @@ fun ContactsSection(modifier: Modifier = Modifier) {
             linkType = LinkType.WEB_SITE_LINK
         )
 
-        MediaIconsRow()
-    }
-}
-
-@Composable
-fun MediaIconsRow(modifier: Modifier = Modifier) {
-    val icons = listOf<Int>(
-        R.drawable.ic_telegram, R.drawable.ic_instagram, R.drawable.ic_vk, R.drawable.ic_viber
-    )
-    Row() {
-        for (icon in icons) {
-            MediaIconButton(icon = icon)
-        }
-    }
-}
-
-// TODO add intents with link
-@Composable
-fun MediaIconButton(@DrawableRes icon: Int, modifier: Modifier = Modifier) {
-    IconButton(onClick = { /*TODO intent to*/ }) {
-        Icon(
-            painter = painterResource(id = icon),
-            contentDescription = null,
-            modifier = modifier
-                .size(43.dp)
-                .padding(4.dp),
-            tint = Color.DarkGray
+        // TODO replace by real data
+        val icons = listOf<MediaLinkInfo>(
+            MediaLinkInfo(
+                link = stringResource(id = R.string.test_telegram_link),
+                mediaLinkType = MediaLinkType.TELEGRAM_LINK,
+                icon = R.drawable.ic_telegram
+            ),
+            MediaLinkInfo(
+                link = stringResource(id = R.string.test_instagram_link),
+                mediaLinkType = MediaLinkType.INSTAGRAM_LINK,
+                icon = R.drawable.ic_instagram
+            ),
+            MediaLinkInfo(
+                link = stringResource(id = R.string.test_vk_link),
+                mediaLinkType = MediaLinkType.VK_LINK,
+                icon = R.drawable.ic_vk
+            )
         )
+
+        MediaIconsRow(icons)
     }
 }
 
