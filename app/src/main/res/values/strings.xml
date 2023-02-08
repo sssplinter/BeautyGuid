@@ -62,4 +62,20 @@
     <string name="title1">Facial skin care</string>
     <string name="text1">Save your time and enjoy the care procedures as conveniently as possible. Start shining with us today.</string>
     <string name="onboarding_next">Next</string>
+
+    <string name="address_title">Address</string>
+    <string name="contacts_title">Contacts</string>
+    <string name="working_hours_title">Working hours</string>
+    <string name="show_on_map_button">Show on the map</string>
+
+    <string name="test_phone_number_button">+ 375 44 541 78 65</string>
+    <string name="test_address">11 Glenpike, Mountain Home, USA</string>
+    <string name="test_email_address">kristinasementsova21@gmail.com</string>
+    <string name="test_web_site">https://fraumarta.by/</string>
+
+    <string name="test_instagram_link">https://www.instagram.com/fraumartaminsk/</string>
+    <string name="test_telegram_link">"http://telegram.me/KristSementsova"</string>
+    <string name="test_viber_link">https://fraumarta.by/</string>
+    <string name="test_vk_link">https://vk.com/fraumartaminsk</string>
+
 </resources>

@@ -21,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
-import com.breaktime.signscreen.screen.photo.Portfolio
+import com.breaktime.signscreen.screen.portfolio.photo.Portfolio
 import com.breaktime.signscreen.screen.profile.EditProfileScreen
 
 @Composable
