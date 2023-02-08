@@ -144,13 +144,13 @@ fun BottomSection(
             onClick = { onButtonClick() },
             backgroundColor = MaterialTheme.colors.DarkGreenFromImage,
             modifier = Modifier
+                .padding(vertical = 12.dp)
                 .align(Alignment.CenterEnd)
-                .clip(RoundedCornerShape(15))
         ) {
             Icon(
                 Icons.Outlined.KeyboardArrowRight,
                 tint = Color.White,
-                contentDescription = "Localized description"
+                contentDescription = stringResource(R.string.onboarding_next)
             )
         }
     }
