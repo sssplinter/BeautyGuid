@@ -1,12 +1,14 @@
-package com.breaktime.signscreen.screen.login
+package com.breaktime.signscreen.screen.authorization.register
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -14,10 +16,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.screen.authorization.views.fields.FlexibleInputField
+import com.breaktime.signscreen.screen.authorization.SignInViewModel
+import com.breaktime.signscreen.screen.authorization.views.AuthorizationButton
+import com.breaktime.signscreen.screen.authorization.views.AuthorizationLogo
+import com.breaktime.signscreen.screen.authorization.views.AuthorizationRedirect
+import com.breaktime.signscreen.screen.authorization.views.AuthorizationText
+import com.breaktime.signscreen.uiItems.button.GradientBordersButton
+import com.breaktime.signscreen.uiItems.divider.DividerWithText
 
 @Composable
 fun RegistrationScreen(
     onSuccessfullyRegistration: () -> Unit,
+    onRedirectToLogin: () -> Unit,
     modifier: Modifier = Modifier,
     signInViewModel: SignInViewModel = viewModel()
 ) {
@@ -34,14 +45,16 @@ fun RegistrationScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 64.dp, start = 24.dp, end = 24.dp),
+            .padding(horizontal = 24.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        RegistrationText()
+        AuthorizationLogo(Modifier.size(120.dp))
+
+        AuthorizationText(isRegistration = true)
 
         Column(
-            modifier = modifier.padding(bottom = 40.dp),
+            modifier = modifier.padding(bottom = 30.dp),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,
 
@@ -71,31 +84,35 @@ fun RegistrationScreen(
                 })
         }
 
-        SignButton(
-            isRegistration = true,
-            onClick = {
-                if (signInViewModel.onSignInClick()) {
-                    onSuccessfullyRegistration()
-                }
-            })
-    }
-}
+        AuthorizationButton(isRegistration = true, onClick = {
+            if (signInViewModel.onSignInClick()) {
+                onSuccessfullyRegistration()
+            }
+        })
 
-@Composable
-fun RegistrationText(modifier: Modifier = Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = stringResource(id = R.string.registration_title),
-            style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold)
-        )
-        Text(
-            modifier = Modifier
-                .paddingFromBaseline(top = 32.dp, bottom = 32.dp)
-                .padding(horizontal = 12.dp),
-            text = stringResource(id = R.string.registration_text),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.caption.copy(fontSize = 14.sp)
-        )
+        AuthorizationRedirect(
+            isRegistration = true,
+            onRedirectToRegistration = { onRedirectToLogin() })
+
+        DividerWithText(R.string.or)
+
+        GradientBordersButton(onClick = { }, modifier = Modifier.padding(vertical = 8.dp)) {
+            Image(
+                modifier = Modifier.size(30.dp),
+                painter = painterResource(id = R.drawable.ic_google),
+                contentDescription = ""
+            )
+            Text(
+                text = stringResource(R.string.continue_with_google),
+                modifier = Modifier
+                    .padding(horizontal = 24.dp)
+                    .weight(0.8f),
+                style = MaterialTheme.typography.subtitle1.copy(
+                    fontWeight = FontWeight.Medium, fontSize = 16.sp
+                ),
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
