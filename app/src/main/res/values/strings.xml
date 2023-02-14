@@ -17,11 +17,10 @@
     <string name="surname_placeholder">Surname</string>
     <string name="patronymic_placeholder">Patronymic</string>
 
+    <string name="login_title">Welcome Back</string>
     <string name="registration_title">Welcome</string>
-    <string name="registration_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam  etcc </string>
-
-    <string name="sign_in_title">Welcome Back</string>
-    <string name="sign_in_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Diam  etcc </string>
+    <string name="login_msg_text">Let\'s make your life richer and fulfill all the shades of your desires.</string>
+    <string name="register_msg_text">Let\'s create beauty and elegance together.</string>
 
     <string name="discover_your">Discover Your</string>
     <string name="own_dream">Own Dream</string>
@@ -78,6 +77,10 @@
     <string name="test_viber_link">https://fraumarta.by/</string>
     <string name="test_vk_link">https://vk.com/fraumartaminsk</string>
 
+    <string name="login">Login</string>
     <string name="no_account">Don\'t have an account?  </string>
+    <string name="have_account">Already have an account?  </string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="or">OR</string>
 
 </resources>
