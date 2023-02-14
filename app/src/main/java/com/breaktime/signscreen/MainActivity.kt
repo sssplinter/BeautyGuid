@@ -15,8 +15,8 @@ import androidx.navigation.compose.rememberNavController
 import com.breaktime.signscreen.data.entities.UserInfo
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
-import com.breaktime.signscreen.screen.login.RegistrationScreen
-import com.breaktime.signscreen.screen.login.LoginScreen
+import com.breaktime.signscreen.screen.authorization.login.LoginScreen
+import com.breaktime.signscreen.screen.authorization.register.RegistrationScreen
 import com.breaktime.signscreen.screen.main.MainScreen
 import com.breaktime.signscreen.screen.onboarding.OnBoarding
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
@@ -71,7 +71,7 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
     navigation(startDestination = Screen.OnBoardingScreen.route, route = Graph.LoginGraph.route) {
         composable(route = Screen.OnBoardingScreen.route) {
             OnBoarding({
-                navController.navigate(Screen.LoginScreen.route) {
+                navController.navigate(Screen.RegistrationScreen.route) {
                     popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
                 }
             })
@@ -84,6 +84,9 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
                 navController.navigate(Graph.UserMainGraph.route) {
                     popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
                 }
+            }, onRedirectToLogin = {
+                navController.navigate(Screen.LoginScreen.route)
+
             })
         }
         composable(route = Screen.LoginScreen.route) {
@@ -91,6 +94,8 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
                 navController.navigate(Graph.UserMainGraph.route) {
                     popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
                 }
+            }, onRedirectToRegistration = {
+                navController.navigate(Screen.RegistrationScreen.route)
             })
         }
     }

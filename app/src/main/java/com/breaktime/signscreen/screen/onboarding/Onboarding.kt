@@ -61,10 +61,6 @@ fun OnBoarding(
                     selectedColorId.value - 1 else 0
             },
             onSkipClick = {
-//                if (pageState.currentPage + 1 < items.size) scope.launch {
-//                    pageState.scrollToPage(items.size - 1)
-//                }
-//                selectedColorId.value = colorsCount - 1
                 onNavigateToAuthorization()
             }
         )
@@ -85,6 +81,8 @@ fun OnBoarding(
         BottomSection(size = items.size, index = pageState.currentPage) {
             if (pageState.currentPage + 1 < items.size) scope.launch {
                 pageState.scrollToPage(pageState.currentPage + 1)
+            } else {
+                onNavigateToAuthorization()
             }
             selectedColorId.value = if (selectedColorId.value < colorsCount - 1)
                 selectedColorId.value + 1 else colorsCount - 1
@@ -256,7 +254,6 @@ fun OnBoardingItem(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
 @Preview
 @Composable
 fun Preview1() {
