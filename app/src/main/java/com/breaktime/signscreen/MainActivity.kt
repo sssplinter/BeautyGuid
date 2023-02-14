@@ -16,7 +16,7 @@ import com.breaktime.signscreen.data.entities.UserInfo
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.login.RegistrationScreen
-import com.breaktime.signscreen.screen.login.SignInScreen
+import com.breaktime.signscreen.screen.login.LoginScreen
 import com.breaktime.signscreen.screen.main.MainScreen
 import com.breaktime.signscreen.screen.onboarding.OnBoarding
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
@@ -71,7 +71,7 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
     navigation(startDestination = Screen.OnBoardingScreen.route, route = Graph.LoginGraph.route) {
         composable(route = Screen.OnBoardingScreen.route) {
             OnBoarding({
-                navController.navigate(Screen.SignInScreen.route) {
+                navController.navigate(Screen.LoginScreen.route) {
                     popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
                 }
             })
@@ -86,8 +86,8 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
                 }
             })
         }
-        composable(route = Screen.SignInScreen.route) {
-            SignInScreen(onSuccessfullyRegistration = {
+        composable(route = Screen.LoginScreen.route) {
+            LoginScreen(onSuccessfullyRegistration = {
                 navController.navigate(Graph.UserMainGraph.route) {
                     popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
                 }
