@@ -40,9 +40,9 @@ val Colors.OrangeFromImage
     @Composable
     get() = Color(0xFFfeab4f)
 
-val Colors.BlueFromImage
+val Colors.BodilyFromImage
     @Composable
-    get() = Color(0xFF8DDBFF)
+    get() = Color(0xFFfdb082)
 
 val Colors.LightGreenFromImage
     @Composable

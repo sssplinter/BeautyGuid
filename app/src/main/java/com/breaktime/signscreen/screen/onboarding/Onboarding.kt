@@ -199,7 +199,7 @@ fun OnBoardingItem(
         arrayOf(
             MaterialTheme.colors.PinkFromImage,
             MaterialTheme.colors.OrangeFromImage,
-            MaterialTheme.colors.BlueFromImage,
+            MaterialTheme.colors.BodilyFromImage,
             MaterialTheme.colors.YellowFromImage,
             MaterialTheme.colors.VioletFromImage
         )
