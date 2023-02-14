@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.screen.login
+package com.breaktime.signscreen.screen.onboarding
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -54,7 +54,10 @@ fun OnBoardingScreen(
                 .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.SpaceAround) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.SpaceAround
+            ) {
                 OnBoardingText()
                 Buttons({ onNavigateToSignIn() },
                     { onNavigateToRegister() })

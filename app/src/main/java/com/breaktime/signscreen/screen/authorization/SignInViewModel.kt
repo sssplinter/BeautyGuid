@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.screen.login
+package com.breaktime.signscreen.screen.authorization
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
