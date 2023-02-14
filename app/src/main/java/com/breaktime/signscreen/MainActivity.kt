@@ -1,7 +1,6 @@
 package com.breaktime.signscreen
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,32 +13,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.breaktime.signscreen.data.entities.UserInfo
-import com.breaktime.signscreen.data.network.models.APIService
-import com.breaktime.signscreen.data.network.models.RetrofitHelper
-import com.breaktime.signscreen.data.network.models.UserLoginRequestInfo
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
-import com.breaktime.signscreen.screen.login.OnBoardingScreen
 import com.breaktime.signscreen.screen.login.RegistrationScreen
 import com.breaktime.signscreen.screen.login.SignInScreen
 import com.breaktime.signscreen.screen.main.MainScreen
+import com.breaktime.signscreen.screen.onboarding.OnBoarding
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.google.gson.Gson
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val quotesApi = RetrofitHelper.getInstance().create(APIService::class.java)
-        GlobalScope.launch {
-            val registerResult = quotesApi.register(UserLoginRequestInfo("Test121", "Test234234"))
-            Log.d("HELICOPTERA: ", registerResult.body().toString())
-            val result = quotesApi.login(UserLoginRequestInfo("Test2324", "Test234234"))
-            Log.d("HELICOPTERA: ", result.body().toString())
-        }
 
         setContent {
             SignScreenTheme {
@@ -84,8 +70,11 @@ fun NavGraphBuilder.userMain(navController: NavController) {
 fun NavGraphBuilder.loginGraph(navController: NavController) {
     navigation(startDestination = Screen.OnBoardingScreen.route, route = Graph.LoginGraph.route) {
         composable(route = Screen.OnBoardingScreen.route) {
-            OnBoardingScreen({ navController.navigate(Screen.SignInScreen.route) },
-                { navController.navigate(Screen.RegistrationScreen.route) })
+            OnBoarding({
+                navController.navigate(Screen.SignInScreen.route) {
+                    popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
+                }
+            })
         }
         composable(
             route = Screen.RegistrationScreen.route,

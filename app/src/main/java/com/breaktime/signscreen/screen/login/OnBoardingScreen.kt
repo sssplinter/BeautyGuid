@@ -175,6 +175,6 @@ fun RegisterButton(isChecked: Boolean, onClick: () -> Unit, modifier: Modifier =
 @Composable
 fun OnBoardingScreenPreview() {
     SignScreenTheme {
-//        OnBoardingScreen()
+        OnBoardingScreen({}, {})
     }
 }

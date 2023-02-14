@@ -38,7 +38,6 @@ sealed class Screen(val route: String) {
     object SignInScreen : Screen(SignInRoute)
     object ProfileScreen : Screen(ProfileRoute)
     object PortfolioScreen : Screen(PortfolioRoute)
-
     object MainScreen : Screen(MainScreenRoute)
     object HomeScreen : Screen(HomeRoute)
     object ContactsScreen : Screen(ContactsRoute)

@@ -37,10 +37,10 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@ExperimentalPagerApi
-@Preview
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun OnBoarding(
+    onNavigateToAuthorization: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val items = OnBoardingItem.get()
@@ -61,10 +61,11 @@ fun OnBoarding(
                     selectedColorId.value - 1 else 0
             },
             onSkipClick = {
-                if (pageState.currentPage + 1 < items.size) scope.launch {
-                    pageState.scrollToPage(items.size - 1)
-                }
-                selectedColorId.value = colorsCount - 1
+//                if (pageState.currentPage + 1 < items.size) scope.launch {
+//                    pageState.scrollToPage(items.size - 1)
+//                }
+//                selectedColorId.value = colorsCount - 1
+                onNavigateToAuthorization()
             }
         )
 
@@ -260,6 +261,6 @@ fun OnBoardingItem(
 @Composable
 fun Preview1() {
     SignScreenTheme {
-        OnBoarding()
+        OnBoarding({})
     }
 }
