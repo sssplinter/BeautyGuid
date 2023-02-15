@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
-import com.breaktime.signscreen.screen.authorization.SignInViewModel
 import com.breaktime.signscreen.screen.authorization.register.SingInField
 import com.breaktime.signscreen.screen.authorization.views.AuthorizationButton
 import com.breaktime.signscreen.screen.authorization.views.AuthorizationLogo
@@ -31,13 +30,13 @@ fun LoginScreen(
     onSuccessfullyRegistration: () -> Unit,
     onRedirectToRegistration: () -> Unit,
     modifier: Modifier = Modifier,
-    signInViewModel: SignInViewModel = viewModel()
+    loginViewModel: LoginViewModel = viewModel()
 ) {
-    val email = signInViewModel.email
-    val isValidEmail = signInViewModel.isValidEmail
+    val login = loginViewModel.login
+    val isValidLogin = loginViewModel.isValidLogin
 
-    val password = signInViewModel.password
-    val isValidPassword = signInViewModel.isValidPassword
+    val password = loginViewModel.password
+    val isValidPassword = loginViewModel.isValidPassword
 
     Column(
         modifier = modifier
@@ -56,25 +55,23 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
 
             ) {
-            SingInField(input = email,
-                isValid = isValidEmail,
-                label = R.string.email_address,
+            SingInField(input = login,
+                isValid = isValidLogin,
+                label = R.string.login,
                 onValueChange = { value ->
-                    signInViewModel.onEmailValueChange(value)
+                    loginViewModel.onLoginValueChange(value)
                 })
 
             SingInField(input = password,
                 isValid = isValidPassword,
                 label = R.string.password,
                 onValueChange = { value ->
-                    signInViewModel.onPasswordValueChange(value)
+                    loginViewModel.onPasswordValueChange(value)
                 })
         }
 
         AuthorizationButton(isRegistration = false, onClick = {
-            if (signInViewModel.onSignInClick()) {
-                onSuccessfullyRegistration()
-            }
+            loginViewModel.onLoginClick()
         })
 
         AuthorizationRedirect(

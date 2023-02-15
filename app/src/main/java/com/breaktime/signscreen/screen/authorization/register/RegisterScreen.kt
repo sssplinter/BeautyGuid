@@ -62,7 +62,7 @@ fun RegistrationScreen(
             SingInField(
                 input = email,
                 isValid = isValidEmail,
-                label = R.string.email_address,
+                label = R.string.login,
                 onValueChange = { value ->
                     signInViewModel.onEmailValueChange(value)
                 })
