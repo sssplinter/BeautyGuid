@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.breaktime.signscreen.data.entities.UserInfo
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
-import com.breaktime.signscreen.screen.authorization.login.LoginScreen
+import com.breaktime.signscreen.screen.authorization.login.Login
 import com.breaktime.signscreen.screen.authorization.register.RegistrationScreen
 import com.breaktime.signscreen.screen.main.MainScreen
 import com.breaktime.signscreen.screen.onboarding.OnBoarding
@@ -82,7 +82,7 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
         ) {
             RegistrationScreen(onSuccessfullyRegistration = {
                 navController.navigate(Graph.UserMainGraph.route) {
-                    popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
+                    popUpTo(Screen.RegistrationScreen.route) { inclusive = true }
                 }
             }, onRedirectToLogin = {
                 navController.navigate(Screen.LoginScreen.route)
@@ -90,9 +90,9 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
             })
         }
         composable(route = Screen.LoginScreen.route) {
-            LoginScreen(onSuccessfullyRegistration = {
+            Login(onSuccessfullyRegistration = {
                 navController.navigate(Graph.UserMainGraph.route) {
-                    popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
+                    popUpTo(Screen.LoginScreen.route) { inclusive = true }
                 }
             }, onRedirectToRegistration = {
                 navController.navigate(Screen.RegistrationScreen.route)
