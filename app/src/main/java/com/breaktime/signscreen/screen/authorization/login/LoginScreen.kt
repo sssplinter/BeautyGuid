@@ -1,12 +1,15 @@
 package com.breaktime.signscreen.screen.authorization.login
 
+import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,19 +28,65 @@ import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.uiItems.button.GradientBordersButton
 import com.breaktime.signscreen.uiItems.divider.DividerWithText
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun LoginScreen(
-    onSuccessfullyRegistration: () -> Unit,
-    onRedirectToRegistration: () -> Unit,
+fun Login(
     modifier: Modifier = Modifier,
-    loginViewModel: LoginViewModel = viewModel()
+    loginViewModel: LoginViewModel = viewModel(),
+    onRedirectToRegistration: () -> Unit,
+    onSuccessfullyRegistration: () -> Unit
 ) {
     val login = loginViewModel.login
-    val isValidLogin = loginViewModel.isValidLogin
-
     val password = loginViewModel.password
-    val isValidPassword = loginViewModel.isValidPassword
 
+    val token = loginViewModel.token
+
+    val errorMessage = loginViewModel.errorMessage
+    val context = LocalContext.current
+
+    if(errorMessage.isNotEmpty()) {
+        Toast.makeText(context, loginViewModel.errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        when {
+            token.isNotBlank() && token.isNotEmpty() -> {
+                LaunchedEffect(Unit) {
+                    onSuccessfullyRegistration()
+                }
+            }
+            else -> {
+                LoginScreen(
+                    login = login,
+                    password = password,
+                    onLoginValueChange = { login -> loginViewModel.onLoginValueChange(login) },
+                    onPasswordValueChange = { password ->
+                        loginViewModel.onPasswordValueChange(
+                            password
+                        )
+                    },
+                    onLoginClick = { loginViewModel.onLoginClick() },
+                    onRedirectToRegistration = { onRedirectToRegistration() })
+            }
+        }
+    }
+}
+
+@Composable
+fun LoginScreen(
+    login: String,
+    password: String,
+    onLoginValueChange: (String) -> Unit,
+    onPasswordValueChange: (String) -> Unit,
+    onLoginClick: () -> Unit,
+    onRedirectToRegistration: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -56,22 +105,22 @@ fun LoginScreen(
 
             ) {
             SingInField(input = login,
-                isValid = isValidLogin,
+                isValid = true,
                 label = R.string.login,
                 onValueChange = { value ->
-                    loginViewModel.onLoginValueChange(value)
+                    onLoginValueChange(value)
                 })
 
             SingInField(input = password,
-                isValid = isValidPassword,
+                isValid = true,
                 label = R.string.password,
                 onValueChange = { value ->
-                    loginViewModel.onPasswordValueChange(value)
+                    onPasswordValueChange(value)
                 })
         }
 
         AuthorizationButton(isRegistration = false, onClick = {
-            loginViewModel.onLoginClick()
+            onLoginClick()
         })
 
         AuthorizationRedirect(
@@ -104,7 +153,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     SignScreenTheme {
-        LoginScreen({}, {})
+        Login(onSuccessfullyRegistration = {}, onRedirectToRegistration = {})
     }
 }
 
