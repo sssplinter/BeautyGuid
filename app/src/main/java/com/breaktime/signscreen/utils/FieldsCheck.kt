@@ -12,7 +12,7 @@ fun isValidEmail(email: String): Boolean =
 
 // TODO implement more complex logic
 fun isValidPassword(password: String): Boolean =
-    password.length > 8
+    password.length >= 8
 
 fun getUriToDrawable(
     context: Context,
