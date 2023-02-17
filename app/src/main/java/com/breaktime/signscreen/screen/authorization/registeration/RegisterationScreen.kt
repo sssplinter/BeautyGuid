@@ -2,7 +2,6 @@ package com.breaktime.signscreen.screen.authorization.registeration
 
 import android.content.Context
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
@@ -25,9 +24,11 @@ import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationB
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationLogo
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationRedirect
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationText
-import com.breaktime.signscreen.screen.authorization.common.views.fields.FlexibleInputField
 import com.breaktime.signscreen.uiItems.button.GradientBordersButton
 import com.breaktime.signscreen.uiItems.divider.DividerWithText
+import com.breaktime.signscreen.uiItems.inputFields.ConfirmPasswordField
+import com.breaktime.signscreen.uiItems.inputFields.LoginField
+import com.breaktime.signscreen.uiItems.inputFields.PasswordField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
@@ -55,6 +56,9 @@ fun Registration(
     val login = registrationViewModel.login
     val password = registrationViewModel.password
     val confirmPassword = registrationViewModel.confirmPassword
+    val isValidLogin = registrationViewModel.isValidLogin
+    val isValidPassword = registrationViewModel.isValidPassword
+    val isValidConfirmPassword = registrationViewModel.isValidConfirmPassword
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -65,6 +69,10 @@ fun Registration(
             login = login,
             password = password,
             confirmPassword = confirmPassword,
+            isValidLogin = isValidLogin,
+            isValidPassword = isValidPassword,
+            isValidConfirmPassword = isValidConfirmPassword,
+            showLoadingDialog = showLoadingDialog,
             onLoginValueChange = { login -> registrationViewModel.onLoginValueChange(login) },
             onPasswordValueChange = { password ->
                 registrationViewModel.onPasswordValueChange(
@@ -80,7 +88,6 @@ fun Registration(
             onRedirectToLogin = {
                 registrationViewModel.setEvent(AuthorizationContract.AuthEvent.OnAnotherAuthTypeClick)
             },
-            showLoadingDialog
         )
     }
 }
@@ -139,6 +146,9 @@ fun RegistrationScreen(
     onRedirectToLogin: () -> Unit,
     showLoadingDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier,
+    isValidLogin: Boolean = true,
+    isValidPassword: Boolean = true,
+    isValidConfirmPassword: Boolean = true
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -161,24 +171,26 @@ fun RegistrationScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-                SingInField(input = login,
-                    isValid = true,
+                LoginField(login = login,
+                    isValid = isValidLogin,
                     label = R.string.login,
                     onValueChange = { value ->
                         onLoginValueChange(value)
                     })
 
-                SingInField(input = password,
-                    isValid = true,
+                PasswordField(
+                    password = password,
+                    isValid = isValidPassword,
                     label = R.string.password,
-                    onValueChange = { value ->
+                    onPasswordValueChange = { value ->
                         onPasswordValueChange(value)
                     })
 
-                SingInField(input = confirmPassword,
-                    isValid = true,
+                ConfirmPasswordField(
+                    password = confirmPassword,
+                    isValid = isValidConfirmPassword,
                     label = R.string.confirm_password,
-                    onValueChange = { value ->
+                    onPasswordValueChange = { value ->
                         onConfirmPasswordValueChange(value)
                     })
             }
@@ -220,17 +232,5 @@ fun RegistrationScreen(
     }
 }
 
-@Composable
-fun SingInField(
-    input: String,
-    isValid: Boolean,
-    @StringRes label: Int,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    FlexibleInputField(
-        value = input, onValueChange = onValueChange, isValid = isValid,
-        stringResource(if (input.isBlank()) R.string.input_password else R.string.invalid_password),
-        label = { Text(text = stringResource(id = label)) }, modifier = modifier
-    )
-}
+
+

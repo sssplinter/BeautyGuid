@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract
-import com.breaktime.signscreen.screen.authorization.registeration.SingInField
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationButton
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationLogo
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationRedirect
@@ -28,6 +27,8 @@ import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationT
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.uiItems.button.GradientBordersButton
 import com.breaktime.signscreen.uiItems.divider.DividerWithText
+import com.breaktime.signscreen.uiItems.inputFields.LoginField
+import com.breaktime.signscreen.uiItems.inputFields.PasswordField
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
@@ -55,15 +56,19 @@ fun Login(
 
     val login = loginViewModel.login
     val password = loginViewModel.password
+    val isValidLogin = loginViewModel.isValidLogin
+    val isValidPassword = loginViewModel.isValidPassword
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize()
     ) {
-        LoginScreen(
-            login = login,
+        LoginScreen(login = login,
             password = password,
+            isValidLogin = isValidLogin,
+            isValidPassword = isValidPassword,
+            showLoadingDialog = showLoadingDialog,
             onLoginValueChange = { login -> loginViewModel.onLoginValueChange(login) },
             onPasswordValueChange = { password ->
                 loginViewModel.onPasswordValueChange(
@@ -75,8 +80,7 @@ fun Login(
             },
             onRedirectToRegistration = {
                 loginViewModel.setEvent(AuthorizationContract.AuthEvent.OnAnotherAuthTypeClick)
-            }, showLoadingDialog
-        )
+            })
     }
 }
 
@@ -131,11 +135,12 @@ fun LoginScreen(
     onLoginClick: () -> Unit,
     onRedirectToRegistration: () -> Unit,
     showLoadingDialog: MutableState<Boolean>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isValidLogin: Boolean = true,
+    isValidPassword: Boolean = true
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = modifier
@@ -154,18 +159,17 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
 
                 ) {
-                SingInField(
-                    input = login,
-                    isValid = true,
+                LoginField(login = login,
+                    isValid = isValidLogin,
                     label = R.string.login,
                     onValueChange = { value ->
                         onLoginValueChange(value)
                     })
 
-                SingInField(input = password,
-                    isValid = true,
+                PasswordField(password = password,
+                    isValid = isValidPassword,
                     label = R.string.password,
-                    onValueChange = { value ->
+                    onPasswordValueChange = { value ->
                         onPasswordValueChange(value)
                     })
             }
@@ -174,14 +178,14 @@ fun LoginScreen(
                 onLoginClick()
             })
 
-            AuthorizationRedirect(isRegistration = false,
+            AuthorizationRedirect(
+                isRegistration = false,
                 onRedirectToRegistration = { onRedirectToRegistration() })
 
             DividerWithText(R.string.or)
 
             GradientBordersButton(
-                onClick = { },
-                modifier = Modifier.padding(vertical = 8.dp)
+                onClick = { }, modifier = Modifier.padding(vertical = 8.dp)
             ) {
                 Image(
                     modifier = Modifier.size(30.dp),
@@ -202,8 +206,7 @@ fun LoginScreen(
         }
         if (showLoadingDialog.value) {
             Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(modifier = Modifier.size(60.dp))
             }
