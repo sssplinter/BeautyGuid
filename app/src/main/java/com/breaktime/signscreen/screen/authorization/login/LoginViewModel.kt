@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.domain.authorization.LoginUseCase
 import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract.*
 import com.breaktime.signscreen.screen.base.BaseViewModel
-import com.breaktime.signscreen.utils.isValidEmail
 import com.breaktime.signscreen.utils.isValidPassword
 import kotlinx.coroutines.launch
 
@@ -18,45 +17,50 @@ class LoginViewModel :
     private val loginUseCase: LoginUseCase = LoginUseCase()
 
     var login by mutableStateOf("")
-//    var isValidLogin by mutableStateOf(true)
+    var isValidLogin by mutableStateOf(true)
 
     var password by mutableStateOf("")
-//    var isValidPassword by mutableStateOf(true)
+    var isValidPassword by mutableStateOf(true)
 
     var token by mutableStateOf("")
 
     fun onLoginValueChange(value: String) {
         login = value
-//        isValidLogin = login.isNotBlank()
+        isValidLogin = true
     }
 
     fun onPasswordValueChange(value: String) {
         password = value
-//        isValidPassword = password.isNotBlank()
+        isValidPassword = true
     }
 
     private fun loginUser() {
-        when {
-            !isValidPassword(password) -> {
+        if (login.isNotEmpty() && login.isNotBlank() && isValidPassword(password)) {
+            viewModelScope.launch {
+                isValidLogin = true
+                isValidPassword = true
+
+                setState { AuthState.Loading }
+                token = loginUseCase(login, password)?.token ?: ""
+                setState { AuthState.Default }
+
+                if (token.isNotBlank() && token.isNotEmpty()) {
+                    setEffect { AuthEffect.SuccessfulAuthorization(token) }
+                } else {
+                    val errorMessage = "Not correct credentials. Check and try again"
+                    setEffect { AuthEffect.ShowErrorMessage(errorMessage) }
+                }
+            }
+        } else {
+            if (login.isEmpty() || login.isBlank()) {
+                isValidLogin = false
+                val errorMessage = "Login field must be filled"
+                setEffect { AuthEffect.ShowErrorMessage(errorMessage) }
+            }
+            if (!isValidPassword(password)) {
+                isValidPassword = false
                 val errorMessage = "Password must contain at least 8 characters"
                 setEffect { AuthEffect.ShowErrorMessage(errorMessage) }
-            }
-            !isValidEmail(login) -> {
-                val errorMessage = "Incorrect email format"
-                setEffect { AuthEffect.ShowErrorMessage(errorMessage) }
-            }
-            else -> {
-                viewModelScope.launch {
-                    setState { AuthState.Loading }
-                    token = loginUseCase(login, password)?.token ?: ""
-                    setState { AuthState.Default }
-                    if (token.isNotBlank() && token.isNotEmpty()) {
-                        setEffect { AuthEffect.SuccessfulAuthorization(token) }
-                    } else {
-                        val errorMessage = "Not correct credentials. Check and try again"
-                        setEffect { AuthEffect.ShowErrorMessage(errorMessage) }
-                    }
-                }
             }
         }
     }
