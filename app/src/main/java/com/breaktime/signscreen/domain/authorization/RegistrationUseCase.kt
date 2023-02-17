@@ -5,7 +5,7 @@ import com.breaktime.signscreen.data.network.models.UserLoginRequestInfo
 import com.breaktime.signscreen.data.source.authorization.AuthorizationRepository
 import com.breaktime.signscreen.data.source.authorization.AuthorizationRepositoryImpl
 
-class RegisterUseCase {
+class RegistrationUseCase {
     // TODO replace by injection
     private val authorizationRepository: AuthorizationRepository = AuthorizationRepositoryImpl()
 
