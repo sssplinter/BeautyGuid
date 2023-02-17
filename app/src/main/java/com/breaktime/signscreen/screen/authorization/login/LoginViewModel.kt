@@ -3,14 +3,17 @@ package com.breaktime.signscreen.screen.authorization.login
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.domain.authorization.LoginUseCase
+import com.breaktime.signscreen.screen.authorization.login.LoginContract.*
+import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.utils.isValidEmail
 import com.breaktime.signscreen.utils.isValidPassword
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel :
+    BaseViewModel<LoginEvent, LoginState, LoginEffect>() {
+
     // TODO replace by injection
     private val loginUseCase: LoginUseCase = LoginUseCase()
 
@@ -22,8 +25,6 @@ class LoginViewModel : ViewModel() {
 
     var token by mutableStateOf("")
 
-    var errorMessage by mutableStateOf("")
-
     fun onLoginValueChange(value: String) {
         login = value
 //        isValidLogin = login.isNotBlank()
@@ -34,18 +35,43 @@ class LoginViewModel : ViewModel() {
 //        isValidPassword = password.isNotBlank()
     }
 
-    fun onLoginClick() {
+    private fun loginUser() {
         when {
             !isValidPassword(password) -> {
-                errorMessage = "Password must contain at least 8 characters"
+                val errorMessage = "Password must contain at least 8 characters"
+                setEffect { LoginEffect.ShowErrorMessage(errorMessage) }
             }
             !isValidEmail(login) -> {
-                errorMessage = "Incorrect email"
+                val errorMessage = "Incorrect email format"
+                setEffect { LoginEffect.ShowErrorMessage(errorMessage) }
             }
             else -> {
                 viewModelScope.launch {
+                    setState { LoginState.Loading }
                     token = loginUseCase(login, password)?.token ?: ""
+                    setState { LoginState.Default }
+                    if (token.isNotBlank() && token.isNotEmpty()) {
+                        setEffect { LoginEffect.SuccessfulAuthorization(token) }
+                    } else {
+                        val errorMessage = "Not correct credentials. Check and try again"
+                        setEffect { LoginEffect.ShowErrorMessage(errorMessage) }
+                    }
                 }
+            }
+        }
+    }
+
+    override fun createInitialState(): LoginState {
+        return LoginState.Default
+    }
+
+    override fun handleEvent(event: LoginEvent) {
+        when (event) {
+            LoginEvent.OnLoginClick -> {
+                loginUser()
+            }
+            LoginEvent.NavigateToRegistration -> {
+                setEffect { LoginEffect.NavigateToRegistration }
             }
         }
     }
