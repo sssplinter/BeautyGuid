@@ -1,12 +1,12 @@
 package com.breaktime.signscreen.screen.authorization.login
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +27,9 @@ import com.breaktime.signscreen.screen.authorization.views.AuthorizationText
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.uiItems.button.GradientBordersButton
 import com.breaktime.signscreen.uiItems.divider.DividerWithText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -36,42 +39,83 @@ fun Login(
     onRedirectToRegistration: () -> Unit,
     onSuccessfullyRegistration: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val showLoadingDialog = remember { mutableStateOf(false) }
+
+    initObservable(
+        scope,
+        context,
+        loginViewModel,
+        onRedirectToRegistration,
+        onSuccessfullyRegistration,
+        showLoadingDialog
+    )
+
     val login = loginViewModel.login
     val password = loginViewModel.password
-
-    val token = loginViewModel.token
-
-    val errorMessage = loginViewModel.errorMessage
-    val context = LocalContext.current
-
-    if(errorMessage.isNotEmpty()) {
-        Toast.makeText(context, loginViewModel.errorMessage, Toast.LENGTH_SHORT).show()
-    }
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
-        when {
-            token.isNotBlank() && token.isNotEmpty() -> {
-                LaunchedEffect(Unit) {
-                    onSuccessfullyRegistration()
+        LoginScreen(
+            login = login,
+            password = password,
+            onLoginValueChange = { login -> loginViewModel.onLoginValueChange(login) },
+            onPasswordValueChange = { password ->
+                loginViewModel.onPasswordValueChange(
+                    password
+                )
+            },
+            onLoginClick = {
+                loginViewModel.setEvent(LoginContract.LoginEvent.OnLoginClick)
+            },
+            onRedirectToRegistration = {
+                loginViewModel.setEvent(LoginContract.LoginEvent.NavigateToRegistration)
+            }, showLoadingDialog
+        )
+    }
+}
+
+private fun initObservable(
+    composableScope: CoroutineScope,
+    context: Context,
+    loginViewModel: LoginViewModel,
+    onRedirectToRegistration: () -> Unit,
+    onSuccessfullyRegistration: () -> Unit,
+    showLoadingDialog: MutableState<Boolean>
+) {
+
+    composableScope.launch {
+        loginViewModel.uiState.collect { state ->
+            when (state) {
+                is LoginContract.LoginState.Loading -> {
+                    showLoadingDialog.value = true
+                }
+                else -> {
+                    showLoadingDialog.value = false
                 }
             }
-            else -> {
-                LoginScreen(
-                    login = login,
-                    password = password,
-                    onLoginValueChange = { login -> loginViewModel.onLoginValueChange(login) },
-                    onPasswordValueChange = { password ->
-                        loginViewModel.onPasswordValueChange(
-                            password
-                        )
-                    },
-                    onLoginClick = { loginViewModel.onLoginClick() },
-                    onRedirectToRegistration = { onRedirectToRegistration() })
+        }
+    }
+
+    composableScope.launch {
+        loginViewModel.effect.collect { effect ->
+            composableScope.ensureActive()
+            when (effect) {
+                is LoginContract.LoginEffect.ShowErrorMessage -> {
+                    Toast.makeText(
+                        context, effect.errorMsg, Toast.LENGTH_SHORT
+                    ).show()
+                }
+                is LoginContract.LoginEffect.NavigateToRegistration -> {
+                    onRedirectToRegistration()
+                }
+                is LoginContract.LoginEffect.SuccessfulAuthorization -> {
+                    onSuccessfullyRegistration()
+                }
             }
         }
     }
@@ -85,6 +129,7 @@ fun LoginScreen(
     onPasswordValueChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     onRedirectToRegistration: () -> Unit,
+    showLoadingDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -96,55 +141,59 @@ fun LoginScreen(
     ) {
         AuthorizationLogo(Modifier.size(120.dp))
 
-        AuthorizationText(isRegistration = false)
+            AuthorizationText(isRegistration = false)
 
-        Column(
-            modifier = modifier.padding(bottom = 30.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally,
+            Column(
+                modifier = modifier.padding(bottom = 30.dp),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally,
 
+                ) {
+                SingInField(
+                    input = login,
+                    isValid = true,
+                    label = R.string.login,
+                    onValueChange = { value ->
+                        onLoginValueChange(value)
+                    })
+
+                SingInField(input = password,
+                    isValid = true,
+                    label = R.string.password,
+                    onValueChange = { value ->
+                        onPasswordValueChange(value)
+                    })
+            }
+
+            AuthorizationButton(isRegistration = false, onClick = {
+                onLoginClick()
+            })
+
+            AuthorizationRedirect(isRegistration = false,
+                onRedirectToRegistration = { onRedirectToRegistration() })
+
+            DividerWithText(R.string.or)
+
+            GradientBordersButton(
+                onClick = { },
+                modifier = Modifier.padding(vertical = 8.dp)
             ) {
-            SingInField(input = login,
-                isValid = true,
-                label = R.string.login,
-                onValueChange = { value ->
-                    onLoginValueChange(value)
-                })
-
-            SingInField(input = password,
-                isValid = true,
-                label = R.string.password,
-                onValueChange = { value ->
-                    onPasswordValueChange(value)
-                })
-        }
-
-        AuthorizationButton(isRegistration = false, onClick = {
-            onLoginClick()
-        })
-
-        AuthorizationRedirect(
-            isRegistration = false,
-            onRedirectToRegistration = { onRedirectToRegistration() })
-
-        DividerWithText(R.string.or)
-
-        GradientBordersButton(onClick = { }, modifier = Modifier.padding(vertical = 8.dp)) {
-            Image(
-                modifier = Modifier.size(30.dp),
-                painter = painterResource(id = R.drawable.ic_google),
-                contentDescription = ""
-            )
-            Text(
-                text = stringResource(R.string.continue_with_google),
-                modifier = Modifier
-                    .padding(horizontal = 24.dp)
-                    .weight(0.8f),
-                style = MaterialTheme.typography.subtitle1.copy(
-                    fontWeight = FontWeight.Medium, fontSize = 16.sp
-                ),
-                textAlign = TextAlign.Center
-            )
+                Image(
+                    modifier = Modifier.size(30.dp),
+                    painter = painterResource(id = R.drawable.ic_google),
+                    contentDescription = ""
+                )
+                Text(
+                    text = stringResource(R.string.continue_with_google),
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .weight(0.8f),
+                    style = MaterialTheme.typography.subtitle1.copy(
+                        fontWeight = FontWeight.Medium, fontSize = 16.sp
+                    ),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }
