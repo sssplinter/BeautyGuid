@@ -132,14 +132,18 @@ fun LoginScreen(
     showLoadingDialog: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AuthorizationLogo(Modifier.size(120.dp))
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AuthorizationLogo(Modifier.size(120.dp))
 
             AuthorizationText(isRegistration = false)
 
@@ -193,6 +197,14 @@ fun LoginScreen(
                     ),
                     textAlign = TextAlign.Center
                 )
+            }
+        }
+        if (showLoadingDialog.value) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(modifier = Modifier.size(60.dp))
             }
         }
     }
