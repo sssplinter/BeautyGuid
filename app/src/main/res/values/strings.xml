@@ -8,9 +8,12 @@
     <string name="birthday">Birthday</string>
 
     <string name="confirm_password">Confirm Password</string>
+    <string name="repeat_password">Repeat password</string>
     <string name="invalid_email">Invalid email</string>
+    <string name="invalid_login">Invalid login</string>
     <string name="invalid_password">Invalid password</string>
     <string name="input_email">Input email</string>
+    <string name="input_login">Input login</string>
     <string name="input_password">Input password</string>
 
     <string name="name_placeholder">Name</string>
