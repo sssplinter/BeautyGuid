@@ -19,11 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
-import com.breaktime.signscreen.screen.authorization.register.SingInField
-import com.breaktime.signscreen.screen.authorization.views.AuthorizationButton
-import com.breaktime.signscreen.screen.authorization.views.AuthorizationLogo
-import com.breaktime.signscreen.screen.authorization.views.AuthorizationRedirect
-import com.breaktime.signscreen.screen.authorization.views.AuthorizationText
+import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract
+import com.breaktime.signscreen.screen.authorization.registeration.SingInField
+import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationButton
+import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationLogo
+import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationRedirect
+import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationText
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.uiItems.button.GradientBordersButton
 import com.breaktime.signscreen.uiItems.divider.DividerWithText
@@ -37,7 +38,7 @@ fun Login(
     modifier: Modifier = Modifier,
     loginViewModel: LoginViewModel = viewModel(),
     onRedirectToRegistration: () -> Unit,
-    onSuccessfullyRegistration: () -> Unit
+    onSuccessfullyAuthorization: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -48,7 +49,7 @@ fun Login(
         context,
         loginViewModel,
         onRedirectToRegistration,
-        onSuccessfullyRegistration,
+        onSuccessfullyAuthorization,
         showLoadingDialog
     )
 
@@ -70,10 +71,10 @@ fun Login(
                 )
             },
             onLoginClick = {
-                loginViewModel.setEvent(LoginContract.LoginEvent.OnLoginClick)
+                loginViewModel.setEvent(AuthorizationContract.AuthEvent.OnAuthClick)
             },
             onRedirectToRegistration = {
-                loginViewModel.setEvent(LoginContract.LoginEvent.NavigateToRegistration)
+                loginViewModel.setEvent(AuthorizationContract.AuthEvent.OnAnotherAuthTypeClick)
             }, showLoadingDialog
         )
     }
@@ -91,7 +92,7 @@ private fun initObservable(
     composableScope.launch {
         loginViewModel.uiState.collect { state ->
             when (state) {
-                is LoginContract.LoginState.Loading -> {
+                is AuthorizationContract.AuthState.Loading -> {
                     showLoadingDialog.value = true
                 }
                 else -> {
@@ -105,15 +106,15 @@ private fun initObservable(
         loginViewModel.effect.collect { effect ->
             composableScope.ensureActive()
             when (effect) {
-                is LoginContract.LoginEffect.ShowErrorMessage -> {
+                is AuthorizationContract.AuthEffect.ShowErrorMessage -> {
                     Toast.makeText(
                         context, effect.errorMsg, Toast.LENGTH_SHORT
                     ).show()
                 }
-                is LoginContract.LoginEffect.NavigateToRegistration -> {
+                is AuthorizationContract.AuthEffect.NavigateToAnotherAuthType -> {
                     onRedirectToRegistration()
                 }
-                is LoginContract.LoginEffect.SuccessfulAuthorization -> {
+                is AuthorizationContract.AuthEffect.SuccessfulAuthorization -> {
                     onSuccessfullyRegistration()
                 }
             }
@@ -214,7 +215,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     SignScreenTheme {
-        Login(onSuccessfullyRegistration = {}, onRedirectToRegistration = {})
+        Login(onSuccessfullyAuthorization = {}, onRedirectToRegistration = {})
     }
 }
 

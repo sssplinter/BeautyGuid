@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.screen.authorization.views.fields
+package com.breaktime.signscreen.screen.authorization.common.views.fields
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

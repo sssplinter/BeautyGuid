@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.screen.authorization.views
+package com.breaktime.signscreen.screen.authorization.common.views
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -61,13 +61,12 @@ fun AuthorizationText(isRegistration: Boolean, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .paddingFromBaseline(top = 24.dp, bottom = 24.dp)
                 .padding(horizontal = 12.dp),
-            text = stringResource(id = if(isRegistration) R.string.register_msg_text else  R.string.login_msg_text),
+            text = stringResource(id = if (isRegistration) R.string.register_msg_text else R.string.login_msg_text),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption.copy(fontSize = 14.sp)
         )
     }
 }
-
 
 @Composable
 fun AuthorizationButton(
