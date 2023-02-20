@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import com.breaktime.signscreen.R
-import com.breaktime.signscreen.screen.profile.EditProfileViewModel
+import com.breaktime.signscreen.screen.profile.edit.EditProfileViewModel
 
 
 @Composable

@@ -20,37 +20,41 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.entities.Country
-import com.breaktime.signscreen.screen.profile.EditProfileViewModel
 import com.breaktime.signscreen.ui.theme.ItemAllRoundedShape50
 
 @Composable
 fun MobileNumberField(
-    viewModel: EditProfileViewModel
+    mobileNumber: String,
+    onMobileNumberValueChange: (String) -> Unit
 ) {
     Column {
         val focusManager = LocalFocusManager.current
 
         AppTextField(
-            text = viewModel.mobileNumber,
+            text = mobileNumber,
             label = { Text(stringResource(R.string.mobile_number)) },
             onChange = {
-                viewModel.onMobileNumberValueChange(it)
+                onMobileNumberValueChange(it)
             },
             imeAction = ImeAction.Next,//Show next as IME button
             leadingIcon = {
-                viewModel.mobileCountry?.let {
-                    CountryPickerView(
-                        countries = viewModel.countriesList,
-                        selectedCountry = it,
-                        onSelection = { country ->
-                            viewModel.mobileCountry = country
-                        },
+                Row(
+                    modifier = Modifier.padding(start = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        modifier = Modifier.border(0.3.dp, Color.Black),
+                        painter = painterResource(id = R.drawable.icon_bg_flag),
+                        contentDescription = null
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 4.dp, end = 8.dp),
+                        text = "+375"
                     )
                 }
             },
