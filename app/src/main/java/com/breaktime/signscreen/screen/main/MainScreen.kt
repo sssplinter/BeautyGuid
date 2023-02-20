@@ -22,7 +22,7 @@ import androidx.navigation.navigation
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.portfolio.photo.Portfolio
-import com.breaktime.signscreen.screen.profile.EditProfileScreen
+import com.breaktime.signscreen.screen.profile.edit.EditProfileScreen
 
 @Composable
 fun MainScreen() {
@@ -57,7 +57,10 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
         startDestination = Screen.ProfileScreen.route, route = Graph.MainScreenGraph.route
     ) {
         composable(route = Screen.ProfileScreen.route) {
-            EditProfileScreen()
+            // TODO navigation
+            EditProfileScreen(onNavigateBack = {}, onSuccessfullyEdit = {
+                navController.navigate(Screen.PortfolioScreen.route)
+            })
         }
 //        composable(route = Screen.ContactsScreen.route) {
 //            Contacts()
@@ -75,7 +78,7 @@ fun TopAppBar() {
             "Bottom Navigation Demo",
             style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold)
         )
-    })
+    }, backgroundColor = MaterialTheme.colors.onPrimary)
 }
 
 @Composable
