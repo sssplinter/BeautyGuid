@@ -85,5 +85,10 @@
     <string name="have_account">Already have an account?  </string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="or">OR</string>
+    <string name="my_appointments">My appointments</string>
+    <string name="my_masters">My masters</string>
+    <string name="my_salons">My salons</string>
+    <string name="sign_out">Sign out</string>
+    <string name="personal_account">Personal account</string>
 
 </resources>
