@@ -21,7 +21,7 @@ fun CommonTopAppBar(
             Text(
                 text = title,
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = if (navigationButton == null) TextAlign.Start else TextAlign.Center,
+                textAlign = if (actionButtons.isNotEmpty()) TextAlign.Center else TextAlign.Start,
                 style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
             )
         },
