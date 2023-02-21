@@ -7,9 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.breaktime.signscreen.data.entities.Country
 import com.breaktime.signscreen.screen.base.BaseViewModel
-import com.breaktime.signscreen.screen.profile.common.ProfileContract.*
+import com.breaktime.signscreen.screen.profile.personalData.PersonalDataContract.*
 
-class EditProfileViewModel :
+class EditPersonalDataViewModel :
     BaseViewModel<ProfileEvent, ProfileState, ProfileEffect>() {
     // TODO
 

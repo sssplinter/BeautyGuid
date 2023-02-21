@@ -38,7 +38,6 @@ import com.breaktime.signscreen.screen.profile.BottomDrawerItem
 import com.breaktime.signscreen.screen.profile.ContactsSection
 import com.breaktime.signscreen.screen.profile.PersonalDataSection
 import com.breaktime.signscreen.screen.profile.ProfileSlotBasedSection
-import com.breaktime.signscreen.screen.profile.common.ProfileContract
 import com.breaktime.signscreen.ui.theme.BackgroundGray
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.uiItems.button.NormalButton
@@ -55,7 +54,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun EditProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: EditProfileViewModel = viewModel(),
+    viewModel: EditPersonalDataViewModel = viewModel(),
     onNavigateToPersonalAccount: () -> Unit,
 ) {
     val gesturesEnabled = remember { mutableStateOf(false) }
@@ -114,7 +113,7 @@ fun EditProfileScreen(
                 modifier = Modifier,
                 navigationButton = IconButtonData(
                     imageVector = Icons.Default.ArrowBack,
-                    onClick = { viewModel.setEvent(ProfileContract.ProfileEvent.OnBackClick) }),
+                    onClick = { viewModel.setEvent(PersonalDataContract.ProfileEvent.OnBackClick) }),
             )
         },
         backgroundColor = MaterialTheme.colors.BackgroundGray
@@ -169,7 +168,7 @@ fun EditProfileScreen(
                             .align(Alignment.CenterHorizontally)
                             .padding(top = 16.dp),
                         onClick = {
-                            viewModel.setEvent(ProfileContract.ProfileEvent.OnChoosePhotoClick)
+                            viewModel.setEvent(PersonalDataContract.ProfileEvent.OnChoosePhotoClick)
                         })
 
                     ProfileSlotBasedSection(titleRes = R.string.personal_data) {
@@ -195,7 +194,7 @@ fun EditProfileScreen(
                     }
 
                     NormalButton(
-                        onClick = { viewModel.setEvent(ProfileContract.ProfileEvent.OnSaveClick) },
+                        onClick = { viewModel.setEvent(PersonalDataContract.ProfileEvent.OnSaveClick) },
                         textRes = R.string.save_btn,
                         modifier = Modifier.padding(top = 16.dp)
                     )
@@ -211,15 +210,15 @@ private fun initObservable(
     gesturesEnabled: MutableState<Boolean>,
     drawerState: BottomDrawerState,
     context: Context,
-    editProfileViewModel: EditProfileViewModel,
+    editPersonalDataViewModel: EditPersonalDataViewModel,
     onNavigateToPersonalAccount: () -> Unit,
     showLoadingDialog: MutableState<Boolean>
 ) {
 
     composableScope.launch {
-        editProfileViewModel.uiState.collect { state ->
+        editPersonalDataViewModel.uiState.collect { state ->
             when (state) {
-                ProfileContract.ProfileState.Loading -> {
+                PersonalDataContract.ProfileState.Loading -> {
                     showLoadingDialog.value = true
                 }
                 else -> {
@@ -230,19 +229,20 @@ private fun initObservable(
     }
 
     composableScope.launch {
-        editProfileViewModel.effect.collect { effect ->
+        editPersonalDataViewModel.effect.collect { effect ->
             composableScope.ensureActive()
             when (effect) {
-                ProfileContract.ProfileEffect.ChoosePhoto -> {
+                PersonalDataContract.ProfileEffect.ChoosePhoto -> {
                     gesturesEnabled.value = true
                     composableScope.launch {
                         drawerState.open()
                     }
                 }
-                ProfileContract.ProfileEffect.NavigateBack, ProfileContract.ProfileEffect.SuccessfulEdit -> {
+                PersonalDataContract.ProfileEffect.NavigateBack, PersonalDataContract.ProfileEffect.SuccessfulEdit -> {
                     onNavigateToPersonalAccount()
                 }
-                is ProfileContract.ProfileEffect.ShowErrorMessage -> {
+                is PersonalDataContract.ProfileEffect.ShowErrorMessage -> {
+                    // TODO use custom dialog
                     Toast.makeText(
                         context, effect.errorMsg, Toast.LENGTH_SHORT
                     ).show()

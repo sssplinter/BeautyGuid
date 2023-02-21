@@ -44,12 +44,12 @@ class MainActivity : ComponentActivity() {
 fun AppGraph() {
     val navController = rememberNavController()
     NavHost(navController, startDestination = Graph.LoginGraph.route) {
-        userMain(navController)
+        userMain()
         loginGraph(navController)
     }
 }
 
-fun NavGraphBuilder.userMain(navController: NavController) {
+fun NavGraphBuilder.userMain() {
     navigation(startDestination = Screen.MainScreen.route, route = Graph.UserMainGraph.route) {
 //        composable(route = Screen.ProfileScreen.route) { backStackEntry ->
 //            ProfileScreen(
@@ -71,7 +71,7 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
     navigation(startDestination = Screen.OnBoardingScreen.route, route = Graph.LoginGraph.route) {
         composable(route = Screen.OnBoardingScreen.route) {
             OnBoarding({
-                navController.navigate(Screen.RegistrationScreen.route) {
+                navController.navigate(Screen.LoginScreen.route) {
                     popUpTo(Screen.OnBoardingScreen.route) { inclusive = true }
                 }
             })

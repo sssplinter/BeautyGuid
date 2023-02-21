@@ -1,10 +1,10 @@
-package com.breaktime.signscreen.screen.profile.common
+package com.breaktime.signscreen.screen.profile.personalData
 
 import com.breaktime.signscreen.screen.base.UiEffect
 import com.breaktime.signscreen.screen.base.UiEvent
 import com.breaktime.signscreen.screen.base.UiState
 
-class ProfileContract {
+class PersonalDataContract {
     sealed class ProfileState : UiState {
         object Default : ProfileState()
         object Loading : ProfileState()
