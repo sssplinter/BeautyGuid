@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.screen.profile.edit
+package com.breaktime.signscreen.screen.profile.personalData
 
 import android.net.Uri
 import android.telephony.PhoneNumberUtils

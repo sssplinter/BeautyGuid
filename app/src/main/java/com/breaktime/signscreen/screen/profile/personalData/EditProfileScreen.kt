@@ -1,6 +1,6 @@
 @file:Suppress("OPT_IN_IS_NOT_ENABLED")
 
-package com.breaktime.signscreen.screen.profile.edit
+package com.breaktime.signscreen.screen.profile.personalData
 
 import android.Manifest
 import android.content.Context
