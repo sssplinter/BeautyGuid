@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.runtime.*
@@ -38,9 +39,12 @@ import com.breaktime.signscreen.screen.profile.ContactsSection
 import com.breaktime.signscreen.screen.profile.PersonalDataSection
 import com.breaktime.signscreen.screen.profile.ProfileSlotBasedSection
 import com.breaktime.signscreen.screen.profile.common.ProfileContract
+import com.breaktime.signscreen.ui.theme.BackgroundGray
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.uiItems.button.NormalButton
+import com.breaktime.signscreen.uiItems.dialogs.IconButtonData
 import com.breaktime.signscreen.uiItems.inputFields.*
+import com.breaktime.signscreen.uiItems.topBar.CommonTopAppBar
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.CoroutineScope
@@ -105,89 +109,102 @@ fun EditProfileScreen(
     // TODO default profile image
 //    val uri = getUriToDrawable(context, R.drawable.avata)
 //    viewModel.onImageChange(uri)
-
-    BottomDrawer(
-        gesturesEnabled = gesturesEnabled.value,
-        drawerState = drawerState,
-        drawerContent = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp, vertical = 16.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.choose_image),
-                    style = MaterialTheme.typography.subtitle2.copy(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        fontFamily = FontFamily.SansSerif
-                    ),
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                BottomDrawerItem(
-                    Icons.Default.Image,
-                    stringResource(R.string.choose_from_gallery),
-                    {
-                        galleryLauncher.launch("image/*")
-
-                    })
-
-                BottomDrawerItem(Icons.Default.PhotoCamera, stringResource(R.string.camera), {
-                    if (!cameraPermission.hasPermission) {
-                        cameraPermission.launchPermissionRequest()
-                        isPermissionRequested = true
-                    } else cameraLauncher.launch()
-                })
-            }
+    Scaffold(
+        topBar = {
+            CommonTopAppBar(
+                stringResource(R.string.personal_data),
+                modifier = Modifier,
+                navigationButton = IconButtonData(
+                    imageVector = Icons.Default.ArrowBack,
+                    onClick = { viewModel.setEvent(ProfileContract.ProfileEvent.OnBackClick) }),
+            )
         },
-        content = {
-            Column(
-                modifier = modifier
-                    .padding(horizontal = 16.dp)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Center
-            ) {
-                ImagePickerView(
-                    lastSelectedImage = avatarUri,
-                    onSelection = {},
+        backgroundColor = MaterialTheme.colors.BackgroundGray
+    ) { paddingValues ->
+        BottomDrawer(
+            modifier = Modifier.padding(paddingValues),
+            gesturesEnabled = gesturesEnabled.value,
+            drawerState = drawerState,
+            drawerContent = {
+                Column(
                     modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = 16.dp),
-                    onClick = {
-                        viewModel.setEvent(ProfileContract.ProfileEvent.OnChoosePhotoClick)
+                        .fillMaxWidth()
+                        .padding(horizontal = 32.dp, vertical = 16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.choose_image),
+                        style = MaterialTheme.typography.subtitle2.copy(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            fontFamily = FontFamily.SansSerif
+                        ),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    BottomDrawerItem(
+                        Icons.Default.Image,
+                        stringResource(R.string.choose_from_gallery),
+                        {
+                            galleryLauncher.launch("image/*")
+
+                        })
+
+                    BottomDrawerItem(Icons.Default.PhotoCamera, stringResource(R.string.camera), {
+                        if (!cameraPermission.hasPermission) {
+                            cameraPermission.launchPermissionRequest()
+                            isPermissionRequested = true
+                        } else cameraLauncher.launch()
                     })
+                }
+            },
+            content = {
+                Column(
+                    modifier = modifier
+                        .padding(horizontal = 16.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    ImagePickerView(
+                        lastSelectedImage = avatarUri,
+                        onSelection = {},
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 16.dp),
+                        onClick = {
+                            viewModel.setEvent(ProfileContract.ProfileEvent.OnChoosePhotoClick)
+                        })
 
-                ProfileSlotBasedSection(titleRes = R.string.personal_data) {
-                    PersonalDataSection(
-                        surname = surname,
-                        name = name,
-                        onSurnameValueChange = { value -> viewModel.onSurnameValueChange(value) },
-                        onNameValueChange = { value -> viewModel.onNameValueChange(value) }
+                    ProfileSlotBasedSection(titleRes = R.string.personal_data) {
+                        PersonalDataSection(
+                            surname = surname,
+                            name = name,
+                            onSurnameValueChange = { value -> viewModel.onSurnameValueChange(value) },
+                            onNameValueChange = { value -> viewModel.onNameValueChange(value) }
+                        )
+                    }
+
+                    ProfileSlotBasedSection(titleRes = R.string.contacts_title) {
+                        ContactsSection(
+                            email = email,
+                            mobileNumber = mobileNumber,
+                            onEmailValueChange = { value -> viewModel.onEmailValueChange(value) },
+                            onMobileNumberValueChange = { value ->
+                                viewModel.onMobileNumberValueChange(
+                                    value
+                                )
+                            }
+                        )
+                    }
+
+                    NormalButton(
+                        onClick = { viewModel.setEvent(ProfileContract.ProfileEvent.OnSaveClick) },
+                        textRes = R.string.save_btn,
+                        modifier = Modifier.padding(top = 16.dp)
                     )
                 }
-
-                ProfileSlotBasedSection(titleRes = R.string.contacts_title) {
-                    ContactsSection(
-                        email = email,
-                        mobileNumber = mobileNumber,
-                        onEmailValueChange = { value -> viewModel.onEmailValueChange(value) },
-                        onMobileNumberValueChange = { value ->
-                            viewModel.onMobileNumberValueChange(
-                                value
-                            )
-                        }
-                    )
-                }
-
-                NormalButton(
-                    onClick = { viewModel.setEvent(ProfileContract.ProfileEvent.OnSaveClick) },
-                    textRes = R.string.save_btn,
-                    modifier = Modifier.padding(top = 16.dp)
-                )
             }
-        }
-    )
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
