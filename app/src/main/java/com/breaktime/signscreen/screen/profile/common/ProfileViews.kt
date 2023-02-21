@@ -25,7 +25,7 @@ fun ChapterDeliverText(chapter: String, modifier: Modifier = Modifier) {
     Text(
         text = chapter,
         style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
-        modifier = modifier.padding(top = 16.dp, bottom = 4.dp)
+        modifier = modifier.padding(top = 16.dp, bottom = 4.dp, start = 8.dp)
     )
 }
 
