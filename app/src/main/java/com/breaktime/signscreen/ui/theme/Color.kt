@@ -24,6 +24,10 @@ val NotPrimaryTextDark = Color(0xFF7E7979)
 
 val LightGray = Color(0xFFDBDBDB)
 
+val Colors.BackgroundGray
+    @Composable
+    get() = Color(0xFFf5f5f5)
+
 val Colors.PinkFromImage
     @Composable
     get() = Color(0xFFFF9e8d)
