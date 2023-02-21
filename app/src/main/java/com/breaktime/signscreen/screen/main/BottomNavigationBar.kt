@@ -59,7 +59,7 @@ object NavBarItems {
         BarItem(
             titleResId = R.string.profile_nav_bar_title,
             image = Icons.Filled.Home,
-            route = Screen.ProfileScreen.route
+            route = Screen.UserPersonalDataScreen.route
         ),
 //        BarItem(
 //            title = "Contacts",

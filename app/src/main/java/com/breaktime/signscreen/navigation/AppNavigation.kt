@@ -1,5 +1,6 @@
 package com.breaktime.signscreen.navigation
 
+import com.breaktime.signscreen.navigation.AppDestinations.AccountRoute
 import com.breaktime.signscreen.navigation.AppDestinations.ContactsRoute
 import com.breaktime.signscreen.navigation.AppDestinations.FavoritesRoute
 import com.breaktime.signscreen.navigation.AppDestinations.HomeRoute
@@ -8,7 +9,7 @@ import com.breaktime.signscreen.navigation.AppDestinations.MainGraphRoute
 import com.breaktime.signscreen.navigation.AppDestinations.MainScreenRoute
 import com.breaktime.signscreen.navigation.AppDestinations.OnBoardingRoute
 import com.breaktime.signscreen.navigation.AppDestinations.PortfolioRoute
-import com.breaktime.signscreen.navigation.AppDestinations.ProfileRoute
+import com.breaktime.signscreen.navigation.AppDestinations.PersonalDataRoute
 import com.breaktime.signscreen.navigation.AppDestinations.RegistrationRout
 import com.breaktime.signscreen.navigation.AppDestinations.LoginRoute
 import com.breaktime.signscreen.navigation.AppDestinations.UserMainGraphRoute
@@ -17,8 +18,11 @@ object AppDestinations {
     const val OnBoardingRoute = "onboarding"
     const val RegistrationRout = "registration"
     const val LoginRoute = "signIn"
-//    const val ProfileRoute = "profile?userId={userId}&userRole={userRole}"
-    const val ProfileRoute = "profile"
+
+    //    const val ProfileRoute = "profile?userId={userId}&userRole={userRole}"
+    const val PersonalDataRoute = "profile"
+    const val AccountRoute = "account"
+
     const val PortfolioRoute = "portfolio"
 
     const val LoginGraphRoute = "login"
@@ -36,7 +40,8 @@ sealed class Screen(val route: String) {
     object OnBoardingScreen : Screen(OnBoardingRoute)
     object RegistrationScreen : Screen(RegistrationRout)
     object LoginScreen : Screen(LoginRoute)
-    object ProfileScreen : Screen(ProfileRoute)
+    object UserPersonalDataScreen : Screen(PersonalDataRoute)
+    object UserAccountScreen : Screen(AccountRoute)
     object PortfolioScreen : Screen(PortfolioRoute)
     object MainScreen : Screen(MainScreenRoute)
     object HomeScreen : Screen(HomeRoute)

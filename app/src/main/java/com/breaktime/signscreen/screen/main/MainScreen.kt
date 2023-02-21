@@ -22,13 +22,13 @@ import androidx.navigation.navigation
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.portfolio.photo.Portfolio
+import com.breaktime.signscreen.screen.profile.PersonalAccount
 import com.breaktime.signscreen.screen.profile.edit.EditProfileScreen
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
-        topBar = { TopAppBar() },
         content = { paddingValues ->
             Box(
                 modifier = Modifier.padding(paddingValues)
@@ -54,17 +54,23 @@ fun NavigationHost(navController: NavHostController) {
 
 fun NavGraphBuilder.mainScreen(navController: NavController) {
     navigation(
-        startDestination = Screen.ProfileScreen.route, route = Graph.MainScreenGraph.route
+        startDestination = Screen.UserPersonalDataScreen.route, route = Graph.MainScreenGraph.route
     ) {
-        composable(route = Screen.ProfileScreen.route) {
-            // TODO navigation
-            EditProfileScreen(onNavigateBack = {}, onSuccessfullyEdit = {
-                navController.navigate(Screen.PortfolioScreen.route)
-            })
+        composable(route = Screen.UserPersonalDataScreen.route) {
+            EditProfileScreen(
+                onNavigateToPersonalAccount = { navController.navigate(Screen.UserAccountScreen.route) })
         }
-//        composable(route = Screen.ContactsScreen.route) {
-//            Contacts()
-//        }
+        composable(route = Screen.UserAccountScreen.route) {
+            PersonalAccount(
+                onSignOut = {},
+                onPersonalDataEdit = {
+                    navController.navigate(Screen.UserPersonalDataScreen.route)
+                },
+                onOpenAppointments = {},
+                onOpenSalons = {},
+                onOpenMasters = {}
+            )
+        }
         composable(route = Screen.PortfolioScreen.route) {
             Portfolio()
         }

@@ -56,8 +56,7 @@ import kotlinx.coroutines.launch
 fun EditProfileScreen(
     modifier: Modifier = Modifier,
     viewModel: EditProfileViewModel = viewModel(),
-    onNavigateBack: () -> Unit,
-    onSuccessfullyEdit: () -> Unit
+    onNavigateToPersonalAccount: () -> Unit,
 ) {
     val gesturesEnabled = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
@@ -101,8 +100,7 @@ fun EditProfileScreen(
         drawerState,
         context,
         viewModel,
-        onNavigateBack,
-        onSuccessfullyEdit,
+        onNavigateToPersonalAccount,
         showLoadingDialog
     )
 
@@ -214,8 +212,7 @@ private fun initObservable(
     drawerState: BottomDrawerState,
     context: Context,
     editProfileViewModel: EditProfileViewModel,
-    onNavigateBack: () -> Unit,
-    onSuccessfullyEdit: () -> Unit,
+    onNavigateToPersonalAccount: () -> Unit,
     showLoadingDialog: MutableState<Boolean>
 ) {
 
@@ -242,16 +239,13 @@ private fun initObservable(
                         drawerState.open()
                     }
                 }
-                ProfileContract.ProfileEffect.NavigateBack -> {
-                    onNavigateBack()
+                ProfileContract.ProfileEffect.NavigateBack, ProfileContract.ProfileEffect.SuccessfulEdit -> {
+                    onNavigateToPersonalAccount()
                 }
                 is ProfileContract.ProfileEffect.ShowErrorMessage -> {
                     Toast.makeText(
                         context, effect.errorMsg, Toast.LENGTH_SHORT
                     ).show()
-                }
-                ProfileContract.ProfileEffect.SuccessfulEdit -> {
-                    onSuccessfullyEdit()
                 }
             }
         }
@@ -262,6 +256,6 @@ private fun initObservable(
 @Composable
 fun PreviewEditProfileScreen() {
     SignScreenTheme {
-        EditProfileScreen(onNavigateBack = {}, onSuccessfullyEdit = {})
+        EditProfileScreen(onNavigateToPersonalAccount = {})
     }
 }
