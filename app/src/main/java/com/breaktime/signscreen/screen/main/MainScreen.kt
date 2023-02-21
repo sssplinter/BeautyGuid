@@ -22,8 +22,8 @@ import androidx.navigation.navigation
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.portfolio.photo.Portfolio
-import com.breaktime.signscreen.screen.profile.PersonalAccount
-import com.breaktime.signscreen.screen.profile.edit.EditProfileScreen
+import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccount
+import com.breaktime.signscreen.screen.profile.personalData.EditProfileScreen
 
 @Composable
 fun MainScreen() {
@@ -62,8 +62,9 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
         }
         composable(route = Screen.UserAccountScreen.route) {
             PersonalAccount(
-                onSignOut = {},
-                onPersonalDataEdit = {
+                // TODO problem with navigation to login graph
+                onSignOut = { navController.navigate(Graph.LoginGraph.route) },
+                onEditPersonalData = {
                     navController.navigate(Screen.UserPersonalDataScreen.route)
                 },
                 onOpenAppointments = {},
