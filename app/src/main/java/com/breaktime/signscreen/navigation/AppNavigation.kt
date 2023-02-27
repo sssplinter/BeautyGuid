@@ -13,6 +13,8 @@ import com.breaktime.signscreen.navigation.AppDestinations.PersonalDataRoute
 import com.breaktime.signscreen.navigation.AppDestinations.RegistrationRout
 import com.breaktime.signscreen.navigation.AppDestinations.LoginRoute
 import com.breaktime.signscreen.navigation.AppDestinations.UserMainGraphRoute
+import com.breaktime.signscreen.navigation.AppDestinations.UserMastersRoute
+import com.breaktime.signscreen.navigation.AppDestinations.UserSalonsRoute
 
 object AppDestinations {
     const val OnBoardingRoute = "onboarding"
@@ -24,6 +26,8 @@ object AppDestinations {
     const val AccountRoute = "account"
 
     const val PortfolioRoute = "portfolio"
+    const val UserSalonsRoute = "userSalons"
+    const val UserMastersRoute = "userMasters"
 
     const val LoginGraphRoute = "login"
     const val UserMainGraphRoute = "userMain"
@@ -44,6 +48,8 @@ sealed class Screen(val route: String) {
     object UserAccountScreen : Screen(AccountRoute)
     object PortfolioScreen : Screen(PortfolioRoute)
     object MainScreen : Screen(MainScreenRoute)
+    object UserMastersScreen : Screen(UserMastersRoute)
+    object UserSalonsScreen : Screen(UserSalonsRoute)
     object HomeScreen : Screen(HomeRoute)
     object ContactsScreen : Screen(ContactsRoute)
     object FavoritesScreen : Screen(FavoritesRoute)

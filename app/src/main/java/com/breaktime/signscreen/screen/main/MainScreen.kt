@@ -1,6 +1,9 @@
 package com.breaktime.signscreen.screen.main
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Face
@@ -21,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
+import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsScreen
 import com.breaktime.signscreen.screen.portfolio.photo.Portfolio
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccount
 import com.breaktime.signscreen.screen.profile.personalData.EditProfileScreen
@@ -69,8 +73,16 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
                 },
                 onOpenAppointments = {},
                 onOpenSalons = {},
-                onOpenMasters = {}
+                onOpenMasters = {
+                    navController.navigate(Screen.UserMastersScreen.route)
+                }
             )
+        }
+        composable(route = Screen.UserMastersScreen.route) {
+            SpecialistsScreen(onNavigateToPersonalAccount =
+            {
+                navController.navigate(Screen.UserAccountScreen.route)
+            })
         }
         composable(route = Screen.PortfolioScreen.route) {
             Portfolio()
