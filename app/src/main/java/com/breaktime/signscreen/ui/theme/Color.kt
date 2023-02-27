@@ -28,6 +28,10 @@ val Colors.BackgroundGray
     @Composable
     get() = Color(0xFFf5f5f5)
 
+val Colors.PinkFromLogo
+    @Composable
+    get() = Color(0xFFF5A7A9)
+
 val Colors.PinkFromImage
     @Composable
     get() = Color(0xFFFF9e8d)

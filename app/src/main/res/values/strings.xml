@@ -91,4 +91,7 @@
     <string name="sign_out">Sign out</string>
     <string name="personal_account">Personal account</string>
 
+    <string name="input_field_error">Fill in the input field</string>
+    <string name="mobile_phone_error">Incorrect mobile phone</string>
+
 </resources>
