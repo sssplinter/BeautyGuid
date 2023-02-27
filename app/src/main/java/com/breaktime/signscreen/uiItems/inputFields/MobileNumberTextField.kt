@@ -29,6 +29,7 @@ import com.breaktime.signscreen.ui.theme.ItemAllRoundedShape50
 @Composable
 fun MobileNumberField(
     mobileNumber: String,
+    isValid: Boolean,
     onMobileNumberValueChange: (String) -> Unit
 ) {
     Column {
@@ -37,6 +38,7 @@ fun MobileNumberField(
         AppTextField(
             text = mobileNumber,
             label = { Text(stringResource(R.string.mobile_number)) },
+            isValid = isValid,
             onChange = {
                 onMobileNumberValueChange(it)
             },
@@ -64,7 +66,8 @@ fun MobileNumberField(
                 onNext = {
                     focusManager.moveFocus(FocusDirection.Down)
                 }
-            )
+            ),
+            errorText = stringResource(id = R.string.mobile_phone_error)
         )
     }
 }

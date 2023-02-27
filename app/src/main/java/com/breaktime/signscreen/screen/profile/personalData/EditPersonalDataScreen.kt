@@ -91,6 +91,11 @@ fun EditProfileScreen(
     val email = viewModel.email
     val mobileNumber = viewModel.mobileNumber
 
+    val isValidSurname = viewModel.isValidSurname
+    val isValidName = viewModel.isValidName
+    val isValidEmail = viewModel.isValidEmail
+    val isValidMobileNumber = viewModel.isValidMobileNumber
+
     val showLoadingDialog = remember { mutableStateOf(false) }
 
     initObservable(
@@ -175,6 +180,8 @@ fun EditProfileScreen(
                         PersonalDataSection(
                             surname = surname,
                             name = name,
+                            isSurnameValid = isValidSurname,
+                            isNameValid = isValidName,
                             onSurnameValueChange = { value -> viewModel.onSurnameValueChange(value) },
                             onNameValueChange = { value -> viewModel.onNameValueChange(value) }
                         )
@@ -184,6 +191,8 @@ fun EditProfileScreen(
                         ContactsSection(
                             email = email,
                             mobileNumber = mobileNumber,
+                            isEmailValid = isValidEmail,
+                            isMobileNumberValid = isValidMobileNumber,
                             onEmailValueChange = { value -> viewModel.onEmailValueChange(value) },
                             onMobileNumberValueChange = { value ->
                                 viewModel.onMobileNumberValueChange(
@@ -214,7 +223,6 @@ private fun initObservable(
     onNavigateToPersonalAccount: () -> Unit,
     showLoadingDialog: MutableState<Boolean>
 ) {
-
     composableScope.launch {
         editPersonalDataViewModel.uiState.collect { state ->
             when (state) {

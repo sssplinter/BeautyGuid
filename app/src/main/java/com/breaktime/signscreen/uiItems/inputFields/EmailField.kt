@@ -3,10 +3,8 @@ package com.breaktime.signscreen.uiItems.inputFields
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,9 +19,9 @@ import com.breaktime.signscreen.R
 
 @Composable
 fun EmailField(
-    nameValue: String,
-//    isValid: Boolean,
-//    errorText: String,
+    emailValue: String,
+    isValid: Boolean,
+    errorText: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -31,8 +29,10 @@ fun EmailField(
         val focusManager = LocalFocusManager.current
 
         AppTextField(
-            text = nameValue,
+            text = emailValue,
             label = { Text(stringResource(R.string.email_address)) },
+            isValid = isValid,
+            errorText = errorText,
             onChange = {
                 onValueChange(it)
             },
@@ -52,12 +52,5 @@ fun EmailField(
                 )
             },
         )
-//        if (!isValid) {
-//            Text(
-//                text = errorText,
-//                style = MaterialTheme.typography.caption,
-//                color = MaterialTheme.colors.error
-//            )
-//        }
     }
 }

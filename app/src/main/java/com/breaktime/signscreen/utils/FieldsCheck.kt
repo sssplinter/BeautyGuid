@@ -7,7 +7,7 @@ import android.util.Patterns
 import androidx.annotation.AnyRes
 
 
-fun isValidEmail(email: String): Boolean =
+fun isValidEmailCheck(email: String): Boolean =
     Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
 // TODO implement more complex logic

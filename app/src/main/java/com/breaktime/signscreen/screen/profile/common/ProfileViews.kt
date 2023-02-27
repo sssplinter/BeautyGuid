@@ -61,30 +61,47 @@ fun ProfileSlotBasedSection(
 fun ContactsSection(
     email: String,
     mobileNumber: String,
+    isEmailValid: Boolean,
+    isMobileNumberValid: Boolean,
     onEmailValueChange: (String) -> Unit,
     onMobileNumberValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
-        MobileNumberField(mobileNumber, onMobileNumberValueChange)
-        EmailField(email, onEmailValueChange)
+        MobileNumberField(
+            mobileNumber = mobileNumber,
+            isValid = isMobileNumberValid,
+            onMobileNumberValueChange = onMobileNumberValueChange
+        )
+        EmailField(
+            emailValue = email,
+            isValid = isEmailValid,
+            errorText = "Incorrect email",
+            onEmailValueChange)
     }
 }
 
 @Composable
 fun PersonalDataSection(
     surname: String,
-    name: String, onSurnameValueChange: (String) -> Unit,
+    name: String,
+    isSurnameValid: Boolean,
+    isNameValid: Boolean,
+    onSurnameValueChange: (String) -> Unit,
     onNameValueChange: (String) -> Unit, modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         NameInputField(nameValue = surname,
-            label = stringResource(R.string.surname_placeholder),
+            label = R.string.surname_placeholder,
+            errorText = R.string.input_field_error,
+            isValid = isSurnameValid,
             onValueChange = { value ->
                 onSurnameValueChange(value)
             })
         NameInputField(nameValue = name,
-            label = stringResource(R.string.name_placeholder),
+            label = R.string.name_placeholder,
+            errorText = R.string.input_field_error,
+            isValid = isNameValid,
             onValueChange = { value ->
                 onNameValueChange(value)
             })
