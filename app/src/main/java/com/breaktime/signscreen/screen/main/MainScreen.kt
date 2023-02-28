@@ -79,7 +79,7 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
             )
         }
         composable(route = Screen.UserMastersScreen.route) {
-            SpecialistsScreen(onNavigateToPersonalAccount =
+            SpecialistsScreen(onNavigateBack =
             {
                 navController.navigate(Screen.UserAccountScreen.route)
             })

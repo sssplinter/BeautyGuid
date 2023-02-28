@@ -9,7 +9,7 @@ class SpecialistInfo(
     val specialistId: String,
     val fullName: String,
     val specialization: String,
-    // TODO replace with real photos from internet
+    // TODO replace with real photo
     val imageId: Int,
     val salonId: String,
     val rating: Double,
