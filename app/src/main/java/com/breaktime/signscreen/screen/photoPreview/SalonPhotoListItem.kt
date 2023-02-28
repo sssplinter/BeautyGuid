@@ -121,7 +121,7 @@ fun InfoSection(masterName: String, photoDescription: String, modifier: Modifier
         Text(
             modifier = Modifier.padding(top = 6.dp),
             text = photoDescription,
-            style = MaterialTheme.typography.caption.copy(fontSize = 13.sp)
+            style = MaterialTheme.typography.caption.copy(fontSize = 14.sp)
         )
 
     }

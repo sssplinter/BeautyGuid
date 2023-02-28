@@ -1,7 +1,6 @@
 package com.breaktime.signscreen.screen.portfolio
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -89,9 +88,6 @@ private fun initObservable(
                 }
                 is SalonPortfolioEffect.OpenPhoto -> {
                     onOpenPhoto(effect.photoId)
-                    Toast.makeText(
-                        context, effect.photoId.toString(), Toast.LENGTH_SHORT
-                    ).show()
                 }
                 is SalonPortfolioEffect.OpenStory -> {}
                 is SalonPortfolioEffect.ShowErrorMessage -> {}

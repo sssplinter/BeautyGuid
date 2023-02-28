@@ -189,7 +189,7 @@ fun AlignYourBodyElement(
     @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.width(65.dp), horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.width(60.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // TODO make better animation if needed
         val animateShape = remember { Animatable(1f) }
@@ -202,7 +202,6 @@ fun AlignYourBodyElement(
                 )
             )
         }
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -216,7 +215,7 @@ fun AlignYourBodyElement(
                 painter = painterResource(imageId),
                 contentDescription = null,
                 modifier = modifier
-                    .size(65.dp)
+                    .size(60.dp)
                     .clip(CircleShape)
                     .align(Alignment.Center),
                 contentScale = ContentScale.Crop
@@ -264,7 +263,7 @@ fun FavoriteCollectionCard(
             painter = painterResource(imageId),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.height(95.dp)
+            modifier = Modifier.aspectRatio(1f)
         )
     }
 }
@@ -280,14 +279,14 @@ private val alignYourBodyData = listOf(
 
 private val favoriteCollectionsData = listOf(
     R.drawable.im_nails to R.string.fc1_short_mantras,
+    R.drawable.im_nails1 to R.string.fc1_short_mantras,
     R.drawable.im_nails2 to R.string.fc2_nature_meditations,
     R.drawable.im_nails3 to R.string.fc3_stress_and_anxiety,
-    R.drawable.im_nails to R.string.fc1_short_mantras,
-    R.drawable.im_nails2 to R.string.fc2_nature_meditations,
-    R.drawable.im_nails3 to R.string.fc3_stress_and_anxiety,
-    R.drawable.im_nails to R.string.fc1_short_mantras,
-    R.drawable.im_nails2 to R.string.fc2_nature_meditations,
-    R.drawable.im_nails3 to R.string.fc3_stress_and_anxiety,
+    R.drawable.im_nails4 to R.string.fc1_short_mantras,
+    R.drawable.im_nails5 to R.string.fc2_nature_meditations,
+    R.drawable.im_nails6 to R.string.fc3_stress_and_anxiety,
+    R.drawable.im_nails7 to R.string.fc1_short_mantras,
+    R.drawable.im_nails8 to R.string.fc2_nature_meditations,
 ).map { DrawableStringPair(it.first, it.second) }
 
 private data class DrawableStringPair(

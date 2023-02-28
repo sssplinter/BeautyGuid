@@ -26,58 +26,59 @@ fun getTestdata() = listOf<SalonPhotoInfo>(
     ),
     SalonPhotoInfo(
         1,
+        R.drawable.im_nails1,
+        "Kristina Sementsova",
+        "2",
+        "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
+    ),
+    SalonPhotoInfo(
+        2,
         R.drawable.im_nails2,
         "Anna Smith",
         "2",
         "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
     ),
     SalonPhotoInfo(
-        2,
+        3,
         R.drawable.im_nails3,
         "Kristina Sementsova",
         "2",
         "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
     ),
-    SalonPhotoInfo(
-        3,
-        R.drawable.im_nails,
-        "Kristina Sementsova",
-        "2",
-        "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
-    ),
+
     SalonPhotoInfo(
         4,
-        R.drawable.im_nails2,
+        R.drawable.im_nails4,
         "Anna Smith",
         "2",
         "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
     ),
     SalonPhotoInfo(
         5,
-        R.drawable.im_nails3,
+        R.drawable.im_nails5,
         "Kristina Sementsova",
         "2",
         "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
     ),
     SalonPhotoInfo(
         6,
-        R.drawable.im_nails,
+        R.drawable.im_nails6,
         "Kristina Sementsova",
         "2",
         "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
     ),
     SalonPhotoInfo(
         7,
-        R.drawable.im_nails2,
+        R.drawable.im_nails7,
         "Anna Smith",
         "2",
         "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
     ),
     SalonPhotoInfo(
         8,
-        R.drawable.im_nails3,
+        R.drawable.im_nails8,
         "Kristina Sementsova",
         "2",
         "Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension."
-    ),
+    )
 )
