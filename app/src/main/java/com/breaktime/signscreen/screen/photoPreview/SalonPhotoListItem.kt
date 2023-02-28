@@ -71,7 +71,9 @@ fun PhotoSection(imageId: Int, modifier: Modifier = Modifier) {
         painter = painterResource(id = imageId),
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .aspectRatio(1f)
     )
 }
 
