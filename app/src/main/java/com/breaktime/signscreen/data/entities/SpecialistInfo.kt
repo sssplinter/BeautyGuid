@@ -11,6 +11,7 @@ class SpecialistInfo(
     val specialization: String,
     // TODO replace with real photos from internet
     val imageId: Int,
+    val salonId: String,
     val rating: Double,
     val marksCount: Int,
     initialChecked: Boolean = false
