@@ -15,16 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
+import com.breaktime.signscreen.navigation.AppDestinations.OpenPhotoPreviewRoute
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsScreen
+import com.breaktime.signscreen.screen.photoPreview.SalonPhotosScreen
 import com.breaktime.signscreen.screen.portfolio.PortfolioScreen
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccount
 import com.breaktime.signscreen.screen.profile.personalData.EditProfileScreen
@@ -79,13 +78,31 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
             )
         }
         composable(route = Screen.UserMastersScreen.route) {
-            SpecialistsScreen(onNavigateBack =
-            {
-                navController.navigate(Screen.UserAccountScreen.route)
-            })
+            SpecialistsScreen(onNavigateBack = { })
         }
         composable(route = Screen.PortfolioScreen.route) {
-            PortfolioScreen(onNavigateBack = {}, onOpenPhoto = {})
+            PortfolioScreen(onNavigateBack = { }, onOpenPhoto = {index ->
+                navController.navigate(
+                    OpenPhotoPreviewRoute +
+                            "salonId=sdcd," +
+                            "scrollToId=$index"
+                )
+            })
+        }
+        composable(route = Screen.SalonPhotoPreviewScreen.route, arguments = listOf(
+            navArgument("scrollToId") {
+                defaultValue = 0
+                type = NavType.IntType
+            }, navArgument("salonId") {
+                defaultValue = ""
+                type = NavType.StringType
+            }
+        )) { backStackEntry ->
+            SalonPhotosScreen(
+                onNavigateBack = { navController.navigate(Screen.PortfolioScreen.route) },
+                salonId = backStackEntry.arguments?.getString("salonId") ?: "Frau Marta",
+                scrollToIndex = backStackEntry.arguments?.getInt("scrollToId") ?: 0
+            )
         }
     }
 }

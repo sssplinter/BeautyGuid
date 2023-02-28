@@ -12,6 +12,7 @@ import com.breaktime.signscreen.navigation.AppDestinations.PortfolioRoute
 import com.breaktime.signscreen.navigation.AppDestinations.PersonalDataRoute
 import com.breaktime.signscreen.navigation.AppDestinations.RegistrationRout
 import com.breaktime.signscreen.navigation.AppDestinations.LoginRoute
+import com.breaktime.signscreen.navigation.AppDestinations.OpenPhotoPreviewRouteWithArguments
 import com.breaktime.signscreen.navigation.AppDestinations.UserMainGraphRoute
 import com.breaktime.signscreen.navigation.AppDestinations.UserMastersRoute
 import com.breaktime.signscreen.navigation.AppDestinations.UserSalonsRoute
@@ -38,6 +39,9 @@ object AppDestinations {
     const val HomeRoute = "home"
     const val ContactsRoute = "contacts"
     const val FavoritesRoute = "favorites"
+
+    const val OpenPhotoPreviewRouteWithArguments = "salonPhoto?salonId={salonId},scrollToId={scrollToId}"
+    const val OpenPhotoPreviewRoute = "salonPhoto?"
 }
 
 sealed class Screen(val route: String) {
@@ -53,6 +57,7 @@ sealed class Screen(val route: String) {
     object HomeScreen : Screen(HomeRoute)
     object ContactsScreen : Screen(ContactsRoute)
     object FavoritesScreen : Screen(FavoritesRoute)
+    object SalonPhotoPreviewScreen : Screen(OpenPhotoPreviewRouteWithArguments)
 }
 
 sealed class Graph(val route: String) {

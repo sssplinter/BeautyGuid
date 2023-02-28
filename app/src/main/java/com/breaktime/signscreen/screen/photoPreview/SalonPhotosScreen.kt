@@ -17,7 +17,9 @@ import com.breaktime.signscreen.uiItems.topBar.CommonTopAppBar
 @Composable
 fun SalonPhotosScreen(
     salonPhotosViewModel: SalonPhotosViewModel = viewModel(),
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    salonId: String,
+    scrollToIndex: Int = 0
 ) {
     Scaffold(
         topBar = {
@@ -36,7 +38,8 @@ fun SalonPhotosScreen(
             modifier = Modifier.padding((paddingValues)),
             salonPhotoList = salonPhotosViewModel.salonPhotosInfo,
             salonName = salonPhotosViewModel.salonName,
-            salonPhoto = salonPhotosViewModel.salonPhoto
+            salonPhoto = salonPhotosViewModel.salonPhoto,
+            scrollToIndex = scrollToIndex
         )
     }
 }
@@ -45,6 +48,6 @@ fun SalonPhotosScreen(
 @Composable
 fun SalonPhotosScreenPreview() {
     SignScreenTheme {
-        SalonPhotosScreen(onNavigateBack = {})
+        SalonPhotosScreen(onNavigateBack = {}, salonId = "Frau Marta")
     }
 }
