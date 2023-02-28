@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import com.breaktime.signscreen.uiItems.dialogs.IconButtonData
 
 @Composable
@@ -22,7 +23,10 @@ fun CommonTopAppBar(
                 text = title,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = if (actionButtons.isNotEmpty()) TextAlign.Center else TextAlign.Start,
-                style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
+                style = MaterialTheme.typography.h6.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 17.sp
+                )
             )
         },
         navigationIcon = {
