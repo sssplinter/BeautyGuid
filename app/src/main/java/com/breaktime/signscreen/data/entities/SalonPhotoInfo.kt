@@ -1,10 +1,7 @@
 package com.breaktime.signscreen.data.entities
 
 data class SalonPhotoInfo(
-    val photoId: String,
-    val salonName: String,
-    // TODO replace by real photo
-    val salonPhoto: Int,
+    val index: Int,
     // TODO replace by real photo
     val photo: Int,
     val masterName: String,

@@ -26,13 +26,18 @@ import com.breaktime.signscreen.ui.theme.PinkFromLogo
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
 
 @Composable
-fun SalonPhoto(modifier: Modifier = Modifier, salonPhotoInfo: SalonPhotoInfo) {
+fun SalonPhotoItem(
+    modifier: Modifier = Modifier,
+    salonPhotoInfo: SalonPhotoInfo,
+    salonName: String,
+    salonPhoto: Int
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp)
+            .padding(bottom = 18.dp)
     ) {
-        HeaderSection(salonPhotoInfo.salonName, salonPhotoInfo.salonPhoto)
+        HeaderSection(salonName, salonPhoto)
         PhotoSection(salonPhotoInfo.photo)
         InfoSection(salonPhotoInfo.masterName, salonPhotoInfo.description)
     }
@@ -108,7 +113,7 @@ fun InfoSection(masterName: String, photoDescription: String, modifier: Modifier
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
                     text = masterName,
                     style = MaterialTheme.typography.body1.copy(
-                        textDecoration = TextDecoration.Underline, fontSize = 12.sp
+                        textDecoration = TextDecoration.Underline, fontSize = 13.sp
                     )
                 )
             }
@@ -127,27 +132,16 @@ fun InfoSection(masterName: String, photoDescription: String, modifier: Modifier
 fun SalonPhotoPreview() {
     SignScreenTheme {
         Column {
-            SalonPhoto(
+            SalonPhotoItem(
                 salonPhotoInfo = SalonPhotoInfo(
-                    "12dwdsed3w",
-                    "Frau Marta",
-                    R.drawable.fc5_overwhelmed,
+                    0,
                     R.drawable.im_nails,
                     "Kristina Sementsova",
                     "2",
                     stringResource(id = R.string.test_photo_description)
-                )
-            )
-            SalonPhoto(
-                salonPhotoInfo = SalonPhotoInfo(
-                    "12dwdsed3w",
-                    "Frau Marta",
-                    R.drawable.fc5_overwhelmed,
-                    R.drawable.im_nails,
-                    "Kristina Sementsova",
-                    "2",
-                    stringResource(id = R.string.test_photo_description)
-                )
+                ),
+                salonName = "Frau Marta",
+                salonPhoto = R.drawable.fc5_overwhelmed,
             )
         }
     }
