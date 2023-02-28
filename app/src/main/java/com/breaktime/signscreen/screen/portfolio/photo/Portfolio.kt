@@ -41,14 +41,12 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Portfolio(modifier: Modifier = Modifier) {
+fun Portfolio(modifier: Modifier = Modifier, onPhotoClick: (Int) -> Unit) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
 
     val pages = mutableListOf(
-        Icons.Default.Image,
-        Icons.Default.Notes,
-        Icons.Default.DateRange
+        Icons.Default.Image, Icons.Default.Notes, Icons.Default.DateRange
     )
 
     Column(
@@ -59,13 +57,11 @@ fun Portfolio(modifier: Modifier = Modifier) {
         SalonInfoSection(R.drawable.ab2_quick_yoga)
 
         TabRow(
-            selectedTabIndex = pagerState.currentPage,
-            indicator = { tabPositions ->
+            selectedTabIndex = pagerState.currentPage, indicator = { tabPositions ->
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
                 )
-            },
-            backgroundColor = MaterialTheme.colors.onPrimary
+            }, backgroundColor = MaterialTheme.colors.onPrimary
         ) {
             pages.forEachIndexed { index, vector ->
                 Tab(
@@ -79,8 +75,7 @@ fun Portfolio(modifier: Modifier = Modifier) {
                             modifier = Modifier.height(30.dp),
                         ) {
                             Icon(
-                                imageVector = vector,
-                                contentDescription = null
+                                imageVector = vector, contentDescription = null
                             )
                         }
                     },
@@ -107,7 +102,7 @@ fun Portfolio(modifier: Modifier = Modifier) {
                             color = Color.LightGray,
                             modifier = Modifier.padding(top = 8.dp)
                         )
-                        FavoriteCollectionsGrid()
+                        FavoriteCollectionsGrid(onPhotoClick = onPhotoClick)
                     }
                 }
                 Icons.Default.Notes -> {
@@ -127,11 +122,10 @@ fun Portfolio(modifier: Modifier = Modifier) {
 
 @Composable
 fun SalonInfoSection(
-    @DrawableRes imageId: Int,
-    modifier: Modifier = Modifier
+    @DrawableRes imageId: Int, modifier: Modifier = Modifier
 ) {
     Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
-        Row(modifier = Modifier.padding(horizontal = 30.dp)) {
+        Row(modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 6.dp)) {
             Image(
                 painter = painterResource(imageId),
                 contentDescription = null,
@@ -240,7 +234,8 @@ fun AlignYourBodyElement(
 
 @Composable
 fun FavoriteCollectionsGrid(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPhotoClick: (Int) -> Unit
 ) {
     LazyVerticalGrid(columns = GridCells.Fixed(4),
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
@@ -251,7 +246,8 @@ fun FavoriteCollectionsGrid(
             items(favoriteCollectionsData.size) { index ->
                 val item = favoriteCollectionsData[index]
                 FavoriteCollectionCard(
-                    imageId = item.drawable, text = item.text
+                    imageId = item.drawable,
+                    onPhotoClick = { onPhotoClick(index) }
                 )
             }
         })
@@ -259,10 +255,10 @@ fun FavoriteCollectionsGrid(
 
 @Composable
 fun FavoriteCollectionCard(
-    @DrawableRes imageId: Int, @StringRes text: Int, modifier: Modifier = Modifier
+    @DrawableRes imageId: Int, modifier: Modifier = Modifier, onPhotoClick: () -> Unit
 ) {
     Surface(
-        modifier = modifier, shape = MaterialTheme.shapes.small
+        modifier = modifier.clickable { onPhotoClick() }, shape = MaterialTheme.shapes.small
     ) {
         Image(
             painter = painterResource(imageId),
@@ -283,57 +279,15 @@ private val alignYourBodyData = listOf(
 ).map { DrawableStringPair(it.first, it.second) }
 
 private val favoriteCollectionsData = listOf(
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down,
-    R.drawable.fc1_short_mantras to R.string.fc1_short_mantras,
-    R.drawable.fc2_nature_meditations to R.string.fc2_nature_meditations,
-    R.drawable.fc3_stress_and_anxiety to R.string.fc3_stress_and_anxiety,
-    R.drawable.fc4_self_massage to R.string.fc4_self_massage,
-    R.drawable.fc5_overwhelmed to R.string.fc5_overwhelmed,
-    R.drawable.fc6_nightly_wind_down to R.string.fc6_nightly_wind_down
+    R.drawable.im_nails to R.string.fc1_short_mantras,
+    R.drawable.im_nails2 to R.string.fc2_nature_meditations,
+    R.drawable.im_nails3 to R.string.fc3_stress_and_anxiety,
+    R.drawable.im_nails to R.string.fc1_short_mantras,
+    R.drawable.im_nails2 to R.string.fc2_nature_meditations,
+    R.drawable.im_nails3 to R.string.fc3_stress_and_anxiety,
+    R.drawable.im_nails to R.string.fc1_short_mantras,
+    R.drawable.im_nails2 to R.string.fc2_nature_meditations,
+    R.drawable.im_nails3 to R.string.fc3_stress_and_anxiety,
 ).map { DrawableStringPair(it.first, it.second) }
 
 private data class DrawableStringPair(

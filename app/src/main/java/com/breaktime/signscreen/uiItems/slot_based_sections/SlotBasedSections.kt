@@ -29,7 +29,7 @@ fun SlotBasedSections(modifier: Modifier = Modifier) {
             AlignYourBodyRow()
         }
         SlotBasedHomeSection(title = R.string.favorite_collections) {
-            FavoriteCollectionsGrid()
+            FavoriteCollectionsGrid(onPhotoClick = {})
         }
     }
 }

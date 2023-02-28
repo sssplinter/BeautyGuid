@@ -25,7 +25,7 @@ import androidx.navigation.navigation
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsScreen
-import com.breaktime.signscreen.screen.portfolio.photo.Portfolio
+import com.breaktime.signscreen.screen.portfolio.PortfolioScreen
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccount
 import com.breaktime.signscreen.screen.profile.personalData.EditProfileScreen
 
@@ -85,7 +85,7 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
             })
         }
         composable(route = Screen.PortfolioScreen.route) {
-            Portfolio()
+            PortfolioScreen(onNavigateBack = {}, onOpenPhoto = {})
         }
     }
 }
