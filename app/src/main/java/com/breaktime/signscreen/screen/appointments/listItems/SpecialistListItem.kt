@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,7 +61,8 @@ fun SpecialistListItem(
                     SpecialistInformation(
                         fullName = specialistInfo.fullName,
                         specialization = specialistInfo.specialization,
-                        salon = "Marcel",
+                        // TODO
+                        salon = stringResource(R.string.test_saloon_name),
                         modifier = Modifier
                             .padding(end = 24.dp)
                             .width(200.dp),
@@ -168,7 +170,7 @@ fun SpecialistRating(
         ) {
             Row {
                 Text(
-                    text = "Book a visit",
+                    text = stringResource(R.string.book_visit),
                     style = MaterialTheme.typography.caption.copy(fontSize = 12.sp)
                 )
                 Icon(

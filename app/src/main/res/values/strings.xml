@@ -93,5 +93,10 @@
 
     <string name="input_field_error">Fill in the input field</string>
     <string name="mobile_phone_error">Incorrect mobile phone</string>
+    <string name="book_visit">Book a visit</string>
+    <string name="test_saloon_name">Marcel</string>
+    <string name="salon">Salon</string>
+    <string name="master">Master: </string>
+    <string name="test_photo_description">Classic and French manicure. Removal, long-term coating, gel polish, manicure, nail extension.</string>
 
 </resources>
