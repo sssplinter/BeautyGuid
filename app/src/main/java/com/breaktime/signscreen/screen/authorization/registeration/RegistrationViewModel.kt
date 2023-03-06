@@ -3,6 +3,8 @@ package com.breaktime.signscreen.screen.authorization.registeration
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
 import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract
@@ -10,11 +12,8 @@ import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.utils.isValidPassword
 import kotlinx.coroutines.launch
 
-class RegistrationViewModel :
+class RegistrationViewModel(private val registrationUseCase: RegistrationUseCase) :
     BaseViewModel<AuthorizationContract.AuthEvent, AuthorizationContract.AuthState, AuthorizationContract.AuthEffect>() {
-
-    // TODO replace by injection
-    private val registrationUseCase: RegistrationUseCase = RegistrationUseCase()
 
     var login by mutableStateOf("")
     var isValidLogin by mutableStateOf(true)
@@ -89,6 +88,14 @@ class RegistrationViewModel :
             AuthorizationContract.AuthEvent.OnAnotherAuthTypeClick -> {
                 setEffect { AuthorizationContract.AuthEffect.NavigateToAnotherAuthType }
             }
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory(private val registrationUseCase: RegistrationUseCase) :
+        ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return RegistrationViewModel(registrationUseCase) as T
         }
     }
 }

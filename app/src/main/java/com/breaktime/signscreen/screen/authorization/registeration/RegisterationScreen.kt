@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.appComponent
 import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationButton
 import com.breaktime.signscreen.screen.authorization.common.views.AuthorizationLogo
@@ -38,7 +39,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun Registration(
     modifier: Modifier = Modifier,
-    registrationViewModel: RegistrationViewModel = viewModel(),
+    registrationViewModel: RegistrationViewModel = viewModel(factory = LocalContext.current.appComponent.registrationViewModelFactory()),
     onRedirectToLogin: () -> Unit,
     onSuccessfullyRegistration: () -> Unit
 ) {
