@@ -1,6 +1,8 @@
 package com.breaktime.signscreen.di
 
+import android.content.Context
 import com.breaktime.signscreen.data.network.models.RetrofitHelper
+import com.breaktime.signscreen.data.pref.SharedPreferenceRepository
 import com.breaktime.signscreen.data.source.authorization.AuthorizationDataSource
 import com.breaktime.signscreen.data.source.authorization.AuthorizationRepository
 import com.breaktime.signscreen.data.source.authorization.AuthorizationRepositoryImpl
@@ -8,29 +10,50 @@ import com.breaktime.signscreen.data.source.authorization.remote.AuthorizationSe
 import com.breaktime.signscreen.data.source.authorization.remote.RemoteAuthorizationDataSource
 import com.breaktime.signscreen.domain.authorization.LoginUseCase
 import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
+import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
 import com.breaktime.signscreen.screen.authorization.login.LoginViewModel
 import com.breaktime.signscreen.screen.authorization.registeration.RegistrationViewModel
+import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccountViewModel
+import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
 
 @Component(modules = [AppModule::class])
 interface AppComponent {
+
     fun loginViewModelFactory(): LoginViewModel.Factory
     fun registrationViewModelFactory(): RegistrationViewModel.Factory
+    fun personalAccountViewModelFactory(): PersonalAccountViewModel.Factory
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance context: Context): AppComponent
+    }
 }
+
 
 @Module
 object AppModule {
 
     @Provides
-    fun provideLoginViewModelFactory(loginUseCase: LoginUseCase): LoginViewModel.Factory {
-        return LoginViewModel.Factory(loginUseCase)
+    fun provideLoginViewModelFactory(
+        loginUseCase: LoginUseCase,
+        setIsAuthorizedUseCase: SetIsAuthorizedUseCase
+    ): LoginViewModel.Factory {
+        return LoginViewModel.Factory(loginUseCase, setIsAuthorizedUseCase)
     }
 
     @Provides
     fun provideRegistrationViewModelFactory(registrationUseCase: RegistrationUseCase): RegistrationViewModel.Factory {
         return RegistrationViewModel.Factory(registrationUseCase)
+    }
+
+    @Provides
+    fun providePersonalAccountViewModelFactory(
+        setIsAuthorizedUseCase: SetIsAuthorizedUseCase
+    ): PersonalAccountViewModel.Factory {
+        return PersonalAccountViewModel.Factory(setIsAuthorizedUseCase)
     }
 
     @Provides
@@ -49,8 +72,18 @@ object AppModule {
     }
 
     @Provides
+    fun provideSetIsAuthorizedUseCase(sharedPreferenceRepository: SharedPreferenceRepository): SetIsAuthorizedUseCase {
+        return SetIsAuthorizedUseCase(sharedPreferenceRepository)
+    }
+
+    @Provides
     fun provideAuthorizationRepository(remoteAuthorizationDataSource: AuthorizationDataSource): AuthorizationRepository {
         return AuthorizationRepositoryImpl(remoteAuthorizationDataSource)
+    }
+
+    @Provides
+    fun provideSharedPreferencesRepository(context: Context): SharedPreferenceRepository {
+        return SharedPreferenceRepository(context)
     }
 
     @Provides
