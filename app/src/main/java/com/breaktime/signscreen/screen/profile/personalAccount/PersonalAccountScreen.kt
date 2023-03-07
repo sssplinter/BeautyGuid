@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.appComponent
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccountContract.PersonalAccountEvent
 import com.breaktime.signscreen.ui.theme.*
 import com.breaktime.signscreen.uiItems.button.NormalButton
@@ -40,7 +41,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PersonalAccount(
-    viewModel: PersonalAccountViewModel = viewModel(),
+    viewModel: PersonalAccountViewModel = viewModel(factory = LocalContext.current.appComponent.personalAccountViewModelFactory()),
     onSignOut: () -> Unit,
     onEditPersonalData: () -> Unit,
     onOpenAppointments: () -> Unit,
@@ -246,7 +247,8 @@ private fun initObservable(
                     ).show()
                 }
                 PersonalAccountContract.PersonalAccountEffect.SignOut -> {
-                    onSignOut()
+                    // TODO problem with navigation
+//                    onSignOut()
                 }
             }
         }

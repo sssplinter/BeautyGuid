@@ -32,7 +32,6 @@ interface AppComponent {
     }
 }
 
-
 @Module
 object AppModule {
 
@@ -45,8 +44,11 @@ object AppModule {
     }
 
     @Provides
-    fun provideRegistrationViewModelFactory(registrationUseCase: RegistrationUseCase): RegistrationViewModel.Factory {
-        return RegistrationViewModel.Factory(registrationUseCase)
+    fun provideRegistrationViewModelFactory(
+        registrationUseCase: RegistrationUseCase,
+        setIsAuthorizedUseCase: SetIsAuthorizedUseCase
+    ): RegistrationViewModel.Factory {
+        return RegistrationViewModel.Factory(registrationUseCase, setIsAuthorizedUseCase)
     }
 
     @Provides
@@ -55,12 +57,6 @@ object AppModule {
     ): PersonalAccountViewModel.Factory {
         return PersonalAccountViewModel.Factory(setIsAuthorizedUseCase)
     }
-
-    @Provides
-    fun provideRegistrationViewModel(registrationUseCase: RegistrationUseCase): RegistrationViewModel {
-        return RegistrationViewModel(registrationUseCase)
-    }
-
     @Provides
     fun provideLoginUseCase(authorizationRepository: AuthorizationRepository): LoginUseCase {
         return LoginUseCase(authorizationRepository)
