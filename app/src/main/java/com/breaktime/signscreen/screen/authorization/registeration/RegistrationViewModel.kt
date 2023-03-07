@@ -7,12 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
+import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
 import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.utils.isValidPassword
 import kotlinx.coroutines.launch
 
-class RegistrationViewModel(private val registrationUseCase: RegistrationUseCase) :
+class RegistrationViewModel(
+    private val registrationUseCase: RegistrationUseCase,
+    private val setIsAuthorizedUseCase: SetIsAuthorizedUseCase
+) :
     BaseViewModel<AuthorizationContract.AuthEvent, AuthorizationContract.AuthState, AuthorizationContract.AuthEffect>() {
 
     var login by mutableStateOf("")
@@ -51,6 +55,7 @@ class RegistrationViewModel(private val registrationUseCase: RegistrationUseCase
                 setState { AuthorizationContract.AuthState.Default }
 
                 if (token.isNotBlank() && token.isNotEmpty()) {
+                    setIsAuthorizedUseCase.invoke(true)
                     setEffect { AuthorizationContract.AuthEffect.SuccessfulAuthorization(token) }
                 } else {
                     val errorMessage = "Something went wrong. Try again later."
@@ -92,10 +97,13 @@ class RegistrationViewModel(private val registrationUseCase: RegistrationUseCase
     }
 
     @Suppress("UNCHECKED_CAST")
-    class Factory(private val registrationUseCase: RegistrationUseCase) :
+    class Factory(
+        private val registrationUseCase: RegistrationUseCase,
+        private val setIsAuthorizedUseCase: SetIsAuthorizedUseCase
+    ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return RegistrationViewModel(registrationUseCase) as T
+            return RegistrationViewModel(registrationUseCase, setIsAuthorizedUseCase) as T
         }
     }
 }
