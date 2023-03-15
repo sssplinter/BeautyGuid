@@ -2,7 +2,7 @@ package com.breaktime.signscreen.domain.authorization
 
 import com.breaktime.signscreen.data.network.models.TokenResponse
 import com.breaktime.signscreen.data.network.models.UserLoginRequestInfo
-import com.breaktime.signscreen.data.source.authorization.AuthorizationRepository
+import com.breaktime.signscreen.data.source.authorizationApi.AuthorizationRepository
 
 class LoginUseCase(private val authorizationRepository: AuthorizationRepository) {
 

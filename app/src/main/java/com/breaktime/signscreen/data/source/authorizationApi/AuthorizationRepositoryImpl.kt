@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.data.source.authorization
+package com.breaktime.signscreen.data.source.authorizationApi
 
 import com.breaktime.signscreen.data.network.models.TokenResponse
 import com.breaktime.signscreen.data.network.models.UserLoginRequestInfo

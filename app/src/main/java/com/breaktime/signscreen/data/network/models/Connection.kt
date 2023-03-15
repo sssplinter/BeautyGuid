@@ -11,5 +11,4 @@ object RetrofitHelper {
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
 }

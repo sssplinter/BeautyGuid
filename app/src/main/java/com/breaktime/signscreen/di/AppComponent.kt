@@ -3,11 +3,11 @@ package com.breaktime.signscreen.di
 import android.content.Context
 import com.breaktime.signscreen.data.network.models.RetrofitHelper
 import com.breaktime.signscreen.data.pref.SharedPreferenceRepository
-import com.breaktime.signscreen.data.source.authorization.AuthorizationDataSource
-import com.breaktime.signscreen.data.source.authorization.AuthorizationRepository
-import com.breaktime.signscreen.data.source.authorization.AuthorizationRepositoryImpl
-import com.breaktime.signscreen.data.source.authorization.remote.AuthorizationService
-import com.breaktime.signscreen.data.source.authorization.remote.RemoteAuthorizationDataSource
+import com.breaktime.signscreen.data.source.authorizationApi.AuthorizationDataSource
+import com.breaktime.signscreen.data.source.authorizationApi.AuthorizationRepository
+import com.breaktime.signscreen.data.source.authorizationApi.AuthorizationRepositoryImpl
+import com.breaktime.signscreen.data.source.authorizationApi.remote.AuthorizationService
+import com.breaktime.signscreen.data.source.authorizationApi.remote.RemoteAuthorizationDataSource
 import com.breaktime.signscreen.domain.authorization.LoginUseCase
 import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
 import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
