@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.domain.authorization.LoginUseCase
 import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
+import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
 import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract.*
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.utils.isValidPassword
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
+    private val setUserTokenUseCase: SetUserTokenUseCase,
     private val setIsAuthorizedUseCase: SetIsAuthorizedUseCase
 ) :
     BaseViewModel<AuthEvent, AuthState, AuthEffect>() {
@@ -46,6 +48,9 @@ class LoginViewModel(
 
                 setState { AuthState.Loading }
                 token = loginUseCase(login, password)?.token ?: ""
+
+                setUserTokenUseCase(token)
+
                 setState { AuthState.Default }
 
                 if (token.isNotBlank() && token.isNotEmpty()) {
@@ -88,10 +93,11 @@ class LoginViewModel(
     @Suppress("UNCHECKED_CAST")
     class Factory(
         private val loginUseCase: LoginUseCase,
+        private val setUserTokenUseCase: SetUserTokenUseCase,
         private val setIsAuthorizedUseCase: SetIsAuthorizedUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return LoginViewModel(loginUseCase, setIsAuthorizedUseCase) as T
+            return LoginViewModel(loginUseCase, setUserTokenUseCase, setIsAuthorizedUseCase) as T
         }
     }
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
 import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
+import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
 import com.breaktime.signscreen.screen.authorization.common.AuthorizationContract
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.utils.isValidPassword
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class RegistrationViewModel(
     private val registrationUseCase: RegistrationUseCase,
+    private val setUserTokenUseCase: SetUserTokenUseCase,
     private val setIsAuthorizedUseCase: SetIsAuthorizedUseCase
 ) :
     BaseViewModel<AuthorizationContract.AuthEvent, AuthorizationContract.AuthState, AuthorizationContract.AuthEffect>() {
@@ -51,6 +53,8 @@ class RegistrationViewModel(
                 setState { AuthorizationContract.AuthState.Loading }
 
                 token = registrationUseCase(login, password)?.token ?: ""
+
+                setUserTokenUseCase(token)
 
                 setState { AuthorizationContract.AuthState.Default }
 
@@ -99,11 +103,16 @@ class RegistrationViewModel(
     @Suppress("UNCHECKED_CAST")
     class Factory(
         private val registrationUseCase: RegistrationUseCase,
+        private val setUserTokenUseCase: SetUserTokenUseCase,
         private val setIsAuthorizedUseCase: SetIsAuthorizedUseCase
     ) :
         ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return RegistrationViewModel(registrationUseCase, setIsAuthorizedUseCase) as T
+            return RegistrationViewModel(
+                registrationUseCase,
+                setUserTokenUseCase,
+                setIsAuthorizedUseCase
+            ) as T
         }
     }
 }

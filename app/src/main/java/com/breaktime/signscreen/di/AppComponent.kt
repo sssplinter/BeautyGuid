@@ -11,6 +11,7 @@ import com.breaktime.signscreen.data.source.authorizationApi.remote.RemoteAuthor
 import com.breaktime.signscreen.domain.authorization.LoginUseCase
 import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
 import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
+import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
 import com.breaktime.signscreen.screen.authorization.login.LoginViewModel
 import com.breaktime.signscreen.screen.authorization.registeration.RegistrationViewModel
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccountViewModel
@@ -38,17 +39,23 @@ object AppModule {
     @Provides
     fun provideLoginViewModelFactory(
         loginUseCase: LoginUseCase,
+        setUserTokenUseCase: SetUserTokenUseCase,
         setIsAuthorizedUseCase: SetIsAuthorizedUseCase
     ): LoginViewModel.Factory {
-        return LoginViewModel.Factory(loginUseCase, setIsAuthorizedUseCase)
+        return LoginViewModel.Factory(loginUseCase, setUserTokenUseCase, setIsAuthorizedUseCase)
     }
 
     @Provides
     fun provideRegistrationViewModelFactory(
         registrationUseCase: RegistrationUseCase,
+        setUserTokenUseCase: SetUserTokenUseCase,
         setIsAuthorizedUseCase: SetIsAuthorizedUseCase
     ): RegistrationViewModel.Factory {
-        return RegistrationViewModel.Factory(registrationUseCase, setIsAuthorizedUseCase)
+        return RegistrationViewModel.Factory(
+            registrationUseCase,
+            setUserTokenUseCase,
+            setIsAuthorizedUseCase
+        )
     }
 
     @Provides
@@ -71,6 +78,11 @@ object AppModule {
     @Provides
     fun provideSetIsAuthorizedUseCase(sharedPreferenceRepository: SharedPreferenceRepository): SetIsAuthorizedUseCase {
         return SetIsAuthorizedUseCase(sharedPreferenceRepository)
+    }
+
+    @Provides
+    fun provideSetUserTokenUseCase(sharedPreferenceRepository: SharedPreferenceRepository): SetUserTokenUseCase {
+        return SetUserTokenUseCase(sharedPreferenceRepository)
     }
 
     @Provides
