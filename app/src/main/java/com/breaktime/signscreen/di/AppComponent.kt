@@ -57,6 +57,7 @@ object AppModule {
     ): PersonalAccountViewModel.Factory {
         return PersonalAccountViewModel.Factory(setIsAuthorizedUseCase)
     }
+
     @Provides
     fun provideLoginUseCase(authorizationRepository: AuthorizationRepository): LoginUseCase {
         return LoginUseCase(authorizationRepository)
@@ -88,8 +89,8 @@ object AppModule {
     }
 
     @Provides
-    fun provideAuthorizationApi(): AuthorizationService {
-        return RetrofitHelper.getInstance().create(
+    fun provideAuthorizationApi(sharedPreferenceRepository: SharedPreferenceRepository): AuthorizationService {
+        return RetrofitHelper.getInstance(sharedPreferenceRepository).create(
             AuthorizationService::
             class.java
         )

@@ -5,10 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class UserLoginRequestInfo
-    (
-    @SerializedName("username")
-    val username: String,
-    @SerializedName("password")
-    val password: String
+data class UserLoginRequestInfo(
+    @SerializedName("username") val username: String,
+    @SerializedName("password") val password: String
 ) : Parcelable

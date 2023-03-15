@@ -66,7 +66,9 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
         composable(route = Screen.UserAccountScreen.route) {
             PersonalAccount(
                 // TODO problem with navigation to login graph
-                onSignOut = { navController.navigate(Graph.LoginGraph.route) },
+                onSignOut = {
+                    navController.navigate(Graph.LoginGraph.route)
+                            },
                 onEditPersonalData = {
                     navController.navigate(Screen.UserPersonalDataScreen.route)
                 },
@@ -78,10 +80,10 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
             )
         }
         composable(route = Screen.UserMastersScreen.route) {
-            SpecialistsScreen(onNavigateBack = { })
+            SpecialistsScreen(onNavigateBack = { navController.navigate(Screen.UserAccountScreen.route) })
         }
         composable(route = Screen.PortfolioScreen.route) {
-            PortfolioScreen(onNavigateBack = { }, onOpenPhoto = {index ->
+            PortfolioScreen(onNavigateBack = { }, onOpenPhoto = { index ->
                 navController.navigate(
                     OpenPhotoPreviewRoute +
                             "salonId=sdcd," +
