@@ -64,6 +64,10 @@ val Colors.DarkGreenFromImage
     @Composable
     get() = Color(0xFF568b81)
 
+val Colors.LightBlue
+    @Composable
+    get() = Color(0xFF8BCED6)
+
 
 val Colors.StarYellow
     @Composable
