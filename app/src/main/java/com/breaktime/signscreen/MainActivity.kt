@@ -8,11 +8,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.breaktime.signscreen.data.entities.UserInfo
+import com.breaktime.signscreen.data.pref.SharedPreferenceRepository
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.authorization.login.Login
@@ -42,10 +44,19 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun AppGraph() {
+    val context = LocalContext.current
     val navController = rememberNavController()
-    NavHost(navController, startDestination = Graph.LoginGraph.route) {
+    val sharedPreferenceRepository = SharedPreferenceRepository(context)
+
+    val startDestination = if (sharedPreferenceRepository.getIsAuthorized()) {
+        Graph.UserMainGraph.route
+    } else {
+        Graph.LoginGraph.route
+    }
+
+    NavHost(navController, startDestination = startDestination) {
         userMain()
-        loginGraph(navController)
+        loginGraph(navController, sharedPreferenceRepository)
     }
 }
 
@@ -67,8 +78,18 @@ fun NavGraphBuilder.userMain() {
     }
 }
 
-fun NavGraphBuilder.loginGraph(navController: NavController) {
-    navigation(startDestination = Screen.OnBoardingScreen.route, route = Graph.LoginGraph.route) {
+fun NavGraphBuilder.loginGraph(
+    navController: NavController,
+    sharedPreferenceRepository: SharedPreferenceRepository
+) {
+
+    val startDestination = if (sharedPreferenceRepository.getIsFirstEnter()) {
+        sharedPreferenceRepository.setIsFirstEnter(false)
+        Screen.OnBoardingScreen.route
+    } else {
+        Screen.LoginScreen.route
+    }
+    navigation(startDestination = startDestination, route = Graph.LoginGraph.route) {
         composable(route = Screen.OnBoardingScreen.route) {
             OnBoarding({
                 navController.navigate(Screen.LoginScreen.route) {
@@ -91,9 +112,11 @@ fun NavGraphBuilder.loginGraph(navController: NavController) {
         }
         composable(route = Screen.LoginScreen.route) {
             Login(onSuccessfullyAuthorization = {
-                navController.navigate(Graph.UserMainGraph.route) {
-                    popUpTo(Screen.LoginScreen.route) { inclusive = true }
-                }
+                navController.navigate(Graph.UserMainGraph.route)
+//                navController.navigate(Graph.MainScreenGraph.route)
+//                {
+//                    popUpTo(Screen.LoginScreen.route) { inclusive = true }
+//                }
             }, onRedirectToRegistration = {
                 navController.navigate(Screen.RegistrationScreen.route)
             })
