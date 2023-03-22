@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.appComponent
 import com.breaktime.signscreen.screen.profile.BottomDrawerItem
 import com.breaktime.signscreen.screen.profile.ContactsSection
 import com.breaktime.signscreen.screen.profile.PersonalDataSection
@@ -54,7 +55,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun EditProfileScreen(
     modifier: Modifier = Modifier,
-    viewModel: EditPersonalDataViewModel = viewModel(),
+    viewModel: EditPersonalDataViewModel = viewModel(factory = LocalContext.current.appComponent.editPersonalDataViewModelFactory()),
     onNavigateToPersonalAccount: () -> Unit,
 ) {
     val gesturesEnabled = remember { mutableStateOf(false) }

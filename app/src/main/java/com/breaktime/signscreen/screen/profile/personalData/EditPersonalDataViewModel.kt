@@ -5,12 +5,23 @@ import android.telephony.PhoneNumberUtils
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.data.entities.Country
+import com.breaktime.signscreen.data.network.models.UserRequestInfo
+import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
+import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.screen.profile.personalData.PersonalDataContract.*
 import com.breaktime.signscreen.utils.isValidEmailCheck
+import kotlinx.coroutines.launch
 
-class EditPersonalDataViewModel : BaseViewModel<ProfileEvent, ProfileState, ProfileEffect>() {
+class EditPersonalDataViewModel(
+    private val updateUserPersonalDataUseCase: UpdateUserPersonalDataUseCase,
+    private val getUserPersonalDataUseCase: GetUserPersonalDataUseCase
+) :
+    BaseViewModel<ProfileEvent, ProfileState, ProfileEffect>() {
     // TODO
 
 //    private val builder = Uri.Builder()
@@ -29,6 +40,16 @@ class EditPersonalDataViewModel : BaseViewModel<ProfileEvent, ProfileState, Prof
     var isValidName by mutableStateOf(true)
     var isValidMobileNumber by mutableStateOf(true)
     var isValidEmail by mutableStateOf(true)
+
+    init {
+        viewModelScope.launch {
+            val userInfo = getUserPersonalDataUseCase()
+            surname = userInfo?.lastName ?: ""
+            name = userInfo?.firstName ?: ""
+            mobileNumber = userInfo?.mobileNumber ?: ""
+            email = userInfo?.email ?: ""
+        }
+    }
 
     fun onImageChange(value: Uri?) {
         value?.let {
@@ -72,7 +93,14 @@ class EditPersonalDataViewModel : BaseViewModel<ProfileEvent, ProfileState, Prof
 
     private fun saveProfileData() {
         if (isInputValid()) {
-            // TODO invoke use case
+            viewModelScope.launch {
+                updateUserPersonalDataUseCase(
+                    userRequestInfo = UserRequestInfo(
+                        name, surname, mobileNumber, email
+                    )
+                )
+            }
+
             setEffect { ProfileEffect.SuccessfulEdit }
         }
     }
@@ -122,6 +150,19 @@ class EditPersonalDataViewModel : BaseViewModel<ProfileEvent, ProfileState, Prof
             ProfileEvent.OnSaveClick -> {
                 saveProfileData()
             }
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory(
+        private val updateUserPersonalDataUseCase: UpdateUserPersonalDataUseCase,
+        private val getUserPersonalDataUseCase: GetUserPersonalDataUseCase
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return EditPersonalDataViewModel(
+                updateUserPersonalDataUseCase,
+                getUserPersonalDataUseCase
+            ) as T
         }
     }
 }
