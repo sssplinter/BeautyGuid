@@ -48,7 +48,8 @@ fun SpecialistsScreen(
         }, backgroundColor = MaterialTheme.colors.BackgroundGray
     ) { paddingValues ->
         SpecialistsList(
-            modifier = Modifier.padding(paddingValues), specialistsViewModel,
+            modifier = Modifier.padding(paddingValues),
+            specialistsViewModel,
             onMoreInfoClick = { specialistId ->
                 specialistsViewModel.setEvent(
                     SpecialistsContract.SpecialistsEvent.OnSpecialistInfoClick(

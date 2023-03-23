@@ -1,7 +1,7 @@
 package com.breaktime.signscreen.data.entities
 
 data class SalonInfo(
-    val salonId: String,
+    val salonId: Int,
     val salonName: String,
     val salonDescription: String,
     val imageId: Int,
