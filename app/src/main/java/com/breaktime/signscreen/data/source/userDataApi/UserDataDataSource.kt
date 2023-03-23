@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.data.source.mainApi
+package com.breaktime.signscreen.data.source.userDataApi
 
 import com.breaktime.signscreen.data.network.models.UserRequestInfo
 
