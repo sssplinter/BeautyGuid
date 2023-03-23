@@ -8,17 +8,24 @@ import com.breaktime.signscreen.data.source.authorizationApi.AuthorizationReposi
 import com.breaktime.signscreen.data.source.authorizationApi.AuthorizationRepositoryImpl
 import com.breaktime.signscreen.data.source.authorizationApi.remote.AuthorizationService
 import com.breaktime.signscreen.data.source.authorizationApi.remote.RemoteAuthorizationDataSource
-import com.breaktime.signscreen.data.source.mainApi.UserDataDataSource
-import com.breaktime.signscreen.data.source.mainApi.UserDataRepository
-import com.breaktime.signscreen.data.source.mainApi.UserDataRepositoryImpl
-import com.breaktime.signscreen.data.source.mainApi.remote.RemoteUserDataDataSource
-import com.breaktime.signscreen.data.source.mainApi.remote.UserDataService
+import com.breaktime.signscreen.data.source.salonApi.SalonDataSource
+import com.breaktime.signscreen.data.source.salonApi.SalonRepository
+import com.breaktime.signscreen.data.source.salonApi.SalonRepositoryImpl
+import com.breaktime.signscreen.data.source.salonApi.remote.RemoteSalonDataSource
+import com.breaktime.signscreen.data.source.salonApi.remote.SalonService
+import com.breaktime.signscreen.data.source.userDataApi.UserDataDataSource
+import com.breaktime.signscreen.data.source.userDataApi.UserDataRepository
+import com.breaktime.signscreen.data.source.userDataApi.UserDataRepositoryImpl
+import com.breaktime.signscreen.data.source.userDataApi.remote.RemoteUserDataDataSource
+import com.breaktime.signscreen.data.source.userDataApi.remote.UserDataService
 import com.breaktime.signscreen.domain.authorization.LoginUseCase
 import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
 import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
 import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
+import com.breaktime.signscreen.domain.salon.GetAllSalonsUseCase
 import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
 import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
+import com.breaktime.signscreen.screen.appointments.salons.SalonsListViewModel
 import com.breaktime.signscreen.screen.authorization.login.LoginViewModel
 import com.breaktime.signscreen.screen.authorization.registeration.RegistrationViewModel
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccountViewModel
@@ -28,13 +35,14 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 
-@Component(modules = [AppModule::class, UserDataModule::class])
+@Component(modules = [AppModule::class, UserDataModule::class, SalonModule::class])
 interface AppComponent {
 
     fun loginViewModelFactory(): LoginViewModel.Factory
     fun registrationViewModelFactory(): RegistrationViewModel.Factory
     fun personalAccountViewModelFactory(): PersonalAccountViewModel.Factory
     fun editPersonalDataViewModelFactory(): EditPersonalDataViewModel.Factory
+    fun salonsListViewModel(): SalonsListViewModel.Factory
 
     @Component.Factory
     interface Factory {
@@ -155,6 +163,40 @@ object UserDataModule {
     fun provideUserDataApi(sharedPreferenceRepository: SharedPreferenceRepository): UserDataService {
         return RetrofitHelper.getInstance(sharedPreferenceRepository).create(
             UserDataService::
+            class.java
+        )
+    }
+}
+
+@Module
+object SalonModule {
+
+    @Provides
+    fun provideSalonsListViewModelFactory(
+        getAllSalonsUseCase: GetAllSalonsUseCase
+    ): SalonsListViewModel.Factory {
+        return SalonsListViewModel.Factory(getAllSalonsUseCase)
+    }
+
+    @Provides
+    fun provideGetAllSalonsUseCase(salonRepository: SalonRepository): GetAllSalonsUseCase {
+        return GetAllSalonsUseCase(salonRepository)
+    }
+
+    @Provides
+    fun provideSalonRepository(salonDataSource: SalonDataSource): SalonRepository {
+        return SalonRepositoryImpl(salonDataSource)
+    }
+
+    @Provides
+    fun provideSalonDataSource(salonApi: SalonService): SalonDataSource {
+        return RemoteSalonDataSource(salonApi)
+    }
+
+    @Provides
+    fun provideSalonApi(sharedPreferenceRepository: SharedPreferenceRepository): SalonService {
+        return RetrofitHelper.getInstance(sharedPreferenceRepository).create(
+            SalonService::
             class.java
         )
     }

@@ -1,7 +1,7 @@
-package com.breaktime.signscreen.data.source.mainApi.remote
+package com.breaktime.signscreen.data.source.userDataApi.remote
 
 import com.breaktime.signscreen.data.network.models.UserRequestInfo
-import com.breaktime.signscreen.data.source.mainApi.UserDataDataSource
+import com.breaktime.signscreen.data.source.userDataApi.UserDataDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
