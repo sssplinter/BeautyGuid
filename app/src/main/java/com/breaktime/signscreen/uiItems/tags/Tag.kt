@@ -1,50 +1,37 @@
 package com.breaktime.signscreen.uiItems.tags
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.breaktime.signscreen.ui.theme.PinkFromLogo
-import com.breaktime.signscreen.ui.theme.SignScreenTheme
-import com.breaktime.signscreen.ui.theme.YellowFromImage
 
 @Composable
 fun NiaTopicTag(
     modifier: Modifier = Modifier,
     backgroundColor: Color,
     onClick: () -> Unit = {},
-    text: @Composable () -> Unit,
+    text: String,
 ) {
-    Box(modifier = modifier) {
-        TextButton(
-            modifier = Modifier.defaultMinSize(1.dp, 1.dp),
-            shape = RoundedCornerShape(50),
-            onClick = { onClick() },
-            colors = ButtonDefaults.textButtonColors(
-                backgroundColor = backgroundColor.copy(alpha = 0.6f),
-                contentColor = contentColorFor(backgroundColor = MaterialTheme.colors.YellowFromImage),
-            )
+    Box(modifier = modifier.clickable { onClick() }) {
+        Surface(
+            shape = RoundedCornerShape(50), color = backgroundColor.copy(alpha = 0.6f)
         ) {
-            ProvideTextStyle(value = MaterialTheme.typography.body2.copy(fontSize = 10.sp)) {
-                text()
-            }
+            Text(
+                text = text.uppercase(),
+                modifier = Modifier.padding(vertical = 3.dp, horizontal = 5.dp),
+                style = MaterialTheme.typography.body2.copy(
+                    fontSize = 10.sp, fontWeight = FontWeight.W600
+                )
+            )
         }
-    }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    SignScreenTheme {
-        NiaTopicTag(
-            text = { Text("Make Up".uppercase()) },
-            backgroundColor = MaterialTheme.colors.PinkFromLogo
-        )
     }
 }
