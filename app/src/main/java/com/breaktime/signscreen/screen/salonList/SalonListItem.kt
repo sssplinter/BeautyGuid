@@ -16,59 +16,60 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.breaktime.signscreen.R
+import androidx.compose.ui.unit.sp
 import com.breaktime.signscreen.data.entities.CategoryInfo
 import com.breaktime.signscreen.data.entities.SalonInfo
-import com.breaktime.signscreen.ui.theme.*
+import com.breaktime.signscreen.ui.theme.LightGreenFromImage
+import com.breaktime.signscreen.ui.theme.PinkFromImage
+import com.breaktime.signscreen.ui.theme.VioletFromImage
+import com.breaktime.signscreen.ui.theme.YellowFromImage
 import com.breaktime.signscreen.uiItems.tags.NiaTopicTag
+import com.google.accompanist.flowlayout.FlowRow
 
 @Composable
 fun SalonListItem(
     salonInfo: SalonInfo,
-    onItemClick: () -> Unit,
-    onMoreInfoClick: () -> Unit,
     onSalonClick: () -> Unit,
-    onBookVisitClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
         modifier = modifier
+            .padding(vertical = 3.dp, horizontal = 4.dp)
             .fillMaxWidth()
-            .clickable { onItemClick() },
+            .clickable { onSalonClick() },
         shape = RoundedCornerShape(15.dp)
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(all = 16.dp),
+                .padding(all = 16.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Row {
+            Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 ListItemRoundImage(
-                    imageId = salonInfo.imageId, modifier = Modifier.size(70.dp)
+                    imageId = salonInfo.imageId, modifier = Modifier.size(60.dp)
                 )
-                Column(Modifier.padding(start = 16.dp)) {
+                Column(
+                    Modifier
+                        .padding(start = 12.dp)
+                        .weight(0.8f)) {
                     SpecialistInformation(
                         salonName = salonInfo.salonName,
                         salonDescription = salonInfo.salonDescription,
                         categoriesList = salonInfo.categories
                     )
                 }
+                IconButton(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    onClick = { onSalonClick() }
+                ) {
+                    Icon(
+                        modifier = Modifier.size(30.dp),
+                        imageVector = Icons.Default.ChevronRight, contentDescription = null
+                    )
+                }
             }
-
-            IconButton(
-                modifier = Modifier.align(Alignment.CenterVertically),
-                onClick = { onMoreInfoClick() }
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .size(40.dp),
-                    imageVector = Icons.Default.ChevronRight, contentDescription = null
-                )
-            }
-
         }
     }
 }
@@ -93,16 +94,22 @@ fun SpecialistInformation(
 ) {
     Column(modifier = modifier) {
         Text(
-            text = salonDescription, style = MaterialTheme.typography.caption
+            text = salonDescription,
+            style = MaterialTheme.typography.caption,
         )
         Text(
+            modifier = Modifier.paddingFromBaseline(bottom = 12.dp),
             text = salonName,
-            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Medium)
+            style = MaterialTheme.typography.h5.copy(
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
         )
         CategoriesSection(categoriesList)
     }
 }
 
+// TODO organize colors
 @Composable
 fun CategoriesSection(items: List<String>, modifier: Modifier = Modifier) {
     val colors =
@@ -113,47 +120,12 @@ fun CategoriesSection(items: List<String>, modifier: Modifier = Modifier) {
             MaterialTheme.colors.YellowFromImage
         )
 
-    Row(modifier = modifier) {
+    FlowRow(modifier = modifier, mainAxisSpacing = 3.dp, crossAxisSpacing = 3.dp) {
         for (index in items.indices) {
             NiaTopicTag(
-                text = { Text(items[index].uppercase()) },
-                backgroundColor = colors[index]
+                text = items[index],
+                backgroundColor = colors[index % colors.size]
             )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    SignScreenTheme {
-        Column {
-            SalonListItem(
-                salonInfo = SalonInfo(
-                    salonId = "",
-                    salonName = "Marcel",
-                    salonDescription = "Beauty salon and SPA",
-                    imageId = R.drawable.fc5_overwhelmed,
-                    categories = listOf("Massage", "Nails", "Make Up", "Hairs")
-                ),
-                onItemClick = { /*TODO*/ },
-                onMoreInfoClick = { /*TODO*/ },
-                onSalonClick = { /*TODO*/ },
-                onBookVisitClick = { /*TODO*/ })
-
-            SalonListItem(
-                salonInfo = SalonInfo(
-                    salonId = "",
-                    salonName = "Frau Marta",
-                    salonDescription = "Beauty salon",
-                    imageId = R.drawable.fc3_stress_and_anxiety,
-                    categories = listOf("Massage", "Make Up", "Hairs")
-                ),
-                onItemClick = { /*TODO*/ },
-                onMoreInfoClick = { /*TODO*/ },
-                onSalonClick = { /*TODO*/ },
-                onBookVisitClick = { /*TODO*/ })
-
         }
     }
 }
