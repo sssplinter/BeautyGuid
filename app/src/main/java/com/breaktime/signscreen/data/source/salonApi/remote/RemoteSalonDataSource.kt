@@ -1,5 +1,6 @@
 package com.breaktime.signscreen.data.source.salonApi.remote
 
+import com.breaktime.signscreen.data.network.models.SalonInfo
 import com.breaktime.signscreen.data.source.salonApi.SalonDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -9,4 +10,10 @@ class RemoteSalonDataSource(private val salonService: SalonService) : SalonDataS
         withContext(Dispatchers.IO) {
             return@withContext salonService.getAllSalons().body()?.toList() ?: listOf()
         }
+
+    override suspend fun getSalonInfoById(salonId: Int): SalonInfo? =
+        withContext(Dispatchers.IO) {
+            return@withContext salonService.getSalonInfoById(salonId).body()
+        }
+
 }
