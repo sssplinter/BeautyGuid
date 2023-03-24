@@ -6,14 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -29,7 +27,7 @@ fun MediaIconButton(
 ) {
     val context = LocalContext.current
 
-    IconButton(onClick = {
+    IconButton(modifier = modifier, onClick = {
         when (mediaLinkType) {
             MediaLinkType.TELEGRAM_LINK -> {
                 val uri: Uri = Uri.parse(mediaLink)
@@ -75,13 +73,10 @@ fun MediaIconButton(
             }
         }
     }) {
-        Icon(
+        Image(
             painter = painterResource(id = icon),
             contentDescription = null,
-            modifier = modifier
-                .size(43.dp)
-                .padding(4.dp),
-            tint = Color.DarkGray
+            modifier = Modifier.size(35.dp)
         )
     }
 }
@@ -106,5 +101,5 @@ data class MediaLinkInfo(
 )
 
 enum class MediaLinkType {
-    INSTAGRAM_LINK, TELEGRAM_LINK, VIBER_LINK, VK_LINK, OTHER
+    INSTAGRAM_LINK, TELEGRAM_LINK, VK_LINK, OTHER
 }
