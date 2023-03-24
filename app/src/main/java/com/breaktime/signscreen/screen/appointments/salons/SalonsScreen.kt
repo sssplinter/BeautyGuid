@@ -9,19 +9,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.appComponent
-import com.breaktime.signscreen.ui.theme.SignScreenTheme
 import com.breaktime.signscreen.uiItems.dialogs.IconButtonData
 import com.breaktime.signscreen.uiItems.topBar.CommonTopAppBar
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 
 @Composable
 fun SalonsScreen(
     onNavigateBack: () -> Unit,
+    onOpenSalonPortfolio: (Int) -> Unit,
     salonsListViewModel: SalonsListViewModel = viewModel(factory = LocalContext.current.appComponent.salonsListViewModel()),
 ) {
     val scope = rememberCoroutineScope()
@@ -33,6 +33,7 @@ fun SalonsScreen(
         context,
         salonsListViewModel,
         onNavigateBack,
+        onOpenSalonPortfolio,
         showLoadingDialog
     )
 
@@ -51,11 +52,11 @@ fun SalonsScreen(
             salonsListViewModel,
 
             onSalonClick = { salonId ->
-//                specialistsViewModel.setEvent(
-//                    SpecialistsContract.SpecialistsEvent.OnSalonClick(
-//                        salonId
-//                    )
-//                )
+                salonsListViewModel.setEvent(
+                    SalonsListContract.SalonsListEvent.OnOpenSalonPortfolio(
+                        salonId
+                    )
+                )
             }
         )
     }
@@ -66,53 +67,34 @@ private fun initObservable(
     context: Context,
     salonsListViewModel: SalonsListViewModel,
     onNavigateBack: () -> Unit,
+    onOpenSalonPortfolio: (Int) -> Unit,
     showLoadingDialog: MutableState<Boolean>
 ) {
 
     composableScope.launch {
-//        specialistsViewModel.uiState.collect { state ->
-//            when (state) {
-//                SpecialistsContract.SpecialistsState.Loading -> {
-//                    showLoadingDialog.value = true
-//                }
-//                else -> {
-//                    showLoadingDialog.value = false
-//                }
-//
-//            }
-//        }
+        salonsListViewModel.uiState.collect { state ->
+            when (state) {
+                SalonsListContract.SalonsListState.Loading -> {
+                    showLoadingDialog.value = true
+                }
+                else -> {
+                    showLoadingDialog.value = false
+                }
+            }
+        }
     }
 
     composableScope.launch {
-//        specialistsViewModel.effect.collect { effect ->
-//            composableScope.ensureActive()
-//            when (effect) {
-//                SpecialistsContract.SpecialistsEffect.NavigateBack -> {
-//                    onNavigateBack()
-//                }
-//                is SpecialistsContract.SpecialistsEffect.BookVisit -> {
-//
-//                }
-//                is SpecialistsContract.SpecialistsEffect.OpenSalonPage -> {
-//
-//                }
-//                is SpecialistsContract.SpecialistsEffect.OpenSpecialistInfoPage -> {
-//
-//                }
-//                is SpecialistsContract.SpecialistsEffect.ShowErrorMessage -> {
-//                    Toast.makeText(
-//                        context, effect.errorMsg, Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            }
-//        }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewSalonsScreen() {
-    SignScreenTheme {
-        SalonsScreen(onNavigateBack = { /*TODO*/ })
+        salonsListViewModel.effect.collect { effect ->
+            composableScope.ensureActive()
+            when (effect) {
+                SalonsListContract.SalonsListEffect.NavigateBack -> {
+                    onNavigateBack()
+                }
+                is SalonsListContract.SalonsListEffect.OpenSalonPortfolio -> {
+                    onOpenSalonPortfolio(effect.salonId)
+                }
+            }
+        }
     }
 }

@@ -17,8 +17,10 @@ class SalonsListViewModel(
 
     init {
         viewModelScope.launch {
+            setState { SalonsListContract.SalonsListState.Loading }
             salons.clear()
             salons.addAll(getAllSalonsUseCase())
+            setState { SalonsListContract.SalonsListState.Default }
         }
     }
 
@@ -27,9 +29,14 @@ class SalonsListViewModel(
     }
 
     override fun handleEvent(event: SalonsListContract.SalonsListEvent) {
-//        when(event){
-//
-//        }
+        when (event) {
+            SalonsListContract.SalonsListEvent.OnNavigateBackClick -> {
+                setEffect { SalonsListContract.SalonsListEffect.NavigateBack }
+            }
+            is SalonsListContract.SalonsListEvent.OnOpenSalonPortfolio -> {
+                setEffect { SalonsListContract.SalonsListEffect.OpenSalonPortfolio(event.salonId) }
+            }
+        }
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -11,17 +11,12 @@ class SalonsListContract {
     }
 
     sealed class SalonsListEvent : UiEvent {
-        //        data class OnSalonClick(val specialistId: String) : SpecialistsEvent()
-//        data class OnBookVisitClick(val specialistId: String) : SpecialistsEvent()
-//        data class OnSpecialistInfoClick(val specialistId: String) : SpecialistsEvent()
+        data class OnOpenSalonPortfolio(val salonId: Int) : SalonsListEvent()
         object OnNavigateBackClick : SalonsListEvent()
     }
 
     sealed class SalonsListEffect : UiEffect {
-        //        data class ShowErrorMessage(val errorMsg: String) : SpecialistsEffect()
-//        data class OpenSalonPage(val salonId: String) : SpecialistsEffect()
-//        data class OpenSpecialistInfoPage(val specialistId: String) : SpecialistsEffect()
-//        data class BookVisit(val specialistId: String) : SpecialistsEffect()
+        data class OpenSalonPortfolio(val salonId: Int) : SalonsListEffect()
         object NavigateBack : SalonsListEffect()
     }
 }

@@ -15,7 +15,7 @@ import com.breaktime.signscreen.ui.theme.BackgroundGray
 fun SalonsList(
     modifier: Modifier = Modifier,
     salonsListViewModel: SalonsListViewModel,
-    onSalonClick: (String) -> Unit
+    onSalonClick: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.background(MaterialTheme.colors.BackgroundGray),
@@ -29,7 +29,9 @@ fun SalonsList(
                     imageId = R.drawable.im_nails3,
                     categories = salonPreview.categories
                 ),
-                onSalonClick = {  })
+                onSalonClick = {
+                    onSalonClick(salonPreview.salonId)
+                })
         }
     }
 }

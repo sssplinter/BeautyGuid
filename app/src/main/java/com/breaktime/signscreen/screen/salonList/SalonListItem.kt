@@ -37,7 +37,7 @@ fun SalonListItem(
         modifier = modifier
             .padding(vertical = 3.dp, horizontal = 4.dp)
             .fillMaxWidth()
-            .clickable { onSalonClick() },
+            .clickable { },
         shape = RoundedCornerShape(15.dp)
     ) {
         Row(
@@ -53,7 +53,8 @@ fun SalonListItem(
                 Column(
                     Modifier
                         .padding(start = 12.dp)
-                        .weight(0.8f)) {
+                        .weight(0.8f)
+                ) {
                     SpecialistInformation(
                         salonName = salonInfo.salonName,
                         salonDescription = salonInfo.salonDescription,
@@ -75,6 +76,7 @@ fun SalonListItem(
 }
 
 // TODO replace drawable by real image
+// TODO move to utils, make common
 @Composable
 fun ListItemRoundImage(imageId: Int, modifier: Modifier = Modifier) {
     Image(
