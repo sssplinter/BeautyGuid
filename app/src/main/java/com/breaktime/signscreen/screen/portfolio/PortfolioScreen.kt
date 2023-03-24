@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.breaktime.signscreen.appComponent
 import com.breaktime.signscreen.screen.portfolio.SalonPortfolioContract.*
 import com.breaktime.signscreen.screen.portfolio.photo.Portfolio
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
@@ -21,7 +22,10 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PortfolioScreen(
-    salonPortfolioViewModel: SalonPortfolioViewModel = viewModel(),
+    salonId: Int,
+    salonPortfolioViewModel: SalonPortfolioViewModel = viewModel(
+        factory = LocalContext.current.appComponent.salonPortfolioViewModel()
+    ),
     onNavigateBack: () -> Unit,
     onOpenPhoto: (Int) -> Unit
 ) {
@@ -29,8 +33,11 @@ fun PortfolioScreen(
     val context = LocalContext.current
     val showLoadingDialog = remember { mutableStateOf(false) }
 
+    // TODO rework logic
+    salonPortfolioViewModel.setSalonId(salonId)
+
     initObservable(
-        scope, context, salonPortfolioViewModel, onNavigateBack, onOpenPhoto, showLoadingDialog
+        scope, salonPortfolioViewModel, onNavigateBack, onOpenPhoto, showLoadingDialog
     )
 
     SignScreenTheme {
@@ -48,6 +55,7 @@ fun PortfolioScreen(
         ) { paddingValues ->
             Portfolio(
                 Modifier.padding(paddingValues),
+                salonPortfolioViewModel.salonInfo.value,
                 onPhotoClick = { index ->
                     salonPortfolioViewModel.setEvent(
                         SalonPortfolioEvent.OnPhotoClick(index)
@@ -59,7 +67,6 @@ fun PortfolioScreen(
 
 private fun initObservable(
     composableScope: CoroutineScope,
-    context: Context,
     salonPortfolioViewModel: SalonPortfolioViewModel,
     onNavigateBack: () -> Unit,
     onOpenPhoto: (Int) -> Unit,
@@ -102,6 +109,6 @@ private fun initObservable(
 @Composable
 fun PortfolioPreview() {
     SignScreenTheme {
-        PortfolioScreen(onOpenPhoto = {}, onNavigateBack = {})
+//        PortfolioScreen(onOpenPhoto = {}, onNavigateBack = {})
     }
 }

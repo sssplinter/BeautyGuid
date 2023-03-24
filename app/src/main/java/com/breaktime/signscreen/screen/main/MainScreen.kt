@@ -20,8 +20,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.breaktime.signscreen.navigation.AppDestinations.OpenPhotoPreviewRoute
+import com.breaktime.signscreen.navigation.AppDestinations.PortfolioRoute
 import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
+import com.breaktime.signscreen.screen.appointments.salons.SalonsScreen
 import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsScreen
 import com.breaktime.signscreen.screen.photoPreview.SalonPhotosScreen
 import com.breaktime.signscreen.screen.portfolio.PortfolioScreen
@@ -68,12 +70,14 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
                 // TODO problem with navigation to login graph
                 onSignOut = {
                     navController.navigate(Graph.LoginGraph.route)
-                            },
+                },
                 onEditPersonalData = {
                     navController.navigate(Screen.UserPersonalDataScreen.route)
                 },
                 onOpenAppointments = {},
-                onOpenSalons = {},
+                onOpenSalons = {
+                    navController.navigate(Screen.UserSalonsScreen.route)
+                },
                 onOpenMasters = {
                     navController.navigate(Screen.UserMastersScreen.route)
                 }
@@ -82,14 +86,33 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
         composable(route = Screen.UserMastersScreen.route) {
             SpecialistsScreen(onNavigateBack = { navController.navigate(Screen.UserAccountScreen.route) })
         }
-        composable(route = Screen.PortfolioScreen.route) {
-            PortfolioScreen(onNavigateBack = { }, onOpenPhoto = { index ->
-                navController.navigate(
-                    OpenPhotoPreviewRoute +
-                            "salonId=sdcd," +
-                            "scrollToId=$index"
-                )
-            })
+        composable(route = Screen.UserSalonsScreen.route) {
+            SalonsScreen(
+                onNavigateBack = { navController.navigate(Screen.UserAccountScreen.route) },
+                onOpenSalonPortfolio = { salonId ->
+                    navController.navigate(
+                        PortfolioRoute +
+                                "salonId=$salonId"
+                    )
+                })
+        }
+        composable(route = Screen.PortfolioScreen.route, arguments = listOf(
+            navArgument("salonId") {
+                defaultValue = 0
+                type = NavType.IntType
+            }
+        )) { backStackEntry ->
+            PortfolioScreen(
+                // TODO
+                backStackEntry.arguments?.getInt("salonId") ?: 1,
+                onNavigateBack = { },
+                onOpenPhoto = { index ->
+                    navController.navigate(
+                        OpenPhotoPreviewRoute +
+                                "salonId=sdcd," +
+                                "scrollToId=$index"
+                    )
+                })
         }
         composable(route = Screen.SalonPhotoPreviewScreen.route, arguments = listOf(
             navArgument("scrollToId") {

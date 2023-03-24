@@ -5,14 +5,14 @@ import com.breaktime.signscreen.navigation.AppDestinations.ContactsRoute
 import com.breaktime.signscreen.navigation.AppDestinations.FavoritesRoute
 import com.breaktime.signscreen.navigation.AppDestinations.HomeRoute
 import com.breaktime.signscreen.navigation.AppDestinations.LoginGraphRoute
+import com.breaktime.signscreen.navigation.AppDestinations.LoginRoute
 import com.breaktime.signscreen.navigation.AppDestinations.MainGraphRoute
 import com.breaktime.signscreen.navigation.AppDestinations.MainScreenRoute
 import com.breaktime.signscreen.navigation.AppDestinations.OnBoardingRoute
-import com.breaktime.signscreen.navigation.AppDestinations.PortfolioRoute
-import com.breaktime.signscreen.navigation.AppDestinations.PersonalDataRoute
-import com.breaktime.signscreen.navigation.AppDestinations.RegistrationRout
-import com.breaktime.signscreen.navigation.AppDestinations.LoginRoute
 import com.breaktime.signscreen.navigation.AppDestinations.OpenPhotoPreviewRouteWithArguments
+import com.breaktime.signscreen.navigation.AppDestinations.PersonalDataRoute
+import com.breaktime.signscreen.navigation.AppDestinations.PortfolioRouteWithArguments
+import com.breaktime.signscreen.navigation.AppDestinations.RegistrationRout
 import com.breaktime.signscreen.navigation.AppDestinations.UserMainGraphRoute
 import com.breaktime.signscreen.navigation.AppDestinations.UserMastersRoute
 import com.breaktime.signscreen.navigation.AppDestinations.UserSalonsRoute
@@ -22,11 +22,9 @@ object AppDestinations {
     const val RegistrationRout = "registration"
     const val LoginRoute = "signIn"
 
-    //    const val ProfileRoute = "profile?userId={userId}&userRole={userRole}"
     const val PersonalDataRoute = "profile"
     const val AccountRoute = "account"
 
-    const val PortfolioRoute = "portfolio"
     const val UserSalonsRoute = "userSalons"
     const val UserMastersRoute = "userMasters"
 
@@ -40,8 +38,12 @@ object AppDestinations {
     const val ContactsRoute = "contacts"
     const val FavoritesRoute = "favorites"
 
-    const val OpenPhotoPreviewRouteWithArguments = "salonPhoto?salonId={salonId},scrollToId={scrollToId}"
+    const val OpenPhotoPreviewRouteWithArguments =
+        "salonPhoto?salonId={salonId},scrollToId={scrollToId}"
     const val OpenPhotoPreviewRoute = "salonPhoto?"
+
+    const val PortfolioRouteWithArguments = "portfolio?salonId={salonId}"
+    const val PortfolioRoute = "portfolio?"
 }
 
 sealed class Screen(val route: String) {
@@ -50,7 +52,7 @@ sealed class Screen(val route: String) {
     object LoginScreen : Screen(LoginRoute)
     object UserPersonalDataScreen : Screen(PersonalDataRoute)
     object UserAccountScreen : Screen(AccountRoute)
-    object PortfolioScreen : Screen(PortfolioRoute)
+    object PortfolioScreen : Screen(PortfolioRouteWithArguments)
     object MainScreen : Screen(MainScreenRoute)
     object UserMastersScreen : Screen(UserMastersRoute)
     object UserSalonsScreen : Screen(UserSalonsRoute)

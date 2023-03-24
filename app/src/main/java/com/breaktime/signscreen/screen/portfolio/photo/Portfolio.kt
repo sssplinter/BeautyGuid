@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.data.network.models.SalonInfo
 import com.breaktime.signscreen.screen.appointments.schedule.SelectableCalendarSample
 import com.breaktime.signscreen.screen.portfolio.salonDetails.SalonDetails
 import com.breaktime.signscreen.ui.theme.*
@@ -41,7 +42,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Portfolio(modifier: Modifier = Modifier, onPhotoClick: (Int) -> Unit) {
+fun Portfolio(
+    modifier: Modifier = Modifier,
+    salonInfo: SalonInfo?,
+    onPhotoClick: (Int) -> Unit
+) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
 
@@ -106,7 +111,7 @@ fun Portfolio(modifier: Modifier = Modifier, onPhotoClick: (Int) -> Unit) {
                     }
                 }
                 Icons.Default.Notes -> {
-                    SalonDetails()
+                    SalonDetails(salonInfo = salonInfo)
                 }
                 Icons.Default.DateRange -> {
                     SelectableCalendarSample(modifier = Modifier.height(300.dp))
@@ -268,6 +273,7 @@ fun FavoriteCollectionCard(
     }
 }
 
+// TODO replace by real data
 private val alignYourBodyData = listOf(
     R.drawable.ab1_inversions to R.string.ab1_inversions,
     R.drawable.ab2_quick_yoga to R.string.ab2_quick_yoga,
