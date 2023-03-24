@@ -23,11 +23,13 @@ import com.breaktime.signscreen.domain.authorization.RegistrationUseCase
 import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
 import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
 import com.breaktime.signscreen.domain.salon.GetAllSalonsUseCase
+import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
 import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
 import com.breaktime.signscreen.screen.appointments.salons.SalonsListViewModel
 import com.breaktime.signscreen.screen.authorization.login.LoginViewModel
 import com.breaktime.signscreen.screen.authorization.registeration.RegistrationViewModel
+import com.breaktime.signscreen.screen.portfolio.SalonPortfolioViewModel
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccountViewModel
 import com.breaktime.signscreen.screen.profile.personalData.EditPersonalDataViewModel
 import dagger.BindsInstance
@@ -43,6 +45,7 @@ interface AppComponent {
     fun personalAccountViewModelFactory(): PersonalAccountViewModel.Factory
     fun editPersonalDataViewModelFactory(): EditPersonalDataViewModel.Factory
     fun salonsListViewModel(): SalonsListViewModel.Factory
+    fun salonPortfolioViewModel(): SalonPortfolioViewModel.Factory
 
     @Component.Factory
     interface Factory {
@@ -172,6 +175,13 @@ object UserDataModule {
 object SalonModule {
 
     @Provides
+    fun provideSalonPortfolioVewModelFactory(
+        getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase
+    ): SalonPortfolioViewModel.Factory {
+        return SalonPortfolioViewModel.Factory(getSalonInfoByIdUSeCase)
+    }
+
+    @Provides
     fun provideSalonsListViewModelFactory(
         getAllSalonsUseCase: GetAllSalonsUseCase
     ): SalonsListViewModel.Factory {
@@ -181,6 +191,11 @@ object SalonModule {
     @Provides
     fun provideGetAllSalonsUseCase(salonRepository: SalonRepository): GetAllSalonsUseCase {
         return GetAllSalonsUseCase(salonRepository)
+    }
+
+    @Provides
+    fun provideGetSalonInfoByIdUSeCase(salonRepository: SalonRepository): GetSalonInfoByIdUseCase {
+        return GetSalonInfoByIdUseCase(salonRepository)
     }
 
     @Provides

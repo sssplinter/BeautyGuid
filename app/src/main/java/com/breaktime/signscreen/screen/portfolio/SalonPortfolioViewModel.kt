@@ -1,13 +1,32 @@
 package com.breaktime.signscreen.screen.portfolio
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.breaktime.signscreen.data.network.models.SalonInfo
+import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.screen.portfolio.SalonPortfolioContract.SalonPortfolioEffect
+import kotlinx.coroutines.launch
 
-class SalonPortfolioViewModel :
+class SalonPortfolioViewModel(
+//    private val salonId: Int,
+    private val getSalonInfoByIdUseCase: GetSalonInfoByIdUseCase
+) :
     BaseViewModel<SalonPortfolioContract.SalonPortfolioEvent, SalonPortfolioContract.SalonPortfolioState, SalonPortfolioEffect>() {
 
+    private var salonId: Int = -1
+    var salonInfo = mutableStateOf<SalonInfo?>(null)
     override fun createInitialState(): SalonPortfolioContract.SalonPortfolioState {
         return SalonPortfolioContract.SalonPortfolioState.Default
+    }
+
+    fun setSalonId(salonId: Int) {
+        this.salonId = salonId
+        viewModelScope.launch {
+            salonInfo.value = getSalonInfoByIdUseCase(salonId)
+        }
     }
 
     override fun handleEvent(event: SalonPortfolioContract.SalonPortfolioEvent) {
@@ -24,4 +43,30 @@ class SalonPortfolioViewModel :
             }
         }
     }
+
+    @Suppress("UNCHECKED_CAST")
+    class Factory(
+        private val getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return SalonPortfolioViewModel(getSalonInfoByIdUSeCase) as T
+        }
+    }
+
+// TODO resolve issue with view model with arguments not from graph injection
+
+//    @Suppress("UNCHECKED_CAST")
+//    class Factory @AssistedInject constructor(
+//        @Assisted("salonId") private val salonId: Int,
+//        private val getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase
+//    ) : ViewModelProvider.Factory {
+//        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+//            return SalonPortfolioViewModel(salonId, getSalonInfoByIdUSeCase) as T
+//        }
+//
+//        @AssistedFactory
+//        interface Factory {
+//            fun create(@Assisted("salonId") salonId: Int): SalonsListViewModel.Factory
+//        }
+//    }
 }
