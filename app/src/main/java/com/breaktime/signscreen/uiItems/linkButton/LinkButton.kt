@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat.startActivity
 fun LinkButton(
     link: String,
     modifier: Modifier = Modifier,
+    linkText: String = "",
     linkType: LinkType = LinkType.OTHER,
     enabled: Boolean = true
 ) {
@@ -27,15 +28,7 @@ fun LinkButton(
         onClick = {
             when (linkType) {
                 LinkType.ADDRESS_LINK -> {
-                    // TODO parse address somehow
-                    val mapIntent: Intent = Uri.parse(
-                        "geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California"
-                    ).let { location ->
-                        // Or map point based on latitude/longitude
-//                         val location: Uri = Uri.parse("geo:37.422219,-122.08364?z=14") // z param is zoom level
-                        Intent(Intent.ACTION_VIEW, location)
-                    }
-
+                    val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
                     try {
                         startActivity(context, mapIntent, Bundle())
                     } catch (e: ActivityNotFoundException) {
@@ -111,7 +104,7 @@ fun LinkButton(
             contentColor = Color.Blue,
         ),
         content = {
-            Text(text = link)
+            Text(text = linkText.ifEmpty { link })
         }
     )
 }
