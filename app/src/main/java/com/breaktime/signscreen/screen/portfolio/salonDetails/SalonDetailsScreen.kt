@@ -25,7 +25,7 @@ import com.breaktime.signscreen.uiItems.linkButton.*
 import java.util.*
 
 @Composable
-fun SalonDetails(modifier: Modifier = Modifier, salonInfo: SalonInfo?) {
+fun SalonDetails(salonInfo: SalonInfo?, modifier: Modifier = Modifier) {
     salonInfo?.let {
         Column(modifier = modifier) {
             Column {
@@ -146,35 +146,34 @@ fun ContactsSection(
 
 
         val icons = mutableListOf<MediaLinkInfo>()
-        salonInfo.telegramLink?.let {
+        if (!salonInfo.telegramLink.isNullOrEmpty()) {
             icons.add(
                 MediaLinkInfo(
-                    link = stringResource(id = R.string.test_telegram_link),
+                    link = salonInfo.telegramLink,
                     mediaLinkType = MediaLinkType.TELEGRAM_LINK,
-                    icon = R.drawable.ic_telegram
+                    icon = R.drawable.ic_telegram_color_48
                 )
             )
         }
-        salonInfo.instagramLink?.let {
+        if (!salonInfo.instagramLink.isNullOrEmpty()) {
             icons.add(
                 MediaLinkInfo(
-                    link = stringResource(id = R.string.test_instagram_link),
+                    link = salonInfo.instagramLink,
                     mediaLinkType = MediaLinkType.INSTAGRAM_LINK,
-                    icon = R.drawable.ic_instagram
+                    icon = R.drawable.ic_instagram_color_48
                 )
             )
         }
 
-        salonInfo.vkLink?.let {
+        if (!salonInfo.vkLink.isNullOrEmpty()) {
             icons.add(
                 MediaLinkInfo(
-                    link = stringResource(id = R.string.test_vk_link),
+                    link = salonInfo.vkLink,
                     mediaLinkType = MediaLinkType.VK_LINK,
-                    icon = R.drawable.ic_vk
+                    icon = R.drawable.ic_vk_color_48
                 )
             )
         }
-
 
         MediaIconsRow(icons)
     }
