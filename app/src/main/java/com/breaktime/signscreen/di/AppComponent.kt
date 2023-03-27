@@ -24,6 +24,7 @@ import com.breaktime.signscreen.domain.pref.SetIsAuthorizedUseCase
 import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
 import com.breaktime.signscreen.domain.salon.GetAllSalonsUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
+import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
 import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
 import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
 import com.breaktime.signscreen.screen.appointments.salons.SalonsListViewModel
@@ -176,9 +177,10 @@ object SalonModule {
 
     @Provides
     fun provideSalonPortfolioVewModelFactory(
+        getSalonPreviewByIdUseCase: GetSalonPreviewByIdUseCase,
         getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase
     ): SalonPortfolioViewModel.Factory {
-        return SalonPortfolioViewModel.Factory(getSalonInfoByIdUSeCase)
+        return SalonPortfolioViewModel.Factory(getSalonPreviewByIdUseCase, getSalonInfoByIdUSeCase)
     }
 
     @Provides
@@ -191,6 +193,11 @@ object SalonModule {
     @Provides
     fun provideGetAllSalonsUseCase(salonRepository: SalonRepository): GetAllSalonsUseCase {
         return GetAllSalonsUseCase(salonRepository)
+    }
+
+    @Provides
+    fun provideGetSalonPreviewByIdsUseCase(salonRepository: SalonRepository): GetSalonPreviewByIdUseCase {
+        return GetSalonPreviewByIdUseCase(salonRepository)
     }
 
     @Provides

@@ -1,6 +1,5 @@
 package com.breaktime.signscreen.screen.portfolio
 
-import android.content.Context
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
@@ -30,7 +29,6 @@ fun PortfolioScreen(
     onOpenPhoto: (Int) -> Unit
 ) {
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
     val showLoadingDialog = remember { mutableStateOf(false) }
 
     // TODO rework logic
@@ -44,7 +42,7 @@ fun PortfolioScreen(
         Scaffold(
             topBar = {
                 CommonTopAppBar(
-                    "Frau Marta",
+                    salonPortfolioViewModel.salonPreview.value?.salonName ?: "Salon",
                     modifier = Modifier,
                     navigationButton = IconButtonData(imageVector = Icons.Default.ArrowBack,
                         onClick = {
@@ -55,6 +53,7 @@ fun PortfolioScreen(
         ) { paddingValues ->
             Portfolio(
                 Modifier.padding(paddingValues),
+                salonPortfolioViewModel.salonPreview.value,
                 salonPortfolioViewModel.salonInfo.value,
                 onPhotoClick = { index ->
                     salonPortfolioViewModel.setEvent(

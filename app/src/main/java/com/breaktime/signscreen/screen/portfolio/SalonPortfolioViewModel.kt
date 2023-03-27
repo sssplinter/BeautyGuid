@@ -5,19 +5,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.data.network.models.SalonInfo
+import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
+import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.screen.portfolio.SalonPortfolioContract.SalonPortfolioEffect
 import kotlinx.coroutines.launch
 
 class SalonPortfolioViewModel(
-//    private val salonId: Int,
+    private val getSalonPreviewByIdUseCase: GetSalonPreviewByIdUseCase,
     private val getSalonInfoByIdUseCase: GetSalonInfoByIdUseCase
 ) :
     BaseViewModel<SalonPortfolioContract.SalonPortfolioEvent, SalonPortfolioContract.SalonPortfolioState, SalonPortfolioEffect>() {
 
     private var salonId: Int = -1
     var salonInfo = mutableStateOf<SalonInfo?>(null)
+    var salonPreview = mutableStateOf<SalonPreviewResponse?>(null)
     override fun createInitialState(): SalonPortfolioContract.SalonPortfolioState {
         return SalonPortfolioContract.SalonPortfolioState.Default
     }
@@ -25,6 +28,7 @@ class SalonPortfolioViewModel(
     fun setSalonId(salonId: Int) {
         this.salonId = salonId
         viewModelScope.launch {
+            salonPreview.value = getSalonPreviewByIdUseCase(salonId)
             salonInfo.value = getSalonInfoByIdUseCase(salonId)
         }
     }
@@ -46,10 +50,11 @@ class SalonPortfolioViewModel(
 
     @Suppress("UNCHECKED_CAST")
     class Factory(
+        private val getSalonPreviewByIdUseCase: GetSalonPreviewByIdUseCase,
         private val getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SalonPortfolioViewModel(getSalonInfoByIdUSeCase) as T
+            return SalonPortfolioViewModel(getSalonPreviewByIdUseCase, getSalonInfoByIdUSeCase) as T
         }
     }
 

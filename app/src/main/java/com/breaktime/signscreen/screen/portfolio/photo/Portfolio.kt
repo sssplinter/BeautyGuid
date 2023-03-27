@@ -30,10 +30,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.network.models.SalonInfo
+import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
 import com.breaktime.signscreen.screen.appointments.schedule.SelectableCalendarSample
 import com.breaktime.signscreen.screen.portfolio.salonDetails.SalonDetails
 import com.breaktime.signscreen.ui.theme.*
+import com.breaktime.signscreen.uiItems.image.CoilImage
 import com.breaktime.signscreen.uiItems.ratingBar.RatingBar
+import com.breaktime.signscreen.utils.Constants
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -44,6 +47,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun Portfolio(
     modifier: Modifier = Modifier,
+    salonPreview: SalonPreviewResponse?,
     salonInfo: SalonInfo?,
     onPhotoClick: (Int) -> Unit
 ) {
@@ -59,7 +63,7 @@ fun Portfolio(
             .padding(vertical = 8.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        SalonInfoSection(R.drawable.ab2_quick_yoga)
+        SalonInfoSection(salonPreview)
 
         TabRow(
             selectedTabIndex = pagerState.currentPage, indicator = { tabPositions ->
@@ -127,17 +131,15 @@ fun Portfolio(
 
 @Composable
 fun SalonInfoSection(
-    @DrawableRes imageId: Int, modifier: Modifier = Modifier
+    salonPreview: SalonPreviewResponse?, modifier: Modifier = Modifier
 ) {
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
+    Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start) {
         Row(modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 6.dp)) {
-            Image(
-                painter = painterResource(imageId),
-                contentDescription = null,
-                modifier = modifier
-                    .size(70.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
+            CoilImage(
+                imageUrl = "${Constants.salonPhotoPathPrefix}${salonPreview?.salonPhotoUrl}",
+                modifier = Modifier
+                    .size(65.dp)
+                    .clip(CircleShape)
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -146,7 +148,7 @@ fun SalonInfoSection(
                     .padding(start = 12.dp)
             ) {
                 Text(
-                    text = "Beauty salon",
+                    text = salonPreview?.salonDescription ?: "Beauty salon",
                     style = MaterialTheme.typography.body2,
                     textAlign = TextAlign.Center
                 )
@@ -154,20 +156,22 @@ fun SalonInfoSection(
                 RatingBar(
                     modifier = Modifier
                         .padding(vertical = 4.dp)
-                        .height(20.dp), rating = 4.8
+                        .height(20.dp), rating = salonPreview?.rating ?: 5.0
                 )
 
-                Row {
-                    Icon(
-                        imageVector = Icons.Default.LocationOn,
-                        contentDescription = null,
-                        tint = MaterialTheme.colors.NotPrimaryText
-                    )
-                    Text(
-                        text = "Ave, Dodge City, USA",
-                        style = MaterialTheme.typography.address,
-                        color = MaterialTheme.colors.NotPrimaryText
-                    )
+                salonPreview?.location?.let {
+                    Row {
+                        Icon(
+                            imageVector = Icons.Default.LocationOn,
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.NotPrimaryText
+                        )
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.address,
+                            color = MaterialTheme.colors.NotPrimaryText
+                        )
+                    }
                 }
             }
         }
