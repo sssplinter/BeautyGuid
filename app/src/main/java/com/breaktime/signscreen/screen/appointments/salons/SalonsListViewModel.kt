@@ -1,6 +1,9 @@
 package com.breaktime.signscreen.screen.appointments.salons
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,14 +16,49 @@ class SalonsListViewModel(
     private val getAllSalonsUseCase: GetAllSalonsUseCase
 ) :
     BaseViewModel<SalonsListContract.SalonsListEvent, SalonsListContract.SalonsListState, SalonsListContract.SalonsListEffect>() {
+
+    var salonsList = mutableListOf<SalonPreviewResponse>()
     val salons = mutableStateListOf<SalonPreviewResponse>()
+
+    var selectedCategory by mutableStateOf("")
+
+    var searchValue by mutableStateOf("")
 
     init {
         viewModelScope.launch {
             setState { SalonsListContract.SalonsListState.Loading }
-            salons.clear()
-            salons.addAll(getAllSalonsUseCase())
+            salonsList.addAll(getAllSalonsUseCase())
+            salons.addAll(salonsList)
             setState { SalonsListContract.SalonsListState.Default }
+        }
+    }
+
+    // TODO add category check
+    fun onSearchValueChange(value: String = "") {
+        searchValue = value
+        salons.clear()
+        if (value.isEmpty()) {
+            salons.addAll(salonsList)
+        } else {
+            val selected =
+                salonsList.filter {
+                    it.salonName.uppercase()
+                        .startsWith(value.uppercase()) || it.salonDescription.uppercase()
+                        .contains(value.uppercase())
+                }
+            salons.addAll(selected)
+        }
+    }
+
+    // TODO add search value check
+    fun setFilter(category: String) {
+        selectedCategory = category
+        salons.clear()
+        if (selectedCategory.isEmpty()) {
+            salons.addAll(salonsList)
+        } else {
+            val selected = salonsList.filter { it.categories.contains(category) }
+            salons.addAll(selected)
         }
     }
 
