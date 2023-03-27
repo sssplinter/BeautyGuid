@@ -33,31 +33,56 @@ class SalonsListViewModel(
         }
     }
 
-    // TODO add category check
     fun onSearchValueChange(value: String = "") {
         searchValue = value
         salons.clear()
         if (value.isEmpty()) {
-            salons.addAll(salonsList)
+            if (selectedCategory.isNotEmpty()) {
+                val selected =
+                    salonsList.filter {
+                        it.categories.contains(
+                            selectedCategory
+                        )
+                    }
+                salons.addAll(selected)
+            } else {
+                salons.addAll(salonsList)
+
+            }
         } else {
             val selected =
                 salonsList.filter {
-                    it.salonName.uppercase()
+                    (it.salonName.uppercase()
                         .startsWith(value.uppercase()) || it.salonDescription.uppercase()
-                        .contains(value.uppercase())
+                        .contains(value.uppercase())) && if (selectedCategory.isNotEmpty()) it.categories.contains(
+                        selectedCategory
+                    ) else true
                 }
             salons.addAll(selected)
         }
     }
 
-    // TODO add search value check
-    fun setFilter(category: String) {
+    fun setCategory(category: String) {
         selectedCategory = category
         salons.clear()
         if (selectedCategory.isEmpty()) {
-            salons.addAll(salonsList)
+            if (searchValue.isNotEmpty()) {
+                val selected =
+                    salonsList.filter {
+                        (it.salonName.uppercase()
+                            .startsWith(searchValue.uppercase()) || it.salonDescription.uppercase()
+                            .contains(searchValue.uppercase()))
+                    }
+                salons.addAll(selected)
+            } else {
+                salons.addAll(salonsList)
+            }
         } else {
-            val selected = salonsList.filter { it.categories.contains(category) }
+            val selected = salonsList.filter {
+                it.categories.contains(category) && if (searchValue.isNotEmpty()) (it.salonName.uppercase()
+                    .startsWith(searchValue.uppercase()) || it.salonDescription.uppercase()
+                    .contains(searchValue.uppercase())) else true
+            }
             salons.addAll(selected)
         }
     }

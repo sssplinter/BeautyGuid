@@ -68,7 +68,7 @@ fun SalonsScreen(
             if (showFiltersList.value) {
                 FilterList(
                     selectedCategory = salonsListViewModel.selectedCategory,
-                    onCategoryClick = { category -> salonsListViewModel.setFilter(category) })
+                    onCategoryClick = { category -> salonsListViewModel.setCategory(category) })
             }
             SalonsList(modifier = Modifier.padding(paddingValues),
                 salonsListViewModel,
