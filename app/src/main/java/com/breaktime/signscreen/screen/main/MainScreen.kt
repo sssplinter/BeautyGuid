@@ -103,9 +103,8 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
             }
         )) { backStackEntry ->
             PortfolioScreen(
-                // TODO
                 backStackEntry.arguments?.getInt("salonId") ?: 1,
-                onNavigateBack = { },
+                onNavigateBack = { navController.navigate(Screen.UserSalonsScreen.route) },
                 onOpenPhoto = { index ->
                     navController.navigate(
                         OpenPhotoPreviewRoute +
