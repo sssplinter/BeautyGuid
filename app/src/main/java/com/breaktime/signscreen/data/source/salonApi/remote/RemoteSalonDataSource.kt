@@ -11,6 +11,11 @@ class RemoteSalonDataSource(private val salonService: SalonService) : SalonDataS
             return@withContext salonService.getAllSalons().body()?.toList() ?: listOf()
         }
 
+    override suspend fun getSalonPreviewById(salonId: Int): SalonPreviewResponse? =
+        withContext(Dispatchers.IO) {
+            return@withContext salonService.getSalonPreviewById(salonId).body()
+        }
+
     override suspend fun getSalonInfoById(salonId: Int): SalonInfo? =
         withContext(Dispatchers.IO) {
             return@withContext salonService.getSalonInfoById(salonId).body()

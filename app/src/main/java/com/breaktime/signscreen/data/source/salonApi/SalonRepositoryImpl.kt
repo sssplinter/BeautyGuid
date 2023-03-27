@@ -8,6 +8,10 @@ class SalonRepositoryImpl(private val salonDataSource: SalonDataSource) : SalonR
         return salonDataSource.getAllSalons()
     }
 
+    override suspend fun getSalonPreviewById(salonId: Int): SalonPreviewResponse? {
+        return salonDataSource.getSalonPreviewById(salonId)
+    }
+
     override suspend fun getSalonInfoById(salonId: Int): SalonInfo? {
         return salonDataSource.getSalonInfoById(salonId)
     }

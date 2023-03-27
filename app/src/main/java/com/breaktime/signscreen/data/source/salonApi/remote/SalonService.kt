@@ -9,6 +9,9 @@ interface SalonService {
     @GET("allSalons")
     suspend fun getAllSalons(): Response<ArrayList<SalonPreviewResponse>>
 
+    @GET("salonPreview/{salonId}")
+    suspend fun getSalonPreviewById(@Path("salonId") salonId: Int): Response<SalonPreviewResponse>
+
     @GET("salonInfo/{salonId}")
     suspend fun getSalonInfoById(@Path("salonId") salonId: Int): Response<SalonInfo>
 }
