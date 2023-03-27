@@ -1,5 +1,6 @@
 package com.breaktime.signscreen.uiItems.tags
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -17,19 +18,26 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun NiaTopicTag(
     modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
     backgroundColor: Color,
     onClick: () -> Unit = {},
     text: String,
 ) {
     Box(modifier = modifier.clickable { onClick() }) {
         Surface(
+            modifier = Modifier.border(
+                1.dp,
+                if (isSelected) Color.Black else Color.Transparent,
+                RoundedCornerShape(50)
+            ),
             shape = RoundedCornerShape(50), color = backgroundColor.copy(alpha = 0.6f)
         ) {
             Text(
                 text = text.uppercase(),
-                modifier = Modifier.padding(vertical = 3.dp, horizontal = 5.dp),
+                modifier = Modifier
+                    .padding(vertical = 3.dp, horizontal = 5.dp),
                 style = MaterialTheme.typography.body2.copy(
-                    fontSize = 10.sp, fontWeight = FontWeight.W600
+                    fontSize = if (isSelected) 11.sp else 10.sp, fontWeight = FontWeight.W600
                 )
             )
         }
