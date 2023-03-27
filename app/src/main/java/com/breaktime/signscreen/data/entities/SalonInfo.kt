@@ -4,6 +4,7 @@ data class SalonInfo(
     val salonId: Int,
     val salonName: String,
     val salonDescription: String,
+    val photoUrl: String,
     val imageId: Int,
     val categories: List<String>
 )

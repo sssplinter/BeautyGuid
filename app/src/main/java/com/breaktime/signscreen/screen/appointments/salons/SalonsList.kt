@@ -27,7 +27,8 @@ fun SalonsList(
                     salonName = salonPreview.salonName,
                     salonDescription = salonPreview.salonDescription,
                     imageId = R.drawable.im_nails3,
-                    categories = salonPreview.categories
+                    categories = salonPreview.categories,
+                    photoUrl = salonPreview.salonPhotoUrl
                 ),
                 onSalonClick = {
                     onSalonClick(salonPreview.salonId)
