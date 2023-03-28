@@ -11,17 +11,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun NiaTopicTag(
-    modifier: Modifier = Modifier,
-    isSelected: Boolean = false,
-    backgroundColor: Color,
-    onClick: () -> Unit = {},
     text: String,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.body2.copy(
+        fontSize = 11.sp,
+        fontWeight = FontWeight.W600
+    ),
+    backgroundColor: Color = Color.Transparent,
+    isSelected: Boolean = false,
+    onClick: () -> Unit = {},
 ) {
     Box(modifier = modifier.clickable { onClick() }) {
         Surface(
@@ -33,12 +38,10 @@ fun NiaTopicTag(
             shape = RoundedCornerShape(50), color = backgroundColor.copy(alpha = 0.6f)
         ) {
             Text(
-                text = text.uppercase(),
+                text = text,
                 modifier = Modifier
                     .padding(vertical = 3.dp, horizontal = 5.dp),
-                style = MaterialTheme.typography.body2.copy(
-                    fontSize = if (isSelected) 11.sp else 10.sp, fontWeight = FontWeight.W600
-                )
+                style = textStyle
             )
         }
     }
