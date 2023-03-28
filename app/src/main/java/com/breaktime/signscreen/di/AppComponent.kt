@@ -13,6 +13,11 @@ import com.breaktime.signscreen.data.source.salonApi.SalonRepository
 import com.breaktime.signscreen.data.source.salonApi.SalonRepositoryImpl
 import com.breaktime.signscreen.data.source.salonApi.remote.RemoteSalonDataSource
 import com.breaktime.signscreen.data.source.salonApi.remote.SalonService
+import com.breaktime.signscreen.data.source.specialistApi.SpecialistDataSource
+import com.breaktime.signscreen.data.source.specialistApi.SpecialistRepository
+import com.breaktime.signscreen.data.source.specialistApi.SpecialistRepositoryImpl
+import com.breaktime.signscreen.data.source.specialistApi.remote.RemoteSpecialistDataSource
+import com.breaktime.signscreen.data.source.specialistApi.remote.SpecialistService
 import com.breaktime.signscreen.data.source.userDataApi.UserDataDataSource
 import com.breaktime.signscreen.data.source.userDataApi.UserDataRepository
 import com.breaktime.signscreen.data.source.userDataApi.UserDataRepositoryImpl
@@ -25,9 +30,11 @@ import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
 import com.breaktime.signscreen.domain.salon.GetAllSalonsUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
+import com.breaktime.signscreen.domain.specialist.GetAllSpecialistsUseCase
 import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
 import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
 import com.breaktime.signscreen.screen.appointments.salons.SalonsListViewModel
+import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsViewModel
 import com.breaktime.signscreen.screen.authorization.login.LoginViewModel
 import com.breaktime.signscreen.screen.authorization.registeration.RegistrationViewModel
 import com.breaktime.signscreen.screen.portfolio.SalonPortfolioViewModel
@@ -38,7 +45,7 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 
-@Component(modules = [AppModule::class, UserDataModule::class, SalonModule::class])
+@Component(modules = [AppModule::class, UserDataModule::class, SalonModule::class, SpecialistModule::class])
 interface AppComponent {
 
     fun loginViewModelFactory(): LoginViewModel.Factory
@@ -46,6 +53,7 @@ interface AppComponent {
     fun personalAccountViewModelFactory(): PersonalAccountViewModel.Factory
     fun editPersonalDataViewModelFactory(): EditPersonalDataViewModel.Factory
     fun salonsListViewModel(): SalonsListViewModel.Factory
+    fun specialistsListViewModel(): SpecialistsViewModel.Factory
     fun salonPortfolioViewModel(): SalonPortfolioViewModel.Factory
 
     @Component.Factory
@@ -219,6 +227,40 @@ object SalonModule {
     fun provideSalonApi(sharedPreferenceRepository: SharedPreferenceRepository): SalonService {
         return RetrofitHelper.getInstance(sharedPreferenceRepository).create(
             SalonService::
+            class.java
+        )
+    }
+}
+
+@Module
+object SpecialistModule {
+
+    @Provides
+    fun provideSpecialistsListViewModelFactory(
+        getAllSpecialistsUseCase: GetAllSpecialistsUseCase
+    ): SpecialistsViewModel.Factory {
+        return SpecialistsViewModel.Factory(getAllSpecialistsUseCase)
+    }
+
+    @Provides
+    fun provideGetAllSpecialistsUSeCase(specialistRepository: SpecialistRepository): GetAllSpecialistsUseCase {
+        return GetAllSpecialistsUseCase(specialistRepository)
+    }
+
+    @Provides
+    fun provideSpecialistRepository(specialistDataSource: SpecialistDataSource): SpecialistRepository {
+        return SpecialistRepositoryImpl(specialistDataSource)
+    }
+
+    @Provides
+    fun provideSpecialistDataSource(specialistApi: SpecialistService): SpecialistDataSource {
+        return RemoteSpecialistDataSource(specialistApi)
+    }
+
+    @Provides
+    fun provideSpecialistApi(sharedPreferenceRepository: SharedPreferenceRepository): SpecialistService {
+        return RetrofitHelper.getInstance(sharedPreferenceRepository).create(
+            SpecialistService::
             class.java
         )
     }
