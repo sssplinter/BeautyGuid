@@ -104,13 +104,12 @@ fun FilterList(
             mainAxisSpacing = 3.dp,
             crossAxisSpacing = 3.dp
         ) {
-            for (index in categories) {
+            for (category in categories) {
                 NiaTopicTag(
-                    isSelected = index.name == selectedCategory,
-                    text = index.title,
-                    backgroundColor = index.color,
-                    onClick = { onCategoryClick(index.name) }
-                )
+                    isSelected = category.name == selectedCategory,
+                    text = category.title,
+                    backgroundColor = category.color
+                ) { onCategoryClick(category.name) }
             }
         }
     }
