@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.appComponent
 import com.breaktime.signscreen.ui.theme.BackgroundGray
 import com.breaktime.signscreen.uiItems.dialogs.IconButtonData
 import com.breaktime.signscreen.uiItems.topBar.CommonTopAppBar
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SpecialistsScreen(
     onNavigateBack: () -> Unit,
-    specialistsViewModel: SpecialistsViewModel = viewModel()
+    specialistsViewModel: SpecialistsViewModel = viewModel(factory = LocalContext.current.appComponent.specialistsListViewModel()),
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current

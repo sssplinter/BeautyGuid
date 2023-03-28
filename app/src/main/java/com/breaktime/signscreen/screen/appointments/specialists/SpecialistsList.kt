@@ -29,13 +29,13 @@ fun SpecialistsList(
                     specialistsViewModel.selectSpecialists(specialist)
                 },
                 onMoreInfoClick = {
-                    onMoreInfoClick(specialist.specialistId)
+//                    onMoreInfoClick(specialist.specialistId)
                 },
                 onSalonClick = {
-                    onSalonClick(specialist.salonId)
+//                    onSalonClick(specialist.salonId)
                 },
                 onBookVisitClick = {
-                    onBookVisitClick(specialist.specialistId)
+//                    onBookVisitClick(specialist.specialistId)
                 },
                 modifier = Modifier
                     .padding(horizontal = 6.dp, vertical = 3.dp)

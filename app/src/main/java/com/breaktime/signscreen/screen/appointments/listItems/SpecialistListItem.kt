@@ -1,7 +1,5 @@
 package com.breaktime.signscreen.screen.appointments.listItems
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,18 +13,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.entities.SpecialistInfo
-import com.breaktime.signscreen.ui.theme.BorderColor
-import com.breaktime.signscreen.ui.theme.PinkFromLogo
-import com.breaktime.signscreen.ui.theme.hintColor
+import com.breaktime.signscreen.ui.theme.*
+import com.breaktime.signscreen.uiItems.image.CoilImage
 import com.breaktime.signscreen.uiItems.ratingBar.RatingBar
+import com.breaktime.signscreen.uiItems.tags.NiaTopicTag
 
 @Composable
 fun SpecialistListItem(
@@ -49,27 +47,29 @@ fun SpecialistListItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(all = 16.dp),
+                .padding(bottom = 10.dp, start = 10.dp, end = 10.dp, top = 14.dp),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ListItemRoundImage(
-                imageId = specialistInfo.imageId, modifier = Modifier.size(70.dp)
+            CoilImage(
+                imageUrl = specialistInfo.photoUrl,
+                modifier = Modifier
+                    .size(70.dp)
+                    .clip(CircleShape)
             )
             Column(Modifier.padding(start = 16.dp)) {
                 Row {
                     SpecialistInformation(
                         fullName = specialistInfo.fullName,
                         specialization = specialistInfo.specialization,
-                        // TODO
-                        salon = stringResource(R.string.test_saloon_name),
+                        salon = specialistInfo.salonName,
                         modifier = Modifier
                             .padding(end = 24.dp)
                             .width(200.dp),
                         onSalonClick = onSalonClick
                     )
                     IconButton(
-                        onClick = { onMoreInfoClick() }, modifier = Modifier.size(40.dp)
+                        onClick = { onMoreInfoClick() }, modifier = Modifier.size(35.dp)
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_info), contentDescription = null
@@ -87,17 +87,6 @@ fun SpecialistListItem(
     }
 }
 
-// TODO replace drawable by real image
-@Composable
-fun ListItemRoundImage(imageId: Int, modifier: Modifier = Modifier) {
-    Image(
-        modifier = modifier.clip(CircleShape),
-        painter = painterResource(imageId),
-        contentDescription = null,
-        contentScale = ContentScale.Crop
-    )
-}
-
 @Composable
 fun SpecialistInformation(
     fullName: String,
@@ -107,34 +96,23 @@ fun SpecialistInformation(
     salon: String? = null
 ) {
     Column(modifier = modifier) {
-        salon?.let {
-            Row(
-                modifier = Modifier
-                    .padding(bottom = 4.dp)
-                    .height(20.dp)
-                    .clickable { onSalonClick() }
-                    .background(
-                        MaterialTheme.colors.PinkFromLogo.copy(
-                            alpha = 0.7f
-                        ), RoundedCornerShape(50)
-
-                    ),
-            ) {
-                Text(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                    text = salon,
-                    style = MaterialTheme.typography.body1.copy(
-                        textDecoration = TextDecoration.Underline, fontSize = 12.sp
-                    )
-                )
-            }
-        }
         Text(
             text = specialization, style = MaterialTheme.typography.caption
         )
         Text(
-            text = fullName, style = MaterialTheme.typography.h6
+            text = fullName, style = MaterialTheme.typography.h6.copy(fontSize = 18.sp)
         )
+        salon?.let {
+            NiaTopicTag(
+                modifier = Modifier.padding(vertical = 4.dp),
+                text = "Salon: ${salon.uppercase()}",
+                textStyle =MaterialTheme.typography.body1.copy(
+                    textDecoration = TextDecoration.Underline, fontSize = 12.sp, fontWeight = FontWeight.W600
+                ),
+                backgroundColor = MaterialTheme.colors.PinkFromLogo.copy(alpha = 0.4f),
+                onClick = onSalonClick
+            )
+        }
     }
 }
 
@@ -149,13 +127,14 @@ fun SpecialistRating(
         modifier = modifier
             .padding(vertical = 4.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.Top
     ) {
         Row {
             RatingBar(modifier = Modifier.height(17.dp), rating = rating)
             Text(
                 text = marksCount.toString(),
-                style = MaterialTheme.typography.caption.copy(fontSize = 13.sp),
+                style = MaterialTheme.typography.caption.copy(fontSize = 12.sp),
                 color = MaterialTheme.colors.hintColor,
                 modifier = Modifier.padding(start = 4.dp)
             )
@@ -164,14 +143,14 @@ fun SpecialistRating(
         Button(
             onClick = { onBookVisitClick() },
             modifier = Modifier
-                .padding(top = 20.dp)
-                .height(30.dp),
+                .padding(end = 8.dp)
+                .height(35.dp),
             shape = RoundedCornerShape(50)
         ) {
             Row {
                 Text(
                     text = stringResource(R.string.book_visit),
-                    style = MaterialTheme.typography.caption.copy(fontSize = 12.sp)
+                    style = MaterialTheme.typography.caption.copy(fontSize = 13.sp)
                 )
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowRight,
