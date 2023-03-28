@@ -1,20 +1,31 @@
 package com.breaktime.signscreen.screen.appointments.specialists
 
-import androidx.compose.runtime.toMutableStateList
-import com.breaktime.signscreen.R
+import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.data.entities.SpecialistInfo
+import com.breaktime.signscreen.data.network.models.toSpecialistPreviewInfo
+import com.breaktime.signscreen.domain.specialist.GetAllSpecialistsUseCase
 import com.breaktime.signscreen.screen.base.BaseViewModel
+import kotlinx.coroutines.launch
 
-class SpecialistsViewModel :
-    BaseViewModel<SpecialistsContract.SpecialistsEvent, SpecialistsContract.SpecialistsState, SpecialistsContract.SpecialistsEffect>() {
-    private val _specialists = getTestdata().toMutableStateList()
-    val specialists: List<SpecialistInfo>
-        get() = _specialists
+class SpecialistsViewModel(
+    private val getAllSpecialistsUseCase: GetAllSpecialistsUseCase
+) : BaseViewModel<SpecialistsContract.SpecialistsEvent, SpecialistsContract.SpecialistsState, SpecialistsContract.SpecialistsEffect>() {
+    val specialists = mutableStateListOf<SpecialistInfo>()
+
+    init {
+        viewModelScope.launch {
+            val sp = getAllSpecialistsUseCase()
+            specialists.addAll(sp.map { it.toSpecialistPreviewInfo() })
+        }
+    }
 
     fun selectSpecialists(item: SpecialistInfo) {
-        specialists.map {
-            it.isChecked = if (it.specialistId == item.specialistId) !it.isChecked else false
-        }
+//        specialists.map {
+//            it.isChecked = if (it.specialistId == item.specialistId) !it.isChecked else false
+//        }
     }
 
     override fun createInitialState(): SpecialistsContract.SpecialistsState {
@@ -37,17 +48,14 @@ class SpecialistsViewModel :
             }
         }
     }
-}
 
-// TODO replace by real data
-fun getTestdata() = List(6) { i ->
-    SpecialistInfo(
-        i.toString(),
-        "Kristina Sementsova",
-        "Eyebrow stylist, makeup artist",
-        R.drawable.ab1_inversions,
-        "12123",
-        3.3,
-        127
-    )
+    @Suppress("UNCHECKED_CAST")
+    class Factory(
+        private val getAllSpecialistsUseCase: GetAllSpecialistsUseCase
+
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return SpecialistsViewModel(getAllSpecialistsUseCase) as T
+        }
+    }
 }
