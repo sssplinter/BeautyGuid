@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.network.models.SalonInfo
+import com.breaktime.signscreen.data.network.models.SalonNewsPreview
 import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
 import com.breaktime.signscreen.screen.appointments.schedule.SelectableCalendarSample
 import com.breaktime.signscreen.screen.portfolio.salonDetails.SalonDetails
@@ -49,6 +50,7 @@ fun Portfolio(
     modifier: Modifier = Modifier,
     salonPreview: SalonPreviewResponse?,
     salonInfo: SalonInfo?,
+    salonsNewsPreviews: List<SalonNewsPreview>,
     onPhotoClick: (Int) -> Unit
 ) {
     val pagerState = rememberPagerState()
@@ -111,7 +113,10 @@ fun Portfolio(
                             color = Color.LightGray,
                             modifier = Modifier.padding(top = 8.dp)
                         )
-                        FavoriteCollectionsGrid(onPhotoClick = onPhotoClick)
+                        FavoriteCollectionsGrid(
+                            salonNewsPreviews = salonsNewsPreviews,
+                            onPhotoClick = onPhotoClick
+                        )
                     }
                 }
                 Icons.Default.Notes -> {
@@ -139,7 +144,7 @@ fun SalonInfoSection(
                 imageUrl = "${Constants.salonPhotoPathPrefix}${salonPreview?.salonPhotoUrl}",
                 modifier = Modifier
                     .size(65.dp)
-                    .clip(CircleShape)
+                    .clip(CircleShape),
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -242,6 +247,7 @@ fun AlignYourBodyElement(
 
 @Composable
 fun FavoriteCollectionsGrid(
+    salonNewsPreviews: List<SalonNewsPreview>,
     modifier: Modifier = Modifier,
     onPhotoClick: (Int) -> Unit
 ) {
@@ -251,11 +257,13 @@ fun FavoriteCollectionsGrid(
         verticalArrangement = Arrangement.spacedBy(6.dp),
         modifier = modifier.height(500.dp),
         content = {
-            items(favoriteCollectionsData.size) { index ->
-                val item = favoriteCollectionsData[index]
-                FavoriteCollectionCard(
-                    imageId = item.drawable,
-                    onPhotoClick = { onPhotoClick(index) }
+            items(salonNewsPreviews.size) { index ->
+                CoilImage(
+                    imageUrl = "${Constants.salonNewsPhotoPrefix}${salonNewsPreviews[index].photoUrl}",
+                    modifier = Modifier
+                        .aspectRatio(1f)
+                        .clickable { onPhotoClick(index) }
+                        .clip(MaterialTheme.shapes.small)
                 )
             }
         })
@@ -285,18 +293,6 @@ private val alignYourBodyData = listOf(
     R.drawable.ab4_tabata to R.string.ab4_tabata,
     R.drawable.ab5_hiit to R.string.ab5_hiit,
     R.drawable.ab6_pre_natal_yoga to R.string.ab6_pre_natal_yoga
-).map { DrawableStringPair(it.first, it.second) }
-
-private val favoriteCollectionsData = listOf(
-    R.drawable.im_nails to R.string.fc1_short_mantras,
-    R.drawable.im_nails1 to R.string.fc1_short_mantras,
-    R.drawable.im_nails2 to R.string.fc2_nature_meditations,
-    R.drawable.im_nails3 to R.string.fc3_stress_and_anxiety,
-    R.drawable.im_nails4 to R.string.fc1_short_mantras,
-    R.drawable.im_nails5 to R.string.fc2_nature_meditations,
-    R.drawable.im_nails6 to R.string.fc3_stress_and_anxiety,
-    R.drawable.im_nails7 to R.string.fc1_short_mantras,
-    R.drawable.im_nails8 to R.string.fc2_nature_meditations,
 ).map { DrawableStringPair(it.first, it.second) }
 
 private data class DrawableStringPair(

@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.appComponent
 import com.breaktime.signscreen.screen.portfolio.SalonPortfolioContract.*
@@ -31,7 +30,7 @@ fun PortfolioScreen(
     val scope = rememberCoroutineScope()
     val showLoadingDialog = remember { mutableStateOf(false) }
 
-    // TODO rework logic
+    // TODO rework logic because it is called twice
     salonPortfolioViewModel.setSalonId(salonId)
 
     initObservable(
@@ -55,6 +54,7 @@ fun PortfolioScreen(
                 Modifier.padding(paddingValues),
                 salonPortfolioViewModel.salonPreview.value,
                 salonPortfolioViewModel.salonInfo.value,
+                salonPortfolioViewModel.salonNewsPreviews.toList(),
                 onPhotoClick = { index ->
                     salonPortfolioViewModel.setEvent(
                         SalonPortfolioEvent.OnPhotoClick(index)
@@ -101,13 +101,5 @@ private fun initObservable(
                 }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun PortfolioPreview() {
-    SignScreenTheme {
-//        PortfolioScreen(onOpenPhoto = {}, onNavigateBack = {})
     }
 }
