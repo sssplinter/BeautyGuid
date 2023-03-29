@@ -1,6 +1,7 @@
 package com.breaktime.signscreen.data.source.salonApi.remote
 
 import com.breaktime.signscreen.data.network.models.SalonInfo
+import com.breaktime.signscreen.data.network.models.SalonNewsPreview
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -14,4 +15,7 @@ interface SalonService {
 
     @GET("salonInfo/{salonId}")
     suspend fun getSalonInfoById(@Path("salonId") salonId: Int): Response<SalonInfo>
+
+    @GET("salonNewsPreviewList/{salonId}")
+    suspend fun getSalonNewsPreviews(@Path("salonId") salonId: Int): Response<List<SalonNewsPreview>>
 }
