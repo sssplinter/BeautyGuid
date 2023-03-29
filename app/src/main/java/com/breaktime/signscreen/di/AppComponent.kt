@@ -30,6 +30,7 @@ import com.breaktime.signscreen.domain.pref.SetUserTokenUseCase
 import com.breaktime.signscreen.domain.salon.GetAllSalonsUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
+import com.breaktime.signscreen.domain.salon.news.GetSalonNewsPreviewsUseCase
 import com.breaktime.signscreen.domain.specialist.GetAllSpecialistsUseCase
 import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
 import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
@@ -186,9 +187,14 @@ object SalonModule {
     @Provides
     fun provideSalonPortfolioVewModelFactory(
         getSalonPreviewByIdUseCase: GetSalonPreviewByIdUseCase,
-        getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase
+        getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase,
+        getSalonNewsPreviewsUseCase: GetSalonNewsPreviewsUseCase
     ): SalonPortfolioViewModel.Factory {
-        return SalonPortfolioViewModel.Factory(getSalonPreviewByIdUseCase, getSalonInfoByIdUSeCase)
+        return SalonPortfolioViewModel.Factory(
+            getSalonPreviewByIdUseCase,
+            getSalonInfoByIdUSeCase,
+            getSalonNewsPreviewsUseCase
+        )
     }
 
     @Provides
@@ -206,6 +212,11 @@ object SalonModule {
     @Provides
     fun provideGetSalonPreviewByIdsUseCase(salonRepository: SalonRepository): GetSalonPreviewByIdUseCase {
         return GetSalonPreviewByIdUseCase(salonRepository)
+    }
+
+    @Provides
+    fun provideGetSalonNewsPreviewUseCase(salonRepository: SalonRepository): GetSalonNewsPreviewsUseCase {
+        return GetSalonNewsPreviewsUseCase(salonRepository)
     }
 
     @Provides
