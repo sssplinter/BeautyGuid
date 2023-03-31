@@ -11,17 +11,17 @@ class SpecialistsContract {
     }
 
     sealed class SpecialistsEvent : UiEvent {
-        data class OnSalonClick(val specialistId: String) : SpecialistsEvent()
-        data class OnBookVisitClick(val specialistId: String) : SpecialistsEvent()
-        data class OnSpecialistInfoClick(val specialistId: String) : SpecialistsEvent()
+        data class OnSalonClick(val salonId: Int) : SpecialistsEvent()
+        data class OnBookVisitClick(val specialistId: Int) : SpecialistsEvent()
+        data class OnSpecialistInfoClick(val specialistId: Int) : SpecialistsEvent()
         object OnNavigateBackClick : SpecialistsEvent()
     }
 
     sealed class SpecialistsEffect : UiEffect {
         data class ShowErrorMessage(val errorMsg: String) : SpecialistsEffect()
-        data class OpenSalonPage(val salonId: String) : SpecialistsEffect()
-        data class OpenSpecialistInfoPage(val specialistId: String) : SpecialistsEffect()
-        data class BookVisit(val specialistId: String) : SpecialistsEffect()
+        data class OpenSalonPage(val salonId: Int) : SpecialistsEffect()
+        data class OpenSpecialistInfoPage(val specialistId: Int) : SpecialistsEffect()
+        data class BookVisit(val specialistId: Int) : SpecialistsEffect()
         object NavigateBack : SpecialistsEffect()
     }
 }

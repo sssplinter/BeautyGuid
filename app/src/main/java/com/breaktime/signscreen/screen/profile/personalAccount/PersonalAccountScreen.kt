@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.appComponent
+import com.breaktime.signscreen.data.network.models.UserRequestInfo
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccountContract.PersonalAccountEvent
 import com.breaktime.signscreen.ui.theme.*
 import com.breaktime.signscreen.uiItems.button.NormalButton
@@ -76,12 +77,20 @@ fun PersonalAccount(
             )
         }, backgroundColor = MaterialTheme.colors.BackgroundGray
     ) { paddingValues ->
-        AccountScreen(Modifier.padding(paddingValues), viewModel)
+        AccountScreen(
+            userData = viewModel.userData.value,
+            Modifier.padding(paddingValues),
+            viewModel
+        )
     }
 }
 
 @Composable
-fun AccountScreen(modifier: Modifier = Modifier, viewModel: PersonalAccountViewModel) {
+fun AccountScreen(
+    userData: UserRequestInfo?,
+    modifier: Modifier = Modifier,
+    viewModel: PersonalAccountViewModel
+) {
     Column(
         modifier = modifier
             .padding(horizontal = 8.dp)
@@ -94,7 +103,10 @@ fun AccountScreen(modifier: Modifier = Modifier, viewModel: PersonalAccountViewM
                 imageVector = Icons.Default.Edit,
                 modifier = Modifier.padding(vertical = 16.dp)
             ) {
-                PersonalInfo("Kristina Sementsova", "+375 44 550 93 23")
+                PersonalInfo(
+                    "${userData?.lastName} ${userData?.firstName}",
+                    "+375${userData?.mobileNumber}" ?: ""
+                )
             }
 
             Slot(onIconClick = { viewModel.setEvent(PersonalAccountEvent.OnOpenAppointments) }) {

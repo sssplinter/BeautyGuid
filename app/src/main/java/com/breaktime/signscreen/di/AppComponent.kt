@@ -93,9 +93,10 @@ object AppModule {
 
     @Provides
     fun providePersonalAccountViewModelFactory(
-        setIsAuthorizedUseCase: SetIsAuthorizedUseCase
+        setIsAuthorizedUseCase: SetIsAuthorizedUseCase,
+        getUserPersonalDataUseCase: GetUserPersonalDataUseCase
     ): PersonalAccountViewModel.Factory {
-        return PersonalAccountViewModel.Factory(setIsAuthorizedUseCase)
+        return PersonalAccountViewModel.Factory(setIsAuthorizedUseCase, getUserPersonalDataUseCase)
     }
 
     @Provides

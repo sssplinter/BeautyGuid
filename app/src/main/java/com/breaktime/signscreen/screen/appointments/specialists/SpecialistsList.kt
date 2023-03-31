@@ -15,9 +15,9 @@ import com.breaktime.signscreen.ui.theme.BackgroundGray
 fun SpecialistsList(
     modifier: Modifier = Modifier,
     specialistsViewModel: SpecialistsViewModel,
-    onMoreInfoClick: (String) -> Unit,
-    onSalonClick: (String) -> Unit,
-    onBookVisitClick: (String) -> Unit,
+    onMoreInfoClick: (Int) -> Unit,
+    onSalonClick: (Int) -> Unit,
+    onBookVisitClick: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier.background(MaterialTheme.colors.BackgroundGray),
@@ -32,7 +32,7 @@ fun SpecialistsList(
 //                    onMoreInfoClick(specialist.specialistId)
                 },
                 onSalonClick = {
-//                    onSalonClick(specialist.salonId)
+                    onSalonClick(specialist.salonId)
                 },
                 onBookVisitClick = {
 //                    onBookVisitClick(specialist.specialistId)

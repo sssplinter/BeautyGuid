@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SpecialistsScreen(
     onNavigateBack: () -> Unit,
+    onSalonClick: (Int) -> Unit,
     specialistsViewModel: SpecialistsViewModel = viewModel(factory = LocalContext.current.appComponent.specialistsListViewModel()),
 ) {
     val scope = rememberCoroutineScope()
@@ -35,6 +36,7 @@ fun SpecialistsScreen(
         context,
         specialistsViewModel,
         onNavigateBack,
+        onSalonClick,
         showLoadingDialog
     )
 
@@ -80,6 +82,7 @@ private fun initObservable(
     context: Context,
     specialistsViewModel: SpecialistsViewModel,
     onNavigateBack: () -> Unit,
+    onSalonClick: (Int) -> Unit,
     showLoadingDialog: MutableState<Boolean>
 ) {
 
@@ -108,7 +111,7 @@ private fun initObservable(
 
                 }
                 is SpecialistsContract.SpecialistsEffect.OpenSalonPage -> {
-
+                    onSalonClick(effect.salonId)
                 }
                 is SpecialistsContract.SpecialistsEffect.OpenSpecialistInfoPage -> {
 

@@ -25,10 +25,10 @@ import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.appointments.salons.SalonsScreen
 import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsScreen
-import com.breaktime.signscreen.screen.salonNews.SalonNewsScreen
 import com.breaktime.signscreen.screen.portfolio.PortfolioScreen
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccount
 import com.breaktime.signscreen.screen.profile.personalData.EditProfileScreen
+import com.breaktime.signscreen.screen.salonNews.SalonNewsScreen
 
 @Composable
 fun MainScreen() {
@@ -84,7 +84,14 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
             )
         }
         composable(route = Screen.UserMastersScreen.route) {
-            SpecialistsScreen(onNavigateBack = { navController.navigate(Screen.UserAccountScreen.route) })
+            SpecialistsScreen(
+                onNavigateBack = { navController.navigate(Screen.UserAccountScreen.route) },
+                onSalonClick = { salonId ->
+                    navController.navigate(
+                        PortfolioRoute +
+                                "salonId=$salonId"
+                    )
+                })
         }
         composable(route = Screen.UserSalonsScreen.route) {
             SalonsScreen(

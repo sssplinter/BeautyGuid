@@ -41,7 +41,7 @@ class SpecialistsViewModel(
                 setEffect { SpecialistsContract.SpecialistsEffect.NavigateBack }
             }
             is SpecialistsContract.SpecialistsEvent.OnSalonClick -> {
-
+                setEffect { SpecialistsContract.SpecialistsEffect.OpenSalonPage(event.salonId) }
             }
             is SpecialistsContract.SpecialistsEvent.OnSpecialistInfoClick -> {
 

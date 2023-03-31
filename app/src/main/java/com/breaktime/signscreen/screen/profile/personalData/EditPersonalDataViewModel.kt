@@ -1,7 +1,6 @@
 package com.breaktime.signscreen.screen.profile.personalData
 
 import android.net.Uri
-import android.telephony.PhoneNumberUtils
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -74,8 +73,8 @@ class EditPersonalDataViewModel(
 
     // TODO move check logic to UTILS
     fun onMobileNumberValueChange(value: String) {
-        if (PhoneNumberUtils.isGlobalPhoneNumber(value) && value.length + mobileCountry?.numberCode?.length!! < 16) mobileNumber =
-            value
+//        if (PhoneNumberUtils.isGlobalPhoneNumber(value) && value.length + mobileCountry?.numberCode?.length!! < 16)
+        mobileNumber = value
         // TODO
         isValidMobileNumber = mobileNumber.isNotBlank()
     }

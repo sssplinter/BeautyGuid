@@ -111,7 +111,7 @@ fun SlotBasedSection(
 fun AddressSection(address: String, addressAsText: String?, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 16.dp)) {
         addressAsText?.let {
-            Text(text = addressAsText)
+            Text(text = addressAsText, modifier = Modifier.padding(6.dp))
         }
         LinkButton(
             link = address,
