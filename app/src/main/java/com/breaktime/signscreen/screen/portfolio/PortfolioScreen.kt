@@ -25,13 +25,15 @@ fun PortfolioScreen(
         factory = LocalContext.current.appComponent.salonPortfolioViewModel()
     ),
     onNavigateBack: () -> Unit,
-    onOpenPhoto: (Int) -> Unit
+    onOpenPhoto: (Int, Int) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val showLoadingDialog = remember { mutableStateOf(false) }
 
-    // TODO rework logic because it is called twice
-    salonPortfolioViewModel.setSalonId(salonId)
+    // TODO resolve by injection
+    LaunchedEffect(salonId){
+        salonPortfolioViewModel.setSalonId(salonId)
+    }
 
     initObservable(
         scope, salonPortfolioViewModel, onNavigateBack, onOpenPhoto, showLoadingDialog
@@ -53,7 +55,7 @@ fun PortfolioScreen(
             Portfolio(
                 Modifier.padding(paddingValues),
                 salonPortfolioViewModel.salonPreview.value,
-                salonPortfolioViewModel.salonInfo.value,
+                salonPortfolioViewModel.salonDetails.value,
                 salonPortfolioViewModel.salonNewsPreviews.toList(),
                 onPhotoClick = { index ->
                     salonPortfolioViewModel.setEvent(
@@ -68,7 +70,7 @@ private fun initObservable(
     composableScope: CoroutineScope,
     salonPortfolioViewModel: SalonPortfolioViewModel,
     onNavigateBack: () -> Unit,
-    onOpenPhoto: (Int) -> Unit,
+    onOpenPhoto: (Int, Int) -> Unit,
     showLoadingDialog: MutableState<Boolean>
 ) {
 
@@ -93,7 +95,7 @@ private fun initObservable(
                     onNavigateBack()
                 }
                 is SalonPortfolioEffect.OpenPhoto -> {
-                    onOpenPhoto(effect.photoId)
+                    onOpenPhoto(effect.photoId, effect.salonId)
                 }
                 is SalonPortfolioEffect.OpenStory -> {}
                 is SalonPortfolioEffect.ShowErrorMessage -> {}

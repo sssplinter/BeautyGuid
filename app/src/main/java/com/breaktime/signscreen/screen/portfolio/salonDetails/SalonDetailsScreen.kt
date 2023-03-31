@@ -18,14 +18,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
-import com.breaktime.signscreen.data.network.models.SalonInfo
+import com.breaktime.signscreen.screen.portfolio.SalonDetailsInfo
 import com.breaktime.signscreen.ui.theme.hintColor
 import com.breaktime.signscreen.ui.theme.salonH2
 import com.breaktime.signscreen.uiItems.linkButton.*
 import java.util.*
 
 @Composable
-fun SalonDetails(salonInfo: SalonInfo?, modifier: Modifier = Modifier) {
+fun SalonDetails(salonInfo: SalonDetailsInfo?, modifier: Modifier = Modifier) {
     salonInfo?.let {
         Column(modifier = modifier) {
             Column {
@@ -37,7 +37,10 @@ fun SalonDetails(salonInfo: SalonInfo?, modifier: Modifier = Modifier) {
                     imageVector = Icons.Default.LocationOn,
                     modifier = sectionModifier
                 ) {
-                    AddressSection(address = salonInfo.address)
+                    AddressSection(
+                        address = salonInfo.addressGeo,
+                        addressAsText = salonInfo.address
+                    )
                 }
 
                 Divider(
@@ -105,10 +108,11 @@ fun SlotBasedSection(
 }
 
 @Composable
-fun AddressSection(address: String, modifier: Modifier = Modifier) {
+fun AddressSection(address: String, addressAsText: String?, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 16.dp)) {
-        // TODO address as a string
-        Text(text = stringResource(id = R.string.test_address), Modifier.padding(start = 8.dp))
+        addressAsText?.let {
+            Text(text = addressAsText)
+        }
         LinkButton(
             link = address,
             linkText = stringResource(id = R.string.show_on_map_button),
@@ -119,7 +123,7 @@ fun AddressSection(address: String, modifier: Modifier = Modifier) {
 
 @Composable
 fun ContactsSection(
-    salonInfo: SalonInfo,
+    salonInfo: SalonDetailsInfo,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.padding(start = 32.dp, end = 32.dp, top = 6.dp)) {

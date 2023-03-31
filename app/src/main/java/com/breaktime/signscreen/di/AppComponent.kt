@@ -31,6 +31,7 @@ import com.breaktime.signscreen.domain.salon.GetAllSalonsUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
 import com.breaktime.signscreen.domain.salon.news.GetSalonNewsPreviewsUseCase
+import com.breaktime.signscreen.domain.salon.news.GetSalonNewsUseCase
 import com.breaktime.signscreen.domain.specialist.GetAllSpecialistsUseCase
 import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
 import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
@@ -41,6 +42,7 @@ import com.breaktime.signscreen.screen.authorization.registeration.RegistrationV
 import com.breaktime.signscreen.screen.portfolio.SalonPortfolioViewModel
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccountViewModel
 import com.breaktime.signscreen.screen.profile.personalData.EditPersonalDataViewModel
+import com.breaktime.signscreen.screen.salonNews.SalonNewsViewModel
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -56,6 +58,7 @@ interface AppComponent {
     fun salonsListViewModel(): SalonsListViewModel.Factory
     fun specialistsListViewModel(): SpecialistsViewModel.Factory
     fun salonPortfolioViewModel(): SalonPortfolioViewModel.Factory
+    fun salonNewsViewModel(): SalonNewsViewModel.Factory
 
     @Component.Factory
     interface Factory {
@@ -205,6 +208,13 @@ object SalonModule {
     }
 
     @Provides
+    fun provideSalonsNewsViewModelFactory(
+        getSalonNewsUseCase: GetSalonNewsUseCase
+    ): SalonNewsViewModel.Factory {
+        return SalonNewsViewModel.Factory(getSalonNewsUseCase)
+    }
+
+    @Provides
     fun provideGetAllSalonsUseCase(salonRepository: SalonRepository): GetAllSalonsUseCase {
         return GetAllSalonsUseCase(salonRepository)
     }
@@ -220,8 +230,13 @@ object SalonModule {
     }
 
     @Provides
-    fun provideGetSalonInfoByIdUSeCase(salonRepository: SalonRepository): GetSalonInfoByIdUseCase {
+    fun provideGetSalonInfoByIdUseCase(salonRepository: SalonRepository): GetSalonInfoByIdUseCase {
         return GetSalonInfoByIdUseCase(salonRepository)
+    }
+
+    @Provides
+    fun provideGetSalonNewsUSeCase(salonRepository: SalonRepository): GetSalonNewsUseCase {
+        return GetSalonNewsUseCase(salonRepository)
     }
 
     @Provides

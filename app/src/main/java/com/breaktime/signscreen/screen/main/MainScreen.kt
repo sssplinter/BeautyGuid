@@ -25,7 +25,7 @@ import com.breaktime.signscreen.navigation.Graph
 import com.breaktime.signscreen.navigation.Screen
 import com.breaktime.signscreen.screen.appointments.salons.SalonsScreen
 import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsScreen
-import com.breaktime.signscreen.screen.photoPreview.SalonPhotosScreen
+import com.breaktime.signscreen.screen.salonNews.SalonNewsScreen
 import com.breaktime.signscreen.screen.portfolio.PortfolioScreen
 import com.breaktime.signscreen.screen.profile.personalAccount.PersonalAccount
 import com.breaktime.signscreen.screen.profile.personalData.EditProfileScreen
@@ -105,27 +105,40 @@ fun NavGraphBuilder.mainScreen(navController: NavController) {
             PortfolioScreen(
                 backStackEntry.arguments?.getInt("salonId") ?: 1,
                 onNavigateBack = { navController.navigate(Screen.UserSalonsScreen.route) },
-                onOpenPhoto = { index ->
+                onOpenPhoto = { index, salonId ->
                     navController.navigate(
                         OpenPhotoPreviewRoute +
-                                "salonId=sdcd," +
+                                "salonId=$salonId," +
                                 "scrollToId=$index"
                     )
                 })
         }
-        composable(route = Screen.SalonPhotoPreviewScreen.route, arguments = listOf(
+        composable(route = Screen.SalonNewsScreen.route, arguments = listOf(
             navArgument("scrollToId") {
                 defaultValue = 0
                 type = NavType.IntType
             }, navArgument("salonId") {
-                defaultValue = ""
-                type = NavType.StringType
+                defaultValue = -1
+                type = NavType.IntType
             }
         )) { backStackEntry ->
-            SalonPhotosScreen(
-                onNavigateBack = { navController.navigate(Screen.PortfolioScreen.route) },
-                salonId = backStackEntry.arguments?.getString("salonId") ?: "Frau Marta",
-                scrollToIndex = backStackEntry.arguments?.getInt("scrollToId") ?: 0
+            SalonNewsScreen(
+                onNavigateBack = { salonId ->
+                    navController.navigate(
+                        PortfolioRoute +
+                                "salonId=$salonId"
+                    )
+                },
+                salonId = backStackEntry.arguments?.getInt("salonId") ?: -1,
+                scrollToIndex = backStackEntry.arguments?.getInt("scrollToId") ?: 0,
+                onSalonClick = { salonId ->
+                    navController.navigate(
+                        PortfolioRoute +
+                                "salonId=$salonId"
+                    )
+                },
+                // TODO implement navigation after specialist info screen creation
+                onSpecialistClick = {}
             )
         }
     }

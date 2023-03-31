@@ -29,10 +29,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
-import com.breaktime.signscreen.data.network.models.SalonInfo
 import com.breaktime.signscreen.data.network.models.SalonNewsPreview
 import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
 import com.breaktime.signscreen.screen.appointments.schedule.SelectableCalendarSample
+import com.breaktime.signscreen.screen.portfolio.SalonDetailsInfo
 import com.breaktime.signscreen.screen.portfolio.salonDetails.SalonDetails
 import com.breaktime.signscreen.ui.theme.*
 import com.breaktime.signscreen.uiItems.image.CoilImage
@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 fun Portfolio(
     modifier: Modifier = Modifier,
     salonPreview: SalonPreviewResponse?,
-    salonInfo: SalonInfo?,
+    salonInfo: SalonDetailsInfo?,
     salonsNewsPreviews: List<SalonNewsPreview>,
     onPhotoClick: (Int) -> Unit
 ) {
@@ -78,6 +78,7 @@ fun Portfolio(
                 Tab(
                     icon = {
                         IconButton(
+                            // TODO
                             onClick = {
                                 scope.launch {
                                     pagerState.scrollToPage(index)

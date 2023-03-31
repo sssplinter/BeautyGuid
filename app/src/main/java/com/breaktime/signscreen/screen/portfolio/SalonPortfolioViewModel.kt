@@ -1,12 +1,13 @@
 package com.breaktime.signscreen.screen.portfolio
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.breaktime.signscreen.data.network.models.SalonInfo
 import com.breaktime.signscreen.data.network.models.SalonNewsPreview
+import com.breaktime.signscreen.data.network.models.toSalonDetailsInfo
 import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
@@ -23,8 +24,8 @@ class SalonPortfolioViewModel(
     BaseViewModel<SalonPortfolioContract.SalonPortfolioEvent, SalonPortfolioContract.SalonPortfolioState, SalonPortfolioEffect>() {
 
     private var salonId: Int = -1
-    var salonInfo = mutableStateOf<SalonInfo?>(null)
     var salonPreview = mutableStateOf<SalonPreviewResponse?>(null)
+    var salonDetails = mutableStateOf<SalonDetailsInfo?>(null)
     var salonNewsPreviews = mutableStateListOf<SalonNewsPreview>()
     override fun createInitialState(): SalonPortfolioContract.SalonPortfolioState {
         return SalonPortfolioContract.SalonPortfolioState.Default
@@ -34,7 +35,8 @@ class SalonPortfolioViewModel(
         this.salonId = salonId
         viewModelScope.launch {
             salonPreview.value = getSalonPreviewByIdUseCase(salonId)
-            salonInfo.value = getSalonInfoByIdUseCase(salonId)
+            val salonInfo = getSalonInfoByIdUseCase(salonId)
+            salonDetails.value = salonInfo?.toSalonDetailsInfo(salonPreview.value?.location)
             salonNewsPreviews.clear()
             salonNewsPreviews.addAll(getSalonNewsPreviewsUseCase(salonId))
         }
@@ -46,7 +48,7 @@ class SalonPortfolioViewModel(
                 setEffect { SalonPortfolioEffect.NavigateBack }
             }
             is SalonPortfolioContract.SalonPortfolioEvent.OnPhotoClick -> {
-                setEffect { SalonPortfolioEffect.OpenPhoto(event.photoId) }
+                setEffect { SalonPortfolioEffect.OpenPhoto(event.photoId, salonId) }
             }
             is SalonPortfolioContract.SalonPortfolioEvent.OnStoryClick -> {}
             is SalonPortfolioContract.SalonPortfolioEvent.OnSwitchTabClick -> {

@@ -22,7 +22,6 @@ class SalonPortfolioContract {
         data class ShowErrorMessage(val errorMsg: String) : SalonPortfolioEffect()
         data class SwitchTab(val tabId: Int) : SalonPortfolioEffect()
         data class OpenStory(val storyId: String) : SalonPortfolioEffect()
-        data class OpenPhoto(val photoId: Int) : SalonPortfolioEffect()
-
+        data class OpenPhoto(val photoId: Int, val salonId: Int) : SalonPortfolioEffect()
     }
 }

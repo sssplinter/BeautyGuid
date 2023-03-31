@@ -59,7 +59,7 @@ sealed class Screen(val route: String) {
     object HomeScreen : Screen(HomeRoute)
     object ContactsScreen : Screen(ContactsRoute)
     object FavoritesScreen : Screen(FavoritesRoute)
-    object SalonPhotoPreviewScreen : Screen(OpenPhotoPreviewRouteWithArguments)
+    object SalonNewsScreen : Screen(OpenPhotoPreviewRouteWithArguments)
 }
 
 sealed class Graph(val route: String) {
