@@ -52,7 +52,7 @@ fun SpecialistsScreen(
     ) { paddingValues ->
         SpecialistsList(
             modifier = Modifier.padding(paddingValues),
-            specialistsViewModel,
+            specialistsViewModel.specialists,
             onMoreInfoClick = { specialistId ->
                 specialistsViewModel.setEvent(
                     SpecialistsContract.SpecialistsEvent.OnSpecialistInfoClick(

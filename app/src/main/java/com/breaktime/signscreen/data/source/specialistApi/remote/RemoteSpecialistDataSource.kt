@@ -12,4 +12,9 @@ class RemoteSpecialistDataSource(private val specialistService: SpecialistServic
         withContext(Dispatchers.IO) {
             return@withContext specialistService.getAllSpecialists().body()?.toList() ?: listOf()
         }
+
+    override suspend fun getSpecialistsBySalonId(salonId: Int): List<SpecialistPreview> =
+        withContext(Dispatchers.IO) {
+            return@withContext specialistService.getSpecialistsBySalonId(salonId).body()?.toList() ?: listOf()
+        }
 }

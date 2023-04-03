@@ -8,13 +8,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.breaktime.signscreen.data.entities.SpecialistInfo
 import com.breaktime.signscreen.screen.appointments.listItems.SpecialistListItem
 import com.breaktime.signscreen.ui.theme.BackgroundGray
 
 @Composable
 fun SpecialistsList(
     modifier: Modifier = Modifier,
-    specialistsViewModel: SpecialistsViewModel,
+    specialists: List<SpecialistInfo>,
     onMoreInfoClick: (Int) -> Unit,
     onSalonClick: (Int) -> Unit,
     onBookVisitClick: (Int) -> Unit,
@@ -22,11 +23,12 @@ fun SpecialistsList(
     LazyColumn(
         modifier = modifier.background(MaterialTheme.colors.BackgroundGray),
     ) {
-        items(specialistsViewModel.specialists) { specialist ->
+        items(specialists) { specialist ->
             SpecialistListItem(
                 specialistInfo = specialist,
                 onItemClick = {
-                    specialistsViewModel.selectSpecialists(specialist)
+                              // TODO
+//                    specialistsViewModel.selectSpecialists(specialist)
                 },
                 onMoreInfoClick = {
 //                    onMoreInfoClick(specialist.specialistId)

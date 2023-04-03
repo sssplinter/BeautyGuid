@@ -6,12 +6,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.breaktime.signscreen.data.entities.SpecialistInfo
 import com.breaktime.signscreen.data.network.models.SalonNewsPreview
+import com.breaktime.signscreen.data.network.models.SpecialistPreview
 import com.breaktime.signscreen.data.network.models.toSalonDetailsInfo
+import com.breaktime.signscreen.data.network.models.toSpecialistPreviewInfo
 import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
 import com.breaktime.signscreen.domain.salon.news.GetSalonNewsPreviewsUseCase
+import com.breaktime.signscreen.domain.specialist.GetSpecialistsBySalonIdUseCase
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import com.breaktime.signscreen.screen.portfolio.SalonPortfolioContract.SalonPortfolioEffect
 import kotlinx.coroutines.launch
@@ -19,7 +23,8 @@ import kotlinx.coroutines.launch
 class SalonPortfolioViewModel(
     private val getSalonPreviewByIdUseCase: GetSalonPreviewByIdUseCase,
     private val getSalonInfoByIdUseCase: GetSalonInfoByIdUseCase,
-    private val getSalonNewsPreviewsUseCase: GetSalonNewsPreviewsUseCase
+    private val getSalonNewsPreviewsUseCase: GetSalonNewsPreviewsUseCase,
+    private val getSpecialistsBySalonIdUseCase: GetSpecialistsBySalonIdUseCase
 ) :
     BaseViewModel<SalonPortfolioContract.SalonPortfolioEvent, SalonPortfolioContract.SalonPortfolioState, SalonPortfolioEffect>() {
 
@@ -27,6 +32,7 @@ class SalonPortfolioViewModel(
     var salonPreview = mutableStateOf<SalonPreviewResponse?>(null)
     var salonDetails = mutableStateOf<SalonDetailsInfo?>(null)
     var salonNewsPreviews = mutableStateListOf<SalonNewsPreview>()
+    var salonSpecialists = mutableStateListOf<SpecialistInfo>()
     override fun createInitialState(): SalonPortfolioContract.SalonPortfolioState {
         return SalonPortfolioContract.SalonPortfolioState.Default
     }
@@ -39,6 +45,9 @@ class SalonPortfolioViewModel(
             salonDetails.value = salonInfo?.toSalonDetailsInfo(salonPreview.value?.location)
             salonNewsPreviews.clear()
             salonNewsPreviews.addAll(getSalonNewsPreviewsUseCase(salonId))
+            salonSpecialists.clear()
+            val specialists = getSpecialistsBySalonIdUseCase(salonId)
+            salonSpecialists.addAll(specialists.map { it.toSpecialistPreviewInfo() })
         }
     }
 
@@ -61,13 +70,15 @@ class SalonPortfolioViewModel(
     class Factory(
         private val getSalonPreviewByIdUseCase: GetSalonPreviewByIdUseCase,
         private val getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase,
-        private val getSalonNewsPreviewsUseCase: GetSalonNewsPreviewsUseCase
+        private val getSalonNewsPreviewsUseCase: GetSalonNewsPreviewsUseCase,
+        private val getSpecialistsBySalonIdUseCase: GetSpecialistsBySalonIdUseCase
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return SalonPortfolioViewModel(
                 getSalonPreviewByIdUseCase,
                 getSalonInfoByIdUSeCase,
-                getSalonNewsPreviewsUseCase
+                getSalonNewsPreviewsUseCase,
+                getSpecialistsBySalonIdUseCase
             ) as T
         }
     }

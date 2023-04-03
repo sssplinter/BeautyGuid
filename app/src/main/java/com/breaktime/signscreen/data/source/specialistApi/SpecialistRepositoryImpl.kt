@@ -7,4 +7,8 @@ class SpecialistRepositoryImpl(private val specialistDataSource: SpecialistDataS
     override suspend fun getAllSpecialists(): List<SpecialistPreview> {
         return specialistDataSource.getAllSpecialists()
     }
+
+    override suspend fun getSpecialistsBySalonId(salonId: Int): List<SpecialistPreview> {
+        return specialistDataSource.getSpecialistsBySalonId(salonId)
+    }
 }

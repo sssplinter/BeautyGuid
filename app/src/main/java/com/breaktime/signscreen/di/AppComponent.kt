@@ -33,6 +33,7 @@ import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
 import com.breaktime.signscreen.domain.salon.news.GetSalonNewsPreviewsUseCase
 import com.breaktime.signscreen.domain.salon.news.GetSalonNewsUseCase
 import com.breaktime.signscreen.domain.specialist.GetAllSpecialistsUseCase
+import com.breaktime.signscreen.domain.specialist.GetSpecialistsBySalonIdUseCase
 import com.breaktime.signscreen.domain.user.GetUserPersonalDataUseCase
 import com.breaktime.signscreen.domain.user.UpdateUserPersonalDataUseCase
 import com.breaktime.signscreen.screen.appointments.salons.SalonsListViewModel
@@ -192,12 +193,14 @@ object SalonModule {
     fun provideSalonPortfolioVewModelFactory(
         getSalonPreviewByIdUseCase: GetSalonPreviewByIdUseCase,
         getSalonInfoByIdUSeCase: GetSalonInfoByIdUseCase,
-        getSalonNewsPreviewsUseCase: GetSalonNewsPreviewsUseCase
+        getSalonNewsPreviewsUseCase: GetSalonNewsPreviewsUseCase,
+        getSpecialistsBySalonIdUseCase: GetSpecialistsBySalonIdUseCase
     ): SalonPortfolioViewModel.Factory {
         return SalonPortfolioViewModel.Factory(
             getSalonPreviewByIdUseCase,
             getSalonInfoByIdUSeCase,
-            getSalonNewsPreviewsUseCase
+            getSalonNewsPreviewsUseCase,
+            getSpecialistsBySalonIdUseCase
         )
     }
 
@@ -270,8 +273,13 @@ object SpecialistModule {
     }
 
     @Provides
-    fun provideGetAllSpecialistsUSeCase(specialistRepository: SpecialistRepository): GetAllSpecialistsUseCase {
+    fun provideGetAllSpecialistsUseCase(specialistRepository: SpecialistRepository): GetAllSpecialistsUseCase {
         return GetAllSpecialistsUseCase(specialistRepository)
+    }
+
+    @Provides
+    fun provideGetSpecialistsBySalonIdUseCase(specialistRepository: SpecialistRepository): GetSpecialistsBySalonIdUseCase {
+        return GetSpecialistsBySalonIdUseCase(specialistRepository)
     }
 
     @Provides

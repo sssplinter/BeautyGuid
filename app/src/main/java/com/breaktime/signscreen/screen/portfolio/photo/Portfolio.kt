@@ -29,9 +29,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.breaktime.signscreen.R
+import com.breaktime.signscreen.data.entities.SpecialistInfo
 import com.breaktime.signscreen.data.network.models.SalonNewsPreview
 import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
-import com.breaktime.signscreen.screen.appointments.schedule.SelectableCalendarSample
+import com.breaktime.signscreen.screen.appointments.specialists.SpecialistsList
 import com.breaktime.signscreen.screen.portfolio.SalonDetailsInfo
 import com.breaktime.signscreen.screen.portfolio.salonDetails.SalonDetails
 import com.breaktime.signscreen.ui.theme.*
@@ -51,13 +52,14 @@ fun Portfolio(
     salonPreview: SalonPreviewResponse?,
     salonInfo: SalonDetailsInfo?,
     salonsNewsPreviews: List<SalonNewsPreview>,
+    salonSpecialists: List<SpecialistInfo>,
     onPhotoClick: (Int) -> Unit
 ) {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
 
     val pages = mutableListOf(
-        Icons.Default.Image, Icons.Default.Notes, Icons.Default.DateRange
+        Icons.Default.Image, Icons.Default.Notes, Icons.Default.Person
     )
 
     Column(
@@ -123,8 +125,14 @@ fun Portfolio(
                 Icons.Default.Notes -> {
                     SalonDetails(salonInfo = salonInfo)
                 }
-                Icons.Default.DateRange -> {
-                    SelectableCalendarSample(modifier = Modifier.height(300.dp))
+                Icons.Default.Person -> {
+                    SpecialistsList(
+                        specialists = salonSpecialists,
+                        onBookVisitClick = {},
+                        onSalonClick = {},
+                        onMoreInfoClick = {},
+                        modifier = Modifier.height(500.dp).fillMaxWidth()
+                    )
                 }
                 else -> {
                     Text(text = "Page $page")

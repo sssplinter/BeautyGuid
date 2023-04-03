@@ -57,6 +57,7 @@ fun PortfolioScreen(
                 salonPortfolioViewModel.salonPreview.value,
                 salonPortfolioViewModel.salonDetails.value,
                 salonPortfolioViewModel.salonNewsPreviews.toList(),
+                salonPortfolioViewModel.salonSpecialists.toList(),
                 onPhotoClick = { index ->
                     salonPortfolioViewModel.setEvent(
                         SalonPortfolioEvent.OnPhotoClick(index)
