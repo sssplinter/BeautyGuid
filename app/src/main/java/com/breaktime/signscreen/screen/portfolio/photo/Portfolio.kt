@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.entities.SpecialistInfo
 import com.breaktime.signscreen.data.network.models.SalonNewsPreview
@@ -131,7 +133,9 @@ fun Portfolio(
                         onBookVisitClick = {},
                         onSalonClick = {},
                         onMoreInfoClick = {},
-                        modifier = Modifier.height(500.dp).fillMaxWidth()
+                        modifier = Modifier
+                            .height(500.dp)
+                            .fillMaxWidth()
                     )
                 }
                 else -> {
@@ -184,6 +188,21 @@ fun SalonInfoSection(
                             text = it,
                             style = MaterialTheme.typography.address,
                             color = MaterialTheme.colors.NotPrimaryText
+                        )
+                    }
+                }
+
+                Button(
+                    onClick = { },
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .height(35.dp),
+                    shape = RoundedCornerShape(50)
+                ) {
+                    Row {
+                        Text(
+                            text = stringResource(R.string.book_visit),
+                            style = MaterialTheme.typography.caption.copy(fontSize = 13.sp)
                         )
                     }
                 }
