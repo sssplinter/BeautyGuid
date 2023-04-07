@@ -9,7 +9,7 @@ class SpecialistInfo(
     val salonId: Int,
     val salonName: String,
     val fullName: String,
-    val specialization: String,
+    val specialisation: String,
     val photoUrl: String,
     val rating: Double,
     val marksCount: Int,

@@ -21,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.data.entities.SpecialistInfo
-import com.breaktime.signscreen.ui.theme.*
+import com.breaktime.signscreen.ui.theme.BorderColor
+import com.breaktime.signscreen.ui.theme.PinkFromLogo
+import com.breaktime.signscreen.ui.theme.hintColor
 import com.breaktime.signscreen.uiItems.image.CoilImage
 import com.breaktime.signscreen.uiItems.ratingBar.RatingBar
 import com.breaktime.signscreen.uiItems.tags.NiaTopicTag
@@ -61,7 +63,7 @@ fun SpecialistListItem(
                 Row {
                     SpecialistInformation(
                         fullName = specialistInfo.fullName,
-                        specialization = specialistInfo.specialization,
+                        specialisation = specialistInfo.specialisation,
                         salon = specialistInfo.salonName,
                         modifier = Modifier
                             .padding(end = 24.dp)
@@ -76,7 +78,7 @@ fun SpecialistListItem(
                         )
                     }
                 }
-                SpecialistRating(
+                BottomSection(
                     specialistInfo.rating,
                     specialistInfo.marksCount,
                     onBookVisitClick = onBookVisitClick
@@ -90,14 +92,14 @@ fun SpecialistListItem(
 @Composable
 fun SpecialistInformation(
     fullName: String,
-    specialization: String,
+    specialisation: String,
     modifier: Modifier = Modifier,
     onSalonClick: () -> Unit,
     salon: String? = null
 ) {
     Column(modifier = modifier) {
         Text(
-            text = specialization, style = MaterialTheme.typography.caption
+            text = specialisation, style = MaterialTheme.typography.caption
         )
         Text(
             text = fullName, style = MaterialTheme.typography.h6.copy(fontSize = 18.sp)
@@ -106,8 +108,10 @@ fun SpecialistInformation(
             NiaTopicTag(
                 modifier = Modifier.padding(vertical = 4.dp),
                 text = "Salon: ${salon.uppercase()}",
-                textStyle =MaterialTheme.typography.body1.copy(
-                    textDecoration = TextDecoration.Underline, fontSize = 12.sp, fontWeight = FontWeight.W600
+                textStyle = MaterialTheme.typography.body1.copy(
+                    textDecoration = TextDecoration.Underline,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.W600
                 ),
                 backgroundColor = MaterialTheme.colors.PinkFromLogo.copy(alpha = 0.4f),
                 onClick = onSalonClick
@@ -117,7 +121,7 @@ fun SpecialistInformation(
 }
 
 @Composable
-fun SpecialistRating(
+fun BottomSection(
     rating: Double,
     marksCount: Int,
     modifier: Modifier = Modifier,

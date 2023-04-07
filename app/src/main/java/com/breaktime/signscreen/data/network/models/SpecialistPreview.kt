@@ -25,7 +25,7 @@ fun SpecialistPreview.toSpecialistPreviewInfo(): SpecialistInfo {
         salonId = this.salonId,
         salonName = this.salonName,
         fullName = "${this.firstName} ${this.lastName}",
-        specialization = "Specialist of ${CategoryEnum.valueOf(this.category)}",
+        specialisation = "Specialist of ${CategoryEnum.valueOf(this.category)}",
         photoUrl = "${Constants.specialistPhotoPathPrefix}${this.photoUrl}",
         rating = this.rating,
         marksCount = this.marksCount
