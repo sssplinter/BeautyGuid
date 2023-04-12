@@ -1,6 +1,5 @@
 package com.breaktime.signscreen.screen.portfolio
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,9 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.data.entities.SpecialistInfo
 import com.breaktime.signscreen.data.network.models.SalonNewsPreview
-import com.breaktime.signscreen.data.network.models.SpecialistPreview
 import com.breaktime.signscreen.data.network.models.toSalonDetailsInfo
-import com.breaktime.signscreen.data.network.models.toSpecialistPreviewInfo
+import com.breaktime.signscreen.data.network.models.toSpecialistInfo
 import com.breaktime.signscreen.data.source.salonApi.remote.SalonPreviewResponse
 import com.breaktime.signscreen.domain.salon.GetSalonInfoByIdUseCase
 import com.breaktime.signscreen.domain.salon.GetSalonPreviewByIdUseCase
@@ -47,7 +45,7 @@ class SalonPortfolioViewModel(
             salonNewsPreviews.addAll(getSalonNewsPreviewsUseCase(salonId))
             salonSpecialists.clear()
             val specialists = getSpecialistsBySalonIdUseCase(salonId)
-            salonSpecialists.addAll(specialists.map { it.toSpecialistPreviewInfo() })
+            salonSpecialists.addAll(specialists.map { it.toSpecialistInfo() })
         }
     }
 

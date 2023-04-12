@@ -19,7 +19,7 @@ data class SpecialistPreview(
     val marksCount: Int,
 ) : Parcelable
 
-fun SpecialistPreview.toSpecialistPreviewInfo(): SpecialistInfo {
+fun SpecialistPreview.toSpecialistInfo(): SpecialistInfo {
     return SpecialistInfo(
         id = this.id,
         salonId = this.salonId,

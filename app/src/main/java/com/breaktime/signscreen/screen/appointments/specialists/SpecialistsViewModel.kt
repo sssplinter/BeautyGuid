@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.breaktime.signscreen.data.entities.SpecialistInfo
-import com.breaktime.signscreen.data.network.models.toSpecialistPreviewInfo
+import com.breaktime.signscreen.data.network.models.toSpecialistInfo
 import com.breaktime.signscreen.domain.specialist.GetAllSpecialistsUseCase
 import com.breaktime.signscreen.screen.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ class SpecialistsViewModel(
     init {
         viewModelScope.launch {
             val sp = getAllSpecialistsUseCase()
-            specialists.addAll(sp.map { it.toSpecialistPreviewInfo() })
+            specialists.addAll(sp.map { it.toSpecialistInfo() })
         }
     }
 
