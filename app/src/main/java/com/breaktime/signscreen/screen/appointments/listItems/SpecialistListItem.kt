@@ -35,7 +35,8 @@ fun SpecialistListItem(
     onMoreInfoClick: () -> Unit,
     onSalonClick: () -> Unit,
     onBookVisitClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isPreview: Boolean = false
 ) {
     Surface(modifier = modifier
         .fillMaxWidth()
@@ -49,7 +50,7 @@ fun SpecialistListItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 10.dp, start = 10.dp, end = 10.dp, top = 14.dp),
+                .padding(bottom = 12.dp, start = 10.dp, end = 10.dp, top = 16.dp),
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -68,7 +69,8 @@ fun SpecialistListItem(
                         modifier = Modifier
                             .padding(end = 24.dp)
                             .width(200.dp),
-                        onSalonClick = onSalonClick
+                        onSalonClick = onSalonClick,
+                        isPreview = isPreview
                     )
                     IconButton(
                         onClick = { onMoreInfoClick() }, modifier = Modifier.size(35.dp)
@@ -81,7 +83,8 @@ fun SpecialistListItem(
                 BottomSection(
                     specialistInfo.rating,
                     specialistInfo.marksCount,
-                    onBookVisitClick = onBookVisitClick
+                    onBookVisitClick = onBookVisitClick,
+                    isPreview = isPreview
                 )
             }
 
@@ -93,6 +96,7 @@ fun SpecialistListItem(
 fun SpecialistInformation(
     fullName: String,
     specialisation: String,
+    isPreview: Boolean,
     modifier: Modifier = Modifier,
     onSalonClick: () -> Unit,
     salon: String? = null
@@ -104,7 +108,7 @@ fun SpecialistInformation(
         Text(
             text = fullName, style = MaterialTheme.typography.h6.copy(fontSize = 18.sp)
         )
-        salon?.let {
+        if (salon != null && !isPreview) {
             NiaTopicTag(
                 modifier = Modifier.padding(vertical = 4.dp),
                 text = "Salon: ${salon.uppercase()}",
@@ -124,6 +128,7 @@ fun SpecialistInformation(
 fun BottomSection(
     rating: Double,
     marksCount: Int,
+    isPreview: Boolean,
     modifier: Modifier = Modifier,
     onBookVisitClick: () -> Unit
 ) {
@@ -144,22 +149,23 @@ fun BottomSection(
             )
         }
 
-        Button(
-            onClick = { onBookVisitClick() },
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .height(35.dp),
-            shape = RoundedCornerShape(50)
-        ) {
-            Row {
-                Text(
-                    text = stringResource(R.string.book_visit),
-                    style = MaterialTheme.typography.caption.copy(fontSize = 13.sp)
-                )
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowRight,
-                    contentDescription = null
-                )
+        if (!isPreview) {
+            Button(
+                onClick = { onBookVisitClick() },
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .height(35.dp),
+                shape = RoundedCornerShape(50)
+            ) {
+                Row {
+                    Text(
+                        text = stringResource(R.string.book_visit),
+                        style = MaterialTheme.typography.caption.copy(fontSize = 13.sp)
+                    )
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowRight, contentDescription = null
+                    )
+                }
             }
         }
     }

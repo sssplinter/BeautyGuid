@@ -1,4 +1,4 @@
-package com.breaktime.signscreen.screen.visit
+package com.breaktime.signscreen.screen.visit.mainScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.breaktime.signscreen.R
 import com.breaktime.signscreen.screen.visit.items.SelectDateTimeSection
-import com.breaktime.signscreen.screen.visit.items.specialist.SelectSpecialistSection
 import com.breaktime.signscreen.screen.visit.items.service.SelectServiceSection
+import com.breaktime.signscreen.screen.visit.items.specialist.SelectSpecialistSection
 import com.breaktime.signscreen.ui.theme.BackgroundGray
 import com.breaktime.signscreen.ui.theme.ButtonShape25
 import com.breaktime.signscreen.ui.theme.SignScreenTheme
@@ -73,7 +73,7 @@ fun BookVisitMain(
             SelectServiceSection(
                 modifier = Modifier.padding(vertical = 4.dp),
                 selectedServices = viewModel.selectedServices, onSelectClick = {},
-                onDeselectService = { value -> viewModel.deselectService(value) })
+                onDeselectService = { viewModel.deselectService() })
 
             SelectSpecialistSection(
                 modifier = Modifier.padding(vertical = 4.dp),

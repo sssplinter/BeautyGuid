@@ -1,14 +1,13 @@
-package com.breaktime.signscreen.screen.visit
+package com.breaktime.signscreen.screen.visit.mainScreen
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.breaktime.signscreen.screen.base.BaseViewModel
-import com.breaktime.signscreen.screen.visit.BookVisitContract.*
 import com.breaktime.signscreen.screen.visit.items.datetime.SelectedDateTimeInfo
 import com.breaktime.signscreen.screen.visit.items.service.SelectedService
 import com.breaktime.signscreen.screen.visit.items.specialist.SelectedSpecialistInfo
+import com.breaktime.signscreen.screen.visit.mainScreen.BookVisitContract.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -47,23 +46,17 @@ class BookVisitViewModel : BaseViewModel<BookVisitEvent, BookVisitState, BookVis
         )
     )
 
-    var selectedServices = mutableStateListOf<SelectedService>(
+    var selectedServices by mutableStateOf<SelectedService?>(
         SelectedService(
             1,
             "Nude make up",
             price = 55.0,
             40.0
-        ),
-//        SelectedService(
-//            2,
-//            "Nails repair",
-//            price = 45.0,
-//            30.0
-//        )
+        )
     )
 
-    fun deselectService(serviceId: Int) {
-        selectedServices.removeIf { it.id == serviceId }
+    fun deselectService() {
+        selectedServices = null
     }
 
     override fun createInitialState(): BookVisitState {

@@ -21,10 +21,10 @@ import com.breaktime.signscreen.ui.theme.NotPrimaryText
 
 @Composable
 fun SelectServiceSection(
-    selectedServices: List<SelectedService>,
+    selectedServices: SelectedService?,
     modifier: Modifier = Modifier,
     onSelectClick: () -> Unit,
-    onDeselectService: (Int) -> Unit
+    onDeselectService: () -> Unit
 ) {
     Surface(
         modifier = modifier
@@ -38,10 +38,10 @@ fun SelectServiceSection(
                 icon = Icons.Default.Checklist
             )
 
-            for (service in selectedServices) {
+            selectedServices?.let {
                 SelectedServiceItem(
-                    selectedService = service,
-                    onDeselect = { onDeselectService(service.id) })
+                    selectedService = selectedServices,
+                    onDeselect = { onDeselectService() })
             }
         }
     }
